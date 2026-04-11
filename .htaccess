@@ -16,6 +16,15 @@
   <FilesMatch "\.(css|js|svg)$">
     Header set Cache-Control "max-age=86400, public"
   </FilesMatch>
+  <Files "manifest.webmanifest">
+    Header set Cache-Control "max-age=86400, public"
+  </Files>
+  <Files "robots.txt">
+    Header set Cache-Control "max-age=86400, public"
+  </Files>
+  <Files "sitemap.xml">
+    Header set Cache-Control "max-age=3600, public"
+  </Files>
   <FilesMatch "\.(jpe?g|png|webp|gif|ico)$">
     Header set Cache-Control "max-age=31536000, public, immutable"
   </FilesMatch>
