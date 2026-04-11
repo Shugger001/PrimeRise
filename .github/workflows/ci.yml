@@ -65,3 +65,14 @@ jobs:
             grep -q 'id="backToTop"' "$f" || { echo "Missing back-to-top control in $f"; exit 1; }
             grep -q 'rel="manifest"' "$f" || { echo "Missing web manifest link in $f"; exit 1; }
           done
+
+      - name: Validate manifest.webmanifest
+        run: python3 -c "import json; json.load(open('manifest.webmanifest'))"
+
+      - name: Verify cookie banner accessibility ids
+        run: |
+          set -euo pipefail
+          for f in index.html products.html faq.html privacy.html terms.html 404.html; do
+            grep -q 'id="cookieBannerTitle"' "$f" || { echo "Missing cookieBannerTitle in $f"; exit 1; }
+            grep -q 'aria-describedby="cookieBannerDesc"' "$f" || { echo "Missing cookie aria-describedby in $f"; exit 1; }
+          done

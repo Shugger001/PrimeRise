@@ -2,6 +2,8 @@
   "name": "Prime Rise",
   "short_name": "Prime Rise",
   "description": "Premium botanical beverages crafted to restore balance, support recovery, and elevate your everyday energy.",
+  "lang": "en",
+  "dir": "ltr",
   "start_url": "/",
   "scope": "/",
   "display": "browser",

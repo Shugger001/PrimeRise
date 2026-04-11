@@ -25,6 +25,13 @@
     if (cookieBanner && !localStorage.getItem(storageKey)) {
       requestAnimationFrame(function () {
         cookieBanner.classList.add("is-visible");
+        if (acceptBtn) {
+          try {
+            acceptBtn.focus({ preventScroll: true });
+          } catch (e) {
+            acceptBtn.focus();
+          }
+        }
       });
     }
   }
@@ -71,7 +78,9 @@
   if (acceptBtn) {
     acceptBtn.addEventListener("click", function () {
       localStorage.setItem(storageKey, "1");
-      cookieBanner.classList.remove("is-visible");
+      if (cookieBanner) {
+        cookieBanner.classList.remove("is-visible");
+      }
       initGA();
     });
   }

@@ -107,10 +107,17 @@
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
-    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie notice">
+    <div
+      class="cookie-banner"
+      id="cookieBanner"
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="cookieBannerTitle"
+      aria-describedby="cookieBannerDesc"
+    >
       <div class="cookie-banner__inner">
-        <h4 class="cookie-banner__title">This website uses cookies.</h4>
-        <p class="cookie-banner__text">
+        <h4 class="cookie-banner__title" id="cookieBannerTitle">This website uses cookies.</h4>
+        <p class="cookie-banner__text" id="cookieBannerDesc">
           We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies,
           your data will be aggregated with all other user data.
           <a href="privacy.html" class="cookie-banner__link">Privacy Policy</a>.
