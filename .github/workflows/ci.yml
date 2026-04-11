@@ -45,6 +45,13 @@ jobs:
       - name: Validate vercel.json
         run: python3 -c "import json; json.load(open('vercel.json'))"
 
+      - name: Verify viewport uses safe-area (viewport-fit=cover)
+        run: |
+          set -euo pipefail
+          for f in index.html products.html faq.html privacy.html terms.html 404.html; do
+            grep -q 'viewport-fit=cover' "$f" || { echo "Missing viewport-fit=cover in $f"; exit 1; }
+          done
+
       - name: Verify referenced images exist
         run: |
           set -euo pipefail

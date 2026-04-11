@@ -29,6 +29,9 @@
   --safe-right: env(safe-area-inset-right, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
+  /* Matches sticky header + safe top; tune if logo/padding changes */
+  --header-bar-shift: 3.5rem;
+  --header-sticky-offset: calc(var(--header-bar-shift) + var(--safe-top));
 }
 
 *,
@@ -411,7 +414,7 @@ body.age-gate-open {
   display: block;
   position: fixed;
   inset: 0;
-  top: calc(3.5rem + var(--safe-top));
+  top: var(--header-sticky-offset);
   z-index: 98;
   background: rgba(45, 51, 34, 0.42);
   backdrop-filter: blur(2px);
@@ -430,7 +433,7 @@ body.age-gate-open {
 .mobile-nav {
   position: fixed;
   inset: 0;
-  top: calc(3.5rem + var(--safe-top));
+  top: var(--header-sticky-offset);
   z-index: 99;
   background: var(--color-bg);
   padding: var(--space-md);
