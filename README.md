@@ -53,7 +53,9 @@ npx vercel --prod # production deploy
 | Platform | Config file |
 |----------|-------------|
 | [Netlify](https://docs.netlify.com/) | `netlify.toml` |
-| [Cloudflare Pages](https://developers.cloudflare.com/pages/) | `_headers` |
+| [Cloudflare Pages](https://developers.cloudflare.com/pages/) | `_headers`, `_redirects` |
+
+`_redirects` (repo root) mirrors the **www → apex** and **`/index.html` → `/`** rules from `vercel.json` for hosts that read that file (Netlify, Cloudflare Pages). **Apache** users get the same behavior via `.htaccess` `mod_rewrite`.
 
 ## Configure before production
 

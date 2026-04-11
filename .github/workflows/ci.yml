@@ -27,7 +27,8 @@ jobs:
             vercel.json \
             robots.txt \
             sitemap.xml \
-            manifest.webmanifest
+            manifest.webmanifest \
+            _redirects
           do
             test -f "$f" || { echo "Missing: $f"; exit 1; }
           done

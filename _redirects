@@ -1,0 +1,5 @@
+# Netlify & Cloudflare Pages — match vercel.json (apex canonical)
+# www → apex
+https://www.primerisedrinks.com/* https://primerisedrinks.com/:splat 301
+# Homepage duplicate URL
+/index.html / 301
