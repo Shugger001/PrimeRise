@@ -82,6 +82,14 @@
         cookieBanner.classList.remove("is-visible");
       }
       initGA();
+      var mainEl = document.getElementById("main-content");
+      if (mainEl && typeof mainEl.focus === "function") {
+        try {
+          mainEl.focus({ preventScroll: true });
+        } catch (e) {
+          mainEl.focus();
+        }
+      }
     });
   }
 
