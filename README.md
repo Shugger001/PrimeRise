@@ -59,10 +59,18 @@ npx vercel --prod # production deploy
 
 ## Configure before production
 
-- **`data-ga-id`** on `<html>`: set your GA4 measurement ID (omit or leave empty to skip analytics).
-- **`data-form-endpoint`** on `<html>`: set your form endpoint (e.g. [Formspree](https://formspree.io/)) for email signups; empty = demo toasts only.
-- **`privacy.html`** / **`terms.html`**: attorney review (starter copy).
-- Replace placeholder wholesale/contact email in content when the client finalizes the inbox.
+### Launch checklist
+
+1. **Analytics** — Set **`data-ga-id`** on every page’s `<html>` to your GA4 measurement ID (e.g. `G-XXXXXXXXXX`), or leave empty to skip loading gtag. Analytics runs after visitors accept cookies (or immediately if they already accepted).
+2. **Signups** — Set **`data-form-endpoint`** on `<html>` to your endpoint (e.g. [Formspree](https://formspree.io/) `https://formspree.io/f/xxxx`). Empty = client-side demo toasts only (no network submit).
+3. **Contact email** — Replace the placeholder **`hello@primerisedrinks.com`** everywhere (footer **Contact** `mailto:` and any body copy). Search the repo for `hello@` after you have the final address.
+4. **Legal** — Have counsel review and adapt **`privacy.html`** and **`terms.html`** (visible disclaimers already note starter copy).
+5. **Spam** — Signup forms get a hidden honeypot (`name="_gotcha"`, `data-prime-hp` in `main.js`). Keep the **`signup-form`** class on those forms; do not remove the injected field.
+
+Details:
+
+- **`data-ga-id`** / **`data-form-endpoint`**: same attributes on `index.html`, `products.html`, `faq.html`, `privacy.html`, `terms.html`, and `404.html` so behavior stays consistent if you later share scripts across pages.
+- Honeypot values are included in the JSON POST as **`_gotcha`** when a real endpoint is set (Formspree-compatible). Client-side still aborts if the field is non-empty.
 
 ## CI
 

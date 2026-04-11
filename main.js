@@ -263,6 +263,9 @@
       _subject: "Prime Rise signup — " + (form.id || "newsletter"),
       page: typeof window.location !== "undefined" ? String(window.location.href) : "",
     };
+    if (hp) {
+      payload._gotcha = String(hp.value || "").trim();
+    }
 
     fetch(endpoint, {
       method: "POST",
@@ -302,7 +305,7 @@
     if (!form.querySelector("[data-prime-hp]")) {
       var trap = document.createElement("input");
       trap.type = "text";
-      trap.name = "_prime_hp";
+      trap.name = "_gotcha";
       trap.setAttribute("data-prime-hp", "1");
       trap.setAttribute("tabindex", "-1");
       trap.setAttribute("autocomplete", "off");
