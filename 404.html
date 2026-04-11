@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,600&family=Outfit:wght@500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bitter:ital,wght@0,400;0,600&family=Outfit:wght@500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -63,6 +63,19 @@
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie notice">
+      <div class="cookie-banner__inner">
+        <h4 class="cookie-banner__title">This website uses cookies.</h4>
+        <p class="cookie-banner__text">
+          We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies,
+          your data will be aggregated with all other user data.
+          <a href="privacy.html" class="cookie-banner__link">Privacy Policy</a>.
+        </p>
+        <button type="button" class="btn btn--cookie" id="acceptCookies">Accept</button>
+      </div>
+    </div>
+
     <main class="err" id="main-content">
       <p class="err__brand">Prime Rise</p>
       <h1>This page isn’t here</h1>
@@ -91,5 +104,8 @@
         <p>© 2026 Prime Rise. All Rights Reserved.</p>
       </div>
     </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+    <script src="main.js" defer></script>
   </body>
 </html>

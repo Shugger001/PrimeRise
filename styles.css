@@ -34,6 +34,7 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 /* Sticky header: in-page anchors land below the bar */

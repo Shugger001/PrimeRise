@@ -17,6 +17,8 @@ jobs:
           grep -q 'data-form-endpoint=""' 404.html || { echo "404.html: missing data-form-endpoint on html"; exit 1; }
           grep -q 'data-ga-id=""' 404.html || { echo "404.html: missing data-ga-id on html"; exit 1; }
           grep -q 'class="footer__note"' 404.html || { echo "404.html: missing footer email note"; exit 1; }
+          grep -q 'id="cookieBanner"' 404.html || { echo "404.html: missing cookie banner"; exit 1; }
+          grep -q 'main.js' 404.html || { echo "404.html: missing main.js"; exit 1; }
 
       - name: Verify core files exist
         run: |
