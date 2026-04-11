@@ -17,15 +17,35 @@ python3 -m http.server 8080
 
 ## Deploy
 
-The repo includes configs for common hosts (publish directory = **repository root**):
+**Production is [Vercel](https://vercel.com/docs).** Every push to **`main`** should update the live site once the project is connected (see below). `vercel.json` defines headers and static settings (no build step).
+
+### One-time: link GitHub → Vercel
+
+1. Sign in at [vercel.com](https://vercel.com) (same GitHub account as the repo).
+2. **Add New… → Project** → **Import** [Shugger001/PrimeRise](https://github.com/Shugger001/PrimeRise).
+3. **Framework Preset:** Other (or “No framework”). **Root Directory:** `./` (repository root).
+4. **Build Command:** leave empty (or Vercel will respect `buildCommand: null` in `vercel.json`).
+5. **Output Directory:** leave default / empty — `index.html` at the repo root is the site entry.
+6. **Production Branch:** `main`. Deploy.
+
+After that, **any merge or push to `main`** triggers a new production deployment. Pull requests against the repo typically get **preview deployments** automatically.
+
+### Manual deploy (CLI)
+
+If you use the [Vercel CLI](https://vercel.com/docs/cli):
+
+```bash
+npx vercel login
+npx vercel link   # once, in this repo
+npx vercel --prod # production deploy
+```
+
+### Other hosts (optional)
 
 | Platform | Config file |
 |----------|-------------|
 | [Netlify](https://docs.netlify.com/) | `netlify.toml` |
-| [Vercel](https://vercel.com/docs) | `vercel.json` |
 | [Cloudflare Pages](https://developers.cloudflare.com/pages/) | `_headers` |
-
-Connect [GitHub](https://github.com/Shugger001/PrimeRise) to your host, set the production branch to **`main`**, and deploy.
 
 ## Configure before production
 
