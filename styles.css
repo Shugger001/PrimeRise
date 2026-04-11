@@ -32,6 +32,8 @@
   /* Matches sticky header + safe top; tune if logo/padding changes */
   --header-bar-shift: 3.5rem;
   --header-sticky-offset: calc(var(--header-bar-shift) + var(--safe-top));
+  /* Extra space below header when jumping to #anchors (was 5.5rem + safe ≈ bar + 2rem + safe) */
+  --scroll-anchor-padding: 2rem;
 }
 
 *,
@@ -45,10 +47,10 @@ html {
   color-scheme: light;
 }
 
-/* Sticky header: in-page anchors land below the bar (+ notch safe area) */
+/* Sticky header: in-page anchors land below the bar (+ notch + title breathing room) */
 main[id],
 section[id] {
-  scroll-margin-top: calc(5.5rem + var(--safe-top));
+  scroll-margin-top: calc(var(--header-bar-shift) + var(--safe-top) + var(--scroll-anchor-padding));
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -19,6 +19,8 @@ jobs:
           grep -q 'class="footer__note"' 404.html || { echo "404.html: missing footer email note"; exit 1; }
           grep -q 'id="cookieBanner"' 404.html || { echo "404.html: missing cookie banner"; exit 1; }
           grep -q 'main.js' 404.html || { echo "404.html: missing main.js"; exit 1; }
+          grep -q 'rel="manifest"' 404.html || { echo "404.html: missing web manifest link"; exit 1; }
+          grep -q 'name="application-name"' 404.html || { echo "404.html: missing application-name"; exit 1; }
 
       - name: Verify core files exist
         run: |
