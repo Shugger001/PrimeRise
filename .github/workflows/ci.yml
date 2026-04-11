@@ -32,6 +32,9 @@ jobs:
             test -f "$f" || { echo "Missing: $f"; exit 1; }
           done
 
+      - name: Validate vercel.json
+        run: python3 -c "import json; json.load(open('vercel.json'))"
+
       - name: Verify referenced images exist
         run: |
           set -euo pipefail

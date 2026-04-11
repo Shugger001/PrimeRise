@@ -30,6 +30,12 @@ python3 -m http.server 8080
 
 After that, **any merge or push to `main`** triggers a new production deployment. Pull requests against the repo typically get **preview deployments** automatically.
 
+**Day-to-day workflow:** change the site in this repo → `git commit` → `git push origin main` → open the project in the [Vercel dashboard](https://vercel.com/dashboard) and confirm the latest deployment under **Deployments** (status should be **Ready**).
+
+### Custom domain (e.g. primerisedrinks.com)
+
+In your Vercel project: **Settings → Domains** → add `primerisedrinks.com` and `www.primerisedrinks.com`, then set DNS at your registrar to the records Vercel shows (usually **A** / **CNAME**). Keep **HTTPS** enabled. Align the **primary** domain with the canonical URLs already used in `index.html` (`https://primerisedrinks.com/`).
+
 ### Manual deploy (CLI)
 
 If you use the [Vercel CLI](https://vercel.com/docs/cli):
