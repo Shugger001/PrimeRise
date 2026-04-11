@@ -245,8 +245,19 @@
 
   function getFormEndpoint() {
     var root = document.documentElement;
-    var url = root.getAttribute("data-form-endpoint");
-    return url && url.trim() ? url.trim() : "";
+    var raw = root.getAttribute("data-form-endpoint");
+    if (!raw || !String(raw).trim()) return "";
+    var trimmed = String(raw).trim();
+    if (trimmed.indexOf("http://") === 0 || trimmed.indexOf("https://") === 0) {
+      return trimmed;
+    }
+    if (typeof window === "undefined" || !window.location) return trimmed;
+    if (window.location.protocol === "file:") return "";
+    try {
+      return new URL(trimmed, window.location.origin).href;
+    } catch (e) {
+      return trimmed;
+    }
   }
 
   function handleFormSubmit(e) {
@@ -278,6 +289,7 @@
       email: address,
       _replyto: address,
       _subject: "Prime Rise signup — " + (form.id || "newsletter"),
+      form_id: form.id || "",
       page: typeof window.location !== "undefined" ? String(window.location.href) : "",
     };
     if (hp) {

@@ -1,0 +1,8 @@
+{
+  "name": "prime-rise",
+  "private": true,
+  "description": "Prime Rise marketing site + Vercel API for waitlist signups",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.4"
+  }
+}

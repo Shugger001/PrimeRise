@@ -9,14 +9,17 @@
   /* Olive green family */
   --color-forest: #4f5c38;
   --color-forest-light: #65754a;
-  --color-mint: #8a9178;
   --color-text: #1e1e1c;
   --color-text-muted: #5a5852;
   --color-line: rgba(79, 92, 56, 0.18);
+  /* Matches live primerisedrinks.com (GoDaddy theme-color) */
+  --color-olive: #8c843b;
+  --color-olive-deep: #6a6530;
+  --font-headline: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-hero: "Abril Fatface", Georgia, serif;
   --font-display: "Bitter", Georgia, serif;
   --font-body: "Bitter", Georgia, serif;
-  --font-ui: "Outfit", system-ui, sans-serif;
+  --font-ui: "Droid Sans", system-ui, sans-serif;
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 1.75rem;
@@ -612,10 +615,19 @@ body.nav-open .back-to-top {
   object-position: left center;
 }
 
+/* Lifestyle hero: warm outdoor / golden hour — keep headline over quieter area */
+.hero--lifestyle-wellness .hero__img {
+  object-position: center 22%;
+}
+
 /* Wide viewports: nudge focal point so the label panel doesn’t feel cropped off-screen */
 @media (min-width: 1200px) {
   .hero--premium-identity .hero__img {
     object-position: 22% center;
+  }
+
+  .hero--lifestyle-wellness .hero__img {
+    object-position: center 20%;
   }
 }
 
@@ -628,6 +640,10 @@ body.nav-open .back-to-top {
 @media (max-width: 900px) {
   .hero--premium-identity .hero__img {
     object-position: 42% center;
+  }
+
+  .hero--lifestyle-wellness .hero__img {
+    object-position: center 18%;
   }
 }
 
@@ -680,6 +696,15 @@ body.nav-open .back-to-top {
       rgba(248, 246, 240, 0.97) 100%
     );
   }
+
+  .hero--lifestyle-wellness .hero__scrim {
+    background: linear-gradient(
+      195deg,
+      rgba(10, 9, 8, 0.35) 0%,
+      rgba(12, 10, 8, 0.72) 42%,
+      rgba(14, 12, 10, 0.9) 100%
+    );
+  }
 }
 
 /* Premium identity hero: light scrim + forest typography (matches cream/gold panel) */
@@ -693,7 +718,18 @@ body.nav-open .back-to-top {
   );
 }
 
-.hero--premium-identity .hero__eyebrow {
+.hero--lifestyle-wellness .hero__scrim {
+  background: linear-gradient(
+    105deg,
+    rgba(18, 16, 12, 0.55) 0%,
+    rgba(22, 20, 16, 0.42) 38%,
+    rgba(30, 26, 20, 0.28) 62%,
+    rgba(40, 34, 26, 0.12) 100%
+  );
+}
+
+.hero--premium-identity .hero__eyebrow,
+.hero--lifestyle-wellness .hero__eyebrow {
   color: var(--color-forest);
   letter-spacing: 0.18em;
 }
@@ -703,7 +739,8 @@ body.nav-open .back-to-top {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-.hero--premium-identity .hero__tagline {
+.hero--premium-identity .hero__tagline,
+.hero--lifestyle-wellness .hero__tagline {
   color: var(--color-forest);
   font-weight: 600;
 }
@@ -712,20 +749,36 @@ body.nav-open .back-to-top {
   color: var(--color-text-muted);
 }
 
-.hero--premium-identity .benefits li {
+.hero--lifestyle-wellness .hero__title.hero__title--live {
+  font-family: var(--font-hero);
+  color: #fff;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.45);
+}
+
+.hero--lifestyle-wellness .hero__lead.hero__lead--live {
+  font-family: var(--font-body);
+  color: rgba(255, 255, 255, 0.94);
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.35);
+}
+
+.hero--premium-identity .benefits li,
+.hero--lifestyle-wellness .benefits li {
   color: var(--color-text);
 }
 
-.hero--premium-identity .benefits li::before {
+.hero--premium-identity .benefits li::before,
+.hero--lifestyle-wellness .benefits li::before {
   color: var(--color-forest);
 }
 
-.hero--premium-identity .btn--ghost.btn--on-dark {
+.hero--premium-identity .btn--ghost.btn--on-dark,
+.hero--lifestyle-wellness .btn--ghost.btn--on-dark {
   color: var(--color-bg-deep);
   border-color: rgba(45, 51, 34, 0.45);
 }
 
-.hero--premium-identity .btn--ghost.btn--on-dark:hover {
+.hero--premium-identity .btn--ghost.btn--on-dark:hover,
+.hero--lifestyle-wellness .btn--ghost.btn--on-dark:hover {
   background: rgba(45, 51, 34, 0.07);
 }
 
@@ -1002,31 +1055,46 @@ body.nav-open .back-to-top {
     object-position: center 42%;
   }
 
-  .elevate-strip {
-    overflow: hidden;
+  .lifestyle-beach-cta-stack .section--elevate--beach {
+    min-height: min(52vh, 640px);
   }
+}
 
-  .elevate-strip__img {
-    height: min(52vh, 640px);
-    object-fit: cover;
-    object-position: center 38%;
-  }
+/* Beach photo continues behind wellness CTA (single background) */
+.lifestyle-beach-cta-stack {
+  position: relative;
+  background: #1a1814 url("images/lifestyle-beach-evening.jpeg") center 38% / cover no-repeat;
+  overflow: hidden;
+}
+
+.lifestyle-beach-cta-stack .section--elevate {
+  background: transparent;
+  padding: 0;
+}
+
+.lifestyle-beach-cta-stack .section--elevate--beach {
+  min-height: min(44vh, 520px);
+}
+
+.lifestyle-beach-cta-stack .section--banner.section--banner--lifestyle-gym {
+  background: transparent;
+}
+
+.lifestyle-beach-cta-stack .section--banner--lifestyle-gym::before {
+  display: none;
+}
+
+.lifestyle-beach-cta-stack .section--banner--lifestyle-gym::after {
+  background: linear-gradient(
+    180deg,
+    rgba(16, 18, 14, 0.35) 0%,
+    rgba(18, 22, 17, 0.9) 100%
+  );
 }
 
 .section--elevate {
   padding: 0;
   background: #1a1814;
-}
-
-.elevate-strip {
-  margin: 0;
-  line-height: 0;
-}
-
-.elevate-strip__img {
-  width: 100%;
-  height: auto;
-  display: block;
 }
 
 .brand-figure {
@@ -1080,6 +1148,7 @@ body.nav-open .back-to-top {
 .teaser-block__headline-text {
   flex: 1 1 12rem;
   min-width: min(100%, 16ch);
+  font-family: var(--font-headline);
 }
 
 .teaser-block__headline .soon-badge {
@@ -1203,6 +1272,469 @@ body.nav-open .back-to-top {
   background: var(--color-bg-card);
 }
 
+/* Golden Restore — solid olive + white product card (mobile reference) */
+.section--product.section--golden-restore.section--olive {
+  background: var(--color-olive);
+  position: relative;
+  overflow: hidden;
+}
+
+.section--product.section--golden-restore .container {
+  position: relative;
+  z-index: 1;
+}
+
+.split--golden-mkt {
+  align-items: start;
+}
+
+.split__visual--card {
+  width: 100%;
+}
+
+.product-figure--mkt-card {
+  background: #fff;
+  padding: var(--space-md);
+  border-radius: 4px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+}
+
+.product-figure--mkt-card .product-figure__img--bottle {
+  filter: none;
+  border-radius: 2px;
+}
+
+.split__copy--olive .section__title--balance {
+  font-family: var(--font-headline);
+  font-size: clamp(1.65rem, 5vw, 2.35rem);
+  font-weight: 600;
+  color: #14120e;
+  margin-bottom: var(--space-sm);
+}
+
+.split__copy--olive .section__subtitle--golden {
+  font-family: var(--font-headline);
+  font-size: 1.5rem;
+  color: #14120e;
+}
+
+.eyebrow--olive {
+  color: rgba(20, 18, 14, 0.75);
+  letter-spacing: 0.18em;
+}
+
+.split__copy--olive p,
+.split__copy--olive .product-foot,
+.split__copy--olive .product-nutrition {
+  color: rgba(20, 18, 14, 0.88);
+}
+
+.split__copy--olive .pullquote {
+  color: #14120e;
+}
+
+.split__copy--olive .benefits--split li {
+  color: rgba(20, 18, 14, 0.9) !important;
+}
+
+.split__copy--olive .benefits--split li::before {
+  color: #14120e !important;
+}
+
+.tagline-inline--olive {
+  color: #14120e !important;
+}
+
+.split__copy--olive .product-tagline {
+  color: rgba(20, 18, 14, 0.92);
+  font-family: var(--font-headline);
+  font-style: italic;
+}
+
+/* Full-bleed “Discover Golden Restore” on gym lifestyle */
+.section.section--immersive-cta {
+  position: relative;
+  isolation: isolate;
+  min-height: min(88vh, 820px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.section--immersive-cta.section--discover-golden-photo {
+  border-top: none;
+  border-bottom: none;
+}
+
+.section--immersive-cta__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url("images/lifestyle-gym-ginger-citrus.jpeg") center/cover no-repeat;
+}
+
+.section--immersive-cta__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 14, 10, 0.52) 0%, rgba(12, 14, 10, 0.62) 100%);
+  pointer-events: none;
+}
+
+.section--immersive-cta__inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.section__title--on-photo {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+}
+
+.section__text--on-photo {
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 40ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Collection — solid olive band */
+.section--olive.section--collection-mkt {
+  background: var(--color-olive);
+  border: none;
+}
+
+.section__title--caps {
+  font-family: var(--font-ui);
+  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #14120e;
+}
+
+.section--collection-mkt .section__lead {
+  color: rgba(20, 18, 14, 0.85);
+}
+
+/* First signup band (matches live “Join the Prime Rise Experience”) */
+.section--join-banner {
+  background: #f3f0e8;
+  text-align: center;
+  border-top: 1px solid rgba(45, 51, 34, 0.08);
+  border-bottom: 1px solid rgba(45, 51, 34, 0.08);
+}
+
+.section__title--join-banner {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  color: #14120e;
+}
+
+.section__text--join-banner {
+  color: rgba(20, 18, 14, 0.82);
+  max-width: 42ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Maringa Mint — live marketing block (after story); juice photography + light scrim */
+.section--maringa-mint {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  text-align: center;
+  border-top: 1px solid rgba(45, 51, 34, 0.08);
+  border-bottom: 1px solid rgba(45, 51, 34, 0.06);
+  background-color: #f4f2ec;
+  background-image: url("images/moringa-mint-juice-bg.jpeg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.section--maringa-mint::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* Light scrim: product shot is on white—softer overlay keeps bottles readable while type stays clear */
+  background: linear-gradient(
+    180deg,
+    rgba(252, 250, 246, 0.78) 0%,
+    rgba(244, 241, 234, 0.65) 45%,
+    rgba(236, 233, 224, 0.82) 100%
+  );
+  pointer-events: none;
+}
+
+.section--maringa-mint .container {
+  position: relative;
+  z-index: 1;
+}
+
+.section__title--maringa {
+  font-family: var(--font-hero);
+  font-weight: 400;
+  font-size: clamp(1.85rem, 5vw, 2.85rem);
+  line-height: 1.12;
+  color: var(--color-bg-deep);
+  margin: 0 0 var(--space-xs);
+}
+
+.section__title--maringa-sub {
+  display: block;
+  font-family: var(--font-headline);
+  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--color-olive-deep);
+  margin-top: 0.4rem;
+  letter-spacing: 0.02em;
+}
+
+.eyebrow--maringa {
+  color: var(--color-forest);
+  margin-bottom: var(--space-sm);
+}
+
+.section__lead--maringa {
+  font-family: var(--font-headline);
+  font-size: clamp(1.2rem, 2.8vw, 1.45rem);
+  font-weight: 600;
+  color: var(--color-bg-deep);
+  margin: 0 auto var(--space-md);
+  max-width: 28ch;
+}
+
+.section__text--maringa {
+  max-width: 42ch;
+  margin-left: auto;
+  margin-right: auto;
+  color: rgba(30, 30, 28, 0.88);
+  margin-bottom: var(--space-md);
+}
+
+.maringa-cta {
+  margin: var(--space-sm) 0 0;
+}
+
+.maringa-cta__link {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-olive-deep);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(140, 132, 59, 0.45);
+  padding-bottom: 0.15em;
+}
+
+.maringa-cta__link:hover {
+  color: var(--color-bg-deep);
+  border-bottom-color: var(--color-bg-deep);
+}
+
+.section--join-banner .signup-form--mkt {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero__content--live {
+  text-align: center;
+}
+
+/* Marketing forms — white fields, black caps buttons */
+.signup-form--mkt {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  max-width: 420px;
+}
+
+.signup-form--mkt input {
+  width: 100%;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid rgba(20, 18, 14, 0.12);
+  color: #14120e;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+}
+
+.signup-form--mkt input::placeholder {
+  color: rgba(110, 100, 55, 0.72);
+}
+
+.section__lead--wellness {
+  font-family: var(--font-headline);
+  font-style: italic;
+  color: rgba(246, 243, 235, 0.95);
+}
+
+.teaser-block__headline--live {
+  font-family: var(--font-headline);
+  display: block;
+  width: 100%;
+}
+
+.btn--mkt {
+  border-radius: 2px;
+  background: #fff;
+  color: #14120e;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  letter-spacing: 0.18em;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn--mkt:hover {
+  background: #f6f3eb;
+  transform: translateY(-1px);
+}
+
+.btn--mkt--outline {
+  background: transparent;
+  color: #14120e;
+  border: 2px solid #14120e;
+  box-shadow: none;
+}
+
+.btn--mkt--outline:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Join block — ingredients photography */
+.section--join-mkt {
+  position: relative;
+  isolation: isolate;
+  border: none;
+  padding: var(--space-xl) var(--space-md);
+}
+
+.section--join-mkt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url("images/golden-restore-ingredients.jpeg") center/cover no-repeat;
+}
+
+.section--join-mkt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, rgba(252, 250, 246, 0.88) 0%, rgba(244, 241, 234, 0.94) 100%);
+  pointer-events: none;
+}
+
+.section--join-mkt .container {
+  position: relative;
+  z-index: 1;
+}
+
+.section__title--join {
+  font-family: var(--font-headline);
+  color: #14120e;
+}
+
+.section__text--join {
+  color: rgba(20, 18, 14, 0.82);
+}
+
+.signup-form--on-ingredients input {
+  background: #fff;
+  border-color: rgba(20, 18, 14, 0.15);
+}
+
+.section--collection-mkt .collection-showcase__item figcaption {
+  color: #14120e;
+}
+
+/* Soft lifestyle backgrounds (launch strip + collection) */
+.section--bg-lifestyle {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.section--bg-lifestyle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.26;
+  pointer-events: none;
+}
+
+.section--bg-lifestyle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(252, 250, 246, 0.82);
+  pointer-events: none;
+}
+
+.section--bg-lifestyle .container {
+  position: relative;
+  z-index: 1;
+}
+
+.section--bg-lifestyle--beach::before {
+  background-image: url("images/lifestyle-beach-evening.jpeg");
+}
+
+.section--bg-lifestyle--grid::before {
+  background-image: url("images/lifestyle-outdoor-grid.jpeg");
+  background-position: center 35%;
+  opacity: 0.2;
+}
+
+.section--bg-lifestyle--grid::after {
+  background: rgba(252, 250, 246, 0.9);
+}
+
+/* Dark CTA with gym lifestyle */
+.section--banner.section--banner--lifestyle-gym {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.section--banner--lifestyle-gym::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url("images/lifestyle-gym-ginger-citrus.jpeg") center/cover no-repeat;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.section--banner--lifestyle-gym::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(195deg, rgba(22, 24, 20, 0.94) 0%, rgba(33, 38, 30, 0.97) 100%);
+  pointer-events: none;
+}
+
+.section--banner--lifestyle-gym .container {
+  position: relative;
+  z-index: 1;
+}
+
 .split {
   display: grid;
   gap: var(--space-lg);
@@ -1243,6 +1775,84 @@ body.nav-open .back-to-top {
   margin-bottom: var(--space-md) !important;
 }
 
+.eyebrow--dark {
+  color: var(--color-bg-deep);
+  opacity: 0.88;
+}
+
+.product-kicker {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-bg-deep);
+  margin: 0 0 0.35rem;
+}
+
+.product-tagline {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--color-forest);
+  margin: 0 0 var(--space-md);
+}
+
+.benefits--split {
+  margin: 0 0 var(--space-md) !important;
+}
+
+.benefits--split li {
+  color: var(--color-text-muted) !important;
+}
+
+.benefits--split li::before {
+  color: var(--color-forest) !important;
+}
+
+.product-foot {
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-sm) !important;
+}
+
+.product-nutrition {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-md) !important;
+  line-height: 1.45;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.collection-showcase__link {
+  display: block;
+  line-height: 0;
+}
+
+.collection-showcase__item--golden img {
+  object-fit: contain;
+  background: linear-gradient(160deg, #f5edd8 0%, #ebe2cc 100%);
+  max-height: 480px;
+}
+
+.collection-showcase__item figcaption a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.collection-showcase__item figcaption a:hover {
+  text-decoration: underline;
+}
+
+.product-figure__img--bottle {
+  object-fit: contain;
+  max-height: min(88vh, 680px);
+  width: 100%;
+  filter: drop-shadow(0 16px 40px rgba(45, 51, 34, 0.14));
+}
+
 .section--story {
   background: linear-gradient(180deg, #ebe6db, var(--color-bg));
 }
@@ -1260,10 +1870,6 @@ body.nav-open .back-to-top {
   text-align: center;
   font-size: 1.1rem;
   margin-top: var(--space-lg) !important;
-}
-
-.section--mint {
-  background: #e9ebe3;
 }
 
 .section--location {
@@ -1325,18 +1931,18 @@ body.nav-open .back-to-top {
 }
 
 @media (min-width: 520px) {
-  .signup-form {
+  .signup-form:not(.signup-form--mkt) {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: stretch;
   }
 
-  .signup-form input {
+  .signup-form:not(.signup-form--mkt) input {
     flex: 1;
     min-width: 200px;
   }
 
-  .signup-form .btn {
+  .signup-form:not(.signup-form--mkt) .btn {
     flex-shrink: 0;
   }
 }
@@ -1367,10 +1973,10 @@ body.nav-open .back-to-top {
   color: rgba(246, 243, 235, 0.55);
 }
 
-/* Footer */
+/* Footer — theme olive (#8c843b); dark type for contrast */
 .site-footer {
-  background: var(--color-bg-deep);
-  color: #c8c4bc;
+  background: var(--color-olive);
+  color: rgba(20, 18, 14, 0.9);
   padding: var(--space-lg) var(--space-md) var(--space-md);
 }
 
@@ -1410,7 +2016,7 @@ body.nav-open .back-to-top {
   font-family: var(--font-display);
   font-size: 0.7rem;
   font-weight: 600;
-  color: #f6f3eb;
+  color: #14120e;
   margin: 0 0 0.5rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1418,21 +2024,21 @@ body.nav-open .back-to-top {
 
 .footer__link {
   display: inline-block;
-  color: var(--color-gold-soft);
+  color: var(--color-bg-deep);
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
 }
 
 .footer__link:hover {
   text-decoration: underline;
-  color: #f0e6c8;
+  color: #0c0b09;
 }
 
 .footer__location {
   margin: 0.65rem 0 0;
   font-size: 0.85rem;
-  color: rgba(200, 196, 188, 0.85);
+  color: rgba(20, 18, 14, 0.78);
   line-height: 1.4;
 }
 
@@ -1440,33 +2046,33 @@ body.nav-open .back-to-top {
   margin: 0.75rem 0 0;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: rgba(200, 196, 188, 0.9);
+  color: rgba(20, 18, 14, 0.82);
 }
 
 .footer__updates a {
-  color: var(--color-gold-soft);
-  font-weight: 500;
+  color: var(--color-bg-deep);
+  font-weight: 600;
   text-decoration: none;
 }
 
 .footer__updates a:hover {
   text-decoration: underline;
-  color: #f0e6c8;
+  color: #0c0b09;
 }
 
 .logo--footer {
-  color: #f6f3eb;
+  color: #14120e;
 }
 
 .logo--footer .logo__svg {
-  color: var(--color-gold-soft);
+  color: var(--color-olive-deep);
 }
 
 .footer__tagline {
   margin: 0.35rem 0 0;
   font-size: 0.9rem;
   font-style: italic;
-  color: rgba(246, 243, 235, 0.75);
+  color: rgba(20, 18, 14, 0.78);
 }
 
 .trust-badge {
@@ -1474,20 +2080,20 @@ body.nav-open .back-to-top {
   align-items: center;
   gap: 0.75rem;
   padding: 0.65rem 1rem;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.32);
+  border: 1px solid rgba(20, 18, 14, 0.14);
   border-radius: var(--radius);
-  color: #f6f3eb;
+  color: #14120e;
   text-decoration: none;
 }
 
 .trust-badge:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.45);
   text-decoration: none;
 }
 
 .trust-badge__shield {
-  color: var(--color-gold-soft);
+  color: var(--color-bg-deep);
 }
 
 .trust-badge__text {
@@ -1516,11 +2122,12 @@ body.nav-open .back-to-top {
 }
 
 .footer__legal a {
-  color: rgba(200, 196, 188, 0.95);
+  color: rgba(20, 18, 14, 0.88);
 }
 
 .footer__legal a:hover {
-  color: var(--color-gold-soft);
+  color: #0c0b09;
+  text-decoration: underline;
 }
 
 .section--press {
@@ -1614,6 +2221,48 @@ body.nav-open .back-to-top {
   color: var(--color-text-muted);
 }
 
+/* Products page — line hero + caption above grid */
+.products-line-intro {
+  padding: var(--space-xl) var(--space-md) var(--space-md);
+  background: linear-gradient(180deg, #ebe6db, var(--color-bg));
+  text-align: center;
+}
+
+.products-line-caption {
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 4.5vw, 2.65rem);
+  font-weight: 600;
+  color: var(--color-bg-deep);
+  margin: 0 0 var(--space-md);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+}
+
+.products-line-caption__line {
+  display: block;
+}
+
+.products-line-caption__line + .products-line-caption__line {
+  margin-top: 0.2em;
+}
+
+.products-line-figure {
+  margin: 0 auto;
+  max-width: min(720px, 100%);
+}
+
+.products-line-figure__img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  display: block;
+}
+
+.page-hero--products {
+  padding-top: var(--space-md);
+}
+
 .legal-article {
   max-width: 720px;
   margin: 0 auto;
@@ -1681,12 +2330,38 @@ body.nav-open .back-to-top {
   font-size: 0.95rem;
 }
 
+/* Products page — shelf lineup matching bottle photography (two bottles per shot) */
 .product-grid {
   display: grid;
-  gap: var(--space-lg);
-  max-width: 900px;
+  gap: var(--space-md);
+  max-width: min(1320px, 100%);
   margin: 0 auto;
   padding: 0 var(--space-md) var(--space-xl);
+  align-items: stretch;
+}
+
+@media (min-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg);
+  }
+}
+
+/* Five items in two columns: center the last card on the third row */
+@media (min-width: 640px) and (max-width: 1099px) {
+  .product-grid .product-card-mini--bottle:nth-child(5) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .product-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-md);
+  }
 }
 
 .product-card-mini {
@@ -1697,6 +2372,31 @@ body.nav-open .back-to-top {
   background: var(--color-bg-card);
   border-radius: var(--radius);
   border: 1px solid var(--color-line);
+}
+
+/* Vertical card: photo on top, copy below (same structure as the bottle assets) */
+.product-card-mini.product-card-mini--bottle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  min-width: 0;
+}
+
+.product-card-mini.product-card-mini--bottle > div {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.product-card-mini.product-card-mini--bottle .btn {
+  margin-top: auto;
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1712,12 +2412,26 @@ body.nav-open .back-to-top {
 }
 
 @media (min-width: 700px) {
-  .product-card-mini {
+  .product-card-mini:not(.product-card-mini--bottle) {
     grid-template-columns: 200px 1fr;
   }
 }
 
-.product-card-mini img {
+.product-card-mini--bottle .product-card-mini__img,
+.product-card-mini--bottle img.product-card-mini__img {
+  width: 100%;
+  max-width: min(280px, 100%);
+  aspect-ratio: 1;
+  height: auto;
+  border-radius: 10px;
+  object-fit: contain;
+  object-position: center bottom;
+  background: linear-gradient(160deg, #f5edd8 0%, #ebe2cc 100%);
+  padding: clamp(0.35rem, 1.5vw, 0.65rem);
+  box-sizing: border-box;
+}
+
+.product-card-mini:not(.product-card-mini--bottle) img {
   width: 100%;
   height: auto;
   border-radius: 8px;
@@ -1725,11 +2439,20 @@ body.nav-open .back-to-top {
   object-fit: cover;
 }
 
+.product-card-mini__tagline {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--color-forest);
+  margin: -0.25rem 0 var(--space-sm) !important;
+}
+
 .product-card-mini h2 {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 1.6vw, 1.5rem);
   margin: 0 0 0.5rem;
   color: var(--color-bg-deep);
+  line-height: 1.2;
 }
 
 .product-card-mini p {
@@ -1743,6 +2466,17 @@ body.nav-open .back-to-top {
   margin-top: 0.25rem;
 }
 
+@media (min-width: 1100px) {
+  .product-card-mini--bottle p:not(.product-card-mini__tagline):not(.eyebrow) {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .product-card-mini--bottle .eyebrow {
+    font-size: 0.68rem;
+  }
+}
+
 .footer__bottom {
   display: flex;
   flex-direction: column;
@@ -1750,7 +2484,7 @@ body.nav-open .back-to-top {
   gap: 0.85rem;
   margin-top: var(--space-md);
   padding-top: var(--space-md);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(20, 18, 14, 0.14);
   text-align: center;
   font-size: 0.8rem;
 }
@@ -1764,16 +2498,16 @@ body.nav-open .back-to-top {
   margin: 0;
   font-size: 0.76rem;
   line-height: 1.5;
-  color: rgba(200, 196, 188, 0.82);
+  color: rgba(20, 18, 14, 0.75);
 }
 
 .footer__note a {
-  color: var(--color-gold-soft);
+  color: var(--color-bg-deep);
   text-decoration: underline;
 }
 
 .footer__note a:hover {
-  color: #f0e6c8;
+  color: #0c0b09;
 }
 
 /* Phone: rhythm, hero, and tap-friendly UI */
@@ -1822,6 +2556,10 @@ body.nav-open .back-to-top {
 
   .hero--premium-identity .hero__img {
     object-position: 46% center;
+  }
+
+  .hero--lifestyle-wellness .hero__img {
+    object-position: center 14%;
   }
 
   .site-footer {
@@ -1911,11 +2649,19 @@ body.nav-open .back-to-top {
     padding-bottom: 1rem !important;
   }
 
+  .section--maringa-mint {
+    background-image: none !important;
+    background-color: #f4f1ea !important;
+  }
+
+  .section--maringa-mint::before {
+    display: none !important;
+  }
+
   .collection-showcase img,
   .product-figure__img,
   .brand-figure__img,
   .photo-banner__img,
-  .elevate-strip__img,
   .teaser-block__img {
     max-height: 200px;
     object-fit: contain;

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<!-- Set data-form-endpoint to your Formspree URL (e.g. https://formspree.io/f/xxxx) to deliver signups by email. Leave empty for local demo toasts. -->
-<html lang="en" data-form-endpoint="" data-ga-id="">
+<!-- Production: data-form-endpoint="/api/subscribe" (Vercel + Supabase). Override with a full URL (e.g. Formspree) if needed. Empty = demo toasts only; file:// opens also use demo. -->
+<html lang="en" data-form-endpoint="/api/subscribe" data-ga-id="">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no" />
     <link rel="canonical" href="https://primerisedrinks.com/" />
     <link rel="manifest" href="manifest.webmanifest" />
-    <meta name="theme-color" content="#2d3322" />
+    <meta name="theme-color" content="#8c843b" />
     <meta name="application-name" content="Prime Rise" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -29,22 +29,22 @@
     <meta property="og:locale" content="en_US" />
     <meta
       property="og:image"
-      content="https://primerisedrinks.com/images/hero-premium-identity.png"
+      content="https://primerisedrinks.com/images/lifestyle-wellness-elevated.jpeg"
     />
-    <meta property="og:image:alt" content="PRIME RISE" />
-    <meta property="og:image:width" content="1024" />
-    <meta property="og:image:height" content="682" />
+    <meta property="og:image:alt" content="Prime Rise — friends enjoying botanical beverages outdoors" />
+    <meta property="og:image:width" content="768" />
+    <meta property="og:image:height" content="1024" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:image"
-      content="https://primerisedrinks.com/images/hero-premium-identity.png"
+      content="https://primerisedrinks.com/images/lifestyle-wellness-elevated.jpeg"
     />
     <meta name="twitter:title" content="PRIME RISE" />
     <meta
       name="twitter:description"
       content="Premium botanical beverages crafted to restore balance, support recovery, and elevate your everyday energy."
     />
-    <meta name="twitter:image:alt" content="PRIME RISE" />
+    <meta name="twitter:image:alt" content="Prime Rise — friends enjoying botanical beverages outdoors" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link
       rel="apple-touch-icon"
@@ -54,10 +54,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Droid+Sans:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
-    <link rel="preload" href="images/hero-premium-identity.png" as="image" />
+    <link rel="preload" href="images/lifestyle-wellness-elevated.jpeg" as="image" />
+    <link rel="preload" href="images/golden-restore-bottle-hero.jpeg" as="image" />
     <link rel="prefetch" href="products.html" as="document" />
     <link rel="prefetch" href="faq.html" as="document" />
     <link rel="prefetch" href="privacy.html" as="document" />
@@ -78,9 +79,9 @@
             },
             "image": {
               "@type": "ImageObject",
-              "url": "https://primerisedrinks.com/images/hero-premium-identity.png",
-              "width": 1024,
-              "height": 682
+              "url": "https://primerisedrinks.com/images/lifestyle-wellness-elevated.jpeg",
+              "width": 768,
+              "height": 1024
             },
             "description": "Premium botanical beverages crafted to restore balance, support recovery, and elevate your everyday energy.",
             "slogan": "Rise In Your Prime",
@@ -201,86 +202,105 @@
     </div>
 
     <main id="main-content" tabindex="-1">
-      <section class="hero hero--immersive hero--premium-identity" aria-label="Prime Rise hero">
+      <section class="hero hero--immersive hero--lifestyle-wellness" aria-label="Prime Rise hero">
         <picture class="hero__picture">
           <img
             class="hero__img"
-            src="images/hero-premium-identity.png"
-            width="1024"
-            height="682"
-            alt="Prime Rise natural botanical drink — brand identity and Ginger Citrus lineup"
+            src="images/lifestyle-wellness-elevated.jpeg"
+            width="768"
+            height="1024"
+            alt="Friends enjoying Prime Rise botanical beverages outdoors at golden hour"
             fetchpriority="high"
             decoding="async"
           />
         </picture>
         <div class="hero__scrim" aria-hidden="true"></div>
-        <div class="hero__content">
-          <h1 class="hero__title">Rise In Your Prime</h1>
-          <p class="hero__lead">
+        <div class="hero__content hero__content--live">
+          <h1 class="hero__title hero__title--live">Rise In Your Prime</h1>
+          <p class="hero__lead hero__lead--live">
             Premium botanical beverages crafted to restore balance, support recovery, and elevate your everyday energy.
           </p>
-          <div class="hero__actions">
-            <a href="#join" class="btn btn--primary">Begin your ritual</a>
-          </div>
         </div>
       </section>
 
-      <section class="section section--signup reveal" id="join-top">
+      <section class="section section--signup section--join-banner reveal" id="join-prime-experience">
         <div class="container narrow">
-          <h2 class="section__title">Get launch access</h2>
-          <p class="section__text">
-            Launch intel first: new blends, restocks, and short notes from us—no spam, only the ritual you signed up for.
+          <h2 class="section__title section__title--join-banner">Join the Prime Rise Experience</h2>
+          <p class="section__text section__text--join-banner">
+            Be the first to experience new botanical blends, wellness insights, and exclusive releases designed to elevate
+            your daily vitality.
           </p>
-          <form class="signup-form" id="formTop">
-            <label class="sr-only" for="emailTop">Email</label>
-            <input type="email" id="emailTop" name="email" placeholder="Enter your email" required autocomplete="email" />
-            <button type="submit" class="btn btn--primary">Join the experience</button>
+          <form class="signup-form signup-form--mkt" id="formHero">
+            <label class="sr-only" for="emailHero">Email</label>
+            <input
+              type="email"
+              id="emailHero"
+              name="email"
+              placeholder="Enter your email"
+              required
+              autocomplete="email"
+            />
+            <button type="submit" class="btn btn--mkt">Begin your experience</button>
           </form>
         </div>
       </section>
 
-      <section class="section section--product reveal" id="golden-restore">
-        <div class="container split">
-          <div class="split__visual">
-            <figure class="product-figure">
+      <section class="section section--product section--golden-restore section--olive reveal" id="golden-restore">
+        <div class="container split split--golden-mkt">
+          <div class="split__visual split__visual--card">
+            <figure class="product-figure product-figure--mkt-card">
               <img
-                src="images/golden-restore-ingredients.jpeg"
-                width="800"
-                height="600"
-                alt="Golden Restore turmeric and lemon wellness blend with real botanical ingredients"
-                class="product-figure__img"
+                src="images/golden-restore-bottle-hero.jpeg"
+                width="1024"
+                height="1024"
+                alt="Prime Rise Golden Restore — natural botanical drink, front and back labels on glass bottle"
+                class="product-figure__img product-figure__img--bottle"
                 loading="lazy"
                 decoding="async"
               />
             </figure>
           </div>
-          <div class="split__copy">
-            <h2 class="section__title">Restore your balance. Reclaim your energy.</h2>
-            <h3 class="section__subtitle">Golden Restore</h3>
+          <div class="split__copy split__copy--olive">
+            <h2 class="section__title section__title--balance">Restore your balance. Reclaim your energy.</h2>
+            <p class="eyebrow eyebrow--olive">Natural botanical drink</p>
+            <h3 class="section__subtitle section__subtitle--golden">Golden Restore</h3>
+            <p class="product-kicker">Rise in your prime</p>
+            <p class="product-tagline">Restore from within</p>
             <p>
-              Golden Restore is your daily reset in a bottle. Infused with turmeric, pineapple, ginger, and lemon—this
-              vibrant blend supports recovery, reduces inflammation, and gently revitalizes the body—bringing you back into
-              alignment.
+              Prime Rise Golden Restore is a vibrant botanical blend crafted to support recovery, balance, and vitality.
+              Infused with turmeric, pineapple, and ginger, it helps restore your body naturally.
             </p>
-            <p class="pullquote">This is more than nourishment—<br />it’s restoration, rebalanced.</p>
+            <ul class="benefits benefits--split" aria-label="Golden Restore highlights">
+              <li>Anti-inflammatory support</li>
+              <li>Supports immunity</li>
+              <li>Naturally energizing</li>
+              <li>100% natural ingredients</li>
+            </ul>
             <p>
-              Crafted with intention, Golden Restore combines time-honored botanicals known for their healing properties.
-              Turmeric and ginger work to soothe and restore, while pineapple and lemon add a refreshing brightness that
-              awakens the senses.
+              <strong>Ingredients:</strong> Filtered water, pineapple extract, turmeric root, ginger extract, lemon juice,
+              organic sweetener.
             </p>
-            <p class="tagline-inline">Crafted for your daily ritual.</p>
-            <a href="#join" class="btn btn--primary">Begin your reset</a>
+            <p class="product-foot">
+              100% Natural · Freshly Crafted · No Preservatives · <span class="nowrap">12 FL OZ (355 mL)</span>
+            </p>
+            <p class="product-nutrition" aria-label="Nutrition highlights from label">
+              <span>70 calories</span> · <span>Natural sugars 10% DV</span> · <span>Vitamin C 13% DV</span>
+            </p>
+            <p class="pullquote">Drink with intention. Rise with purpose.</p>
+            <p class="tagline-inline tagline-inline--olive">Crafted for your daily ritual.</p>
+            <a href="#discover-golden-restore" class="btn btn--mkt btn--mkt--outline">Discover Golden Restore</a>
           </div>
         </div>
       </section>
 
-      <section class="section section--signup section--muted reveal">
-        <div class="container narrow">
-          <h2 class="section__title">Discover Golden Restore</h2>
-          <p class="section__text">
-            Want this blend on your radar? Get availability and restock alerts for Golden Restore—straight to your inbox.
+      <section class="section section--immersive-cta section--discover-golden-photo reveal" id="discover-golden-restore">
+        <div class="section--immersive-cta__bg" aria-hidden="true"></div>
+        <div class="container narrow section--immersive-cta__inner">
+          <h2 class="section__title section__title--on-photo">Discover Golden Restore</h2>
+          <p class="section__text section__text--on-photo">
+            Be the first to experience this blend—get availability and restock alerts straight to your inbox.
           </p>
-          <form class="signup-form" id="formDiscover">
+          <form class="signup-form signup-form--mkt" id="formDiscover">
             <label class="sr-only" for="emailDiscover">Email</label>
             <input
               type="email"
@@ -290,54 +310,86 @@
               required
               autocomplete="email"
             />
-            <button type="submit" class="btn btn--primary">Join the experience</button>
+            <button type="submit" class="btn btn--mkt">Join the experience</button>
           </form>
         </div>
       </section>
 
-      <section class="section reveal" id="collection">
+      <section class="section section--olive section--collection-mkt reveal" id="collection">
         <div class="container">
-          <h2 class="section__title center">Prime Rise collection</h2>
+          <h2 class="section__title center section__title--caps">Prime rise collection</h2>
           <p class="section__lead center">
-            Hibiscus, citrus, carrot, mint—one list for the lineup. Early drops and wellness-driven blends for everyday
-            energy.
+            Hibiscus Bloom through Moringa Mint—the full lineup: floral ruby, ginger citrus, carrot vitality, Golden Restore, and
+            a clean botanical mint. Early drops and wellness-driven blends for everyday energy.
           </p>
           <div class="collection-showcase" aria-label="Prime Rise product range">
             <figure class="collection-showcase__item">
-              <img
-                src="images/hibiscus-bloom-bottle.jpeg"
-                width="600"
-                height="800"
-                alt="Hibiscus Bloom"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption>Hibiscus Bloom</figcaption>
+              <a href="products.html#hibiscus-bloom" class="collection-showcase__link">
+                <img
+                  src="images/hibiscus-bloom-bottles.png"
+                  width="1024"
+                  height="1024"
+                  alt="Hibiscus Bloom — front and back labels"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <figcaption><a href="products.html#hibiscus-bloom">Hibiscus Bloom</a></figcaption>
             </figure>
             <figure class="collection-showcase__item">
-              <img
-                src="images/carrot-vital.jpeg"
-                width="600"
-                height="800"
-                alt="Carrot Vital"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption>Carrot Vital</figcaption>
+              <a href="products.html#ginger-citrus" class="collection-showcase__link">
+                <img
+                  src="images/ginger-citrus-bottles.png"
+                  width="1024"
+                  height="1024"
+                  alt="Ginger Citrus — front and back labels"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <figcaption><a href="products.html#ginger-citrus">Ginger Citrus</a></figcaption>
             </figure>
-            <figure class="collection-showcase__item collection-showcase__item--wide">
-              <img
-                src="images/ginger-citrus-labels.jpeg"
-                width="900"
-                height="600"
-                alt="Ginger Citrus front and back labels"
-                loading="lazy"
-                decoding="async"
-              />
-              <figcaption>Ginger Citrus</figcaption>
+            <figure class="collection-showcase__item">
+              <a href="products.html#carrot-vital" class="collection-showcase__link">
+                <img
+                  src="images/carrot-vital-bottles.png"
+                  width="1024"
+                  height="1024"
+                  alt="Carrot Vital — front and back labels"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <figcaption><a href="products.html#carrot-vital">Carrot Vital</a></figcaption>
+            </figure>
+            <figure class="collection-showcase__item collection-showcase__item--golden">
+              <a href="#golden-restore" class="collection-showcase__link">
+                <img
+                  src="images/golden-restore-bottles.png"
+                  width="1024"
+                  height="1024"
+                  alt="Golden Restore — natural botanical drink, front and back labels"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <figcaption><a href="#discover-golden-restore">Golden Restore</a></figcaption>
+            </figure>
+            <figure class="collection-showcase__item">
+              <a href="products.html#maringa-mint" class="collection-showcase__link">
+                <img
+                  src="images/moringa-mint-bottles.png"
+                  width="1024"
+                  height="1024"
+                  alt="Moringa Mint — front and back labels"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <figcaption><a href="products.html#maringa-mint">Moringa Mint</a></figcaption>
             </figure>
           </div>
-          <form class="signup-form signup-form--center" id="formCollection">
+          <form class="signup-form signup-form--center signup-form--mkt" id="formCollection">
             <label class="sr-only" for="emailCollection">Email</label>
             <input
               type="email"
@@ -347,7 +399,7 @@
               required
               autocomplete="email"
             />
-            <button type="submit" class="btn btn--primary">Get early access</button>
+            <button type="submit" class="btn btn--mkt">Get early access</button>
           </form>
         </div>
       </section>
@@ -355,10 +407,10 @@
       <section class="section section--photo-banner reveal" aria-label="Crafted with intention">
         <div class="photo-banner">
           <img
-            src="images/hibiscus-crafted-intention.jpeg"
-            width="1600"
-            height="1200"
-            alt="Hibiscus Bloom crafted with intention, rooted in nature"
+            src="images/lifestyle-gym-ginger-citrus.jpeg"
+            width="1024"
+            height="682"
+            alt="Active lifestyle — enjoying Prime Rise after a workout"
             class="photo-banner__img"
             loading="lazy"
             decoding="async"
@@ -366,53 +418,46 @@
         </div>
       </section>
 
-      <section class="section section--elevate reveal">
-        <div class="elevate-strip">
-          <img
-            src="images/hero-elevate-split.jpeg"
-            width="1600"
-            height="900"
-            alt="Hibiscus Bloom and Golden Restore — elevate your everyday"
-            class="elevate-strip__img"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-      </section>
+      <div class="lifestyle-beach-cta-stack">
+        <section
+          class="section section--elevate section--elevate--beach reveal"
+          aria-label="Evening unwind — sharing Prime Rise by the water"
+        ></section>
 
-      <section class="section section--banner reveal">
-        <div class="container narrow center">
-          <h2 class="section__title">A new standard in wellness is arriving.</h2>
-          <p class="section__lead">Priority access: new blends, restocks, and what’s next—before the crowd.</p>
-          <form class="signup-form signup-form--center" id="formStandard">
-            <label class="sr-only" for="emailStandard">Email</label>
-            <input
-              type="email"
-              id="emailStandard"
-              name="email"
-              placeholder="Enter your email for priority access"
-              required
-              autocomplete="email"
-            />
-            <button type="submit" class="btn btn--primary">Request early access</button>
-          </form>
-        </div>
-      </section>
+        <section class="section section--banner section--banner--lifestyle-gym reveal">
+          <div class="container narrow center">
+            <h2 class="section__title">A new standard in wellness is arriving.</h2>
+            <p class="section__lead section__lead--wellness">Elevate your daily routine</p>
+            <form class="signup-form signup-form--center signup-form--mkt" id="formStandard">
+              <label class="sr-only" for="emailStandard">Email</label>
+              <input
+                type="email"
+                id="emailStandard"
+                name="email"
+                placeholder="Enter your email for priority access"
+                required
+                autocomplete="email"
+              />
+              <button type="submit" class="btn btn--mkt">Request early access</button>
+            </form>
+          </div>
+        </section>
+      </div>
 
       <section class="section section--story reveal" id="story">
         <div class="container narrow">
+          <h2 class="section__title center">Where Intention Becomes Ritual</h2>
           <figure class="brand-figure">
             <img
               src="images/hero-three-bottles.jpeg"
               width="1536"
               height="1024"
-              alt="Prime Rise collection: Ginger Citrus, Golden Restore, and Hibiscus Bloom — crafted with intention"
+              alt="Prime Rise lineup — Hibiscus Bloom, Ginger Citrus, Carrot Vital, Golden Restore, and Moringa Mint"
               class="brand-figure__img"
               loading="lazy"
               decoding="async"
             />
           </figure>
-          <h2 class="section__title center">Where Intention Becomes Ritual</h2>
           <div class="prose">
             <p>
               Prime Rise was born from a simple but powerful place:<br />
@@ -440,43 +485,21 @@
         </div>
       </section>
 
-      <section class="section section--mint reveal">
-        <div class="container split split--reverse">
-          <div class="split__copy">
-            <h2 class="section__title">Maringa Mint</h2>
-            <p class="eyebrow">Clean energy boost</p>
-            <h3 class="section__subtitle">Where wellness meets intention</h3>
-            <p class="section__lead">Fuel Your Body. Elevate Your Life.</p>
-            <p>
-              More than a drink, Prime Rise is a daily ritual designed to support energy, balance, and vitality. Crafted
-              with intention. Made for how you want to feel.
-            </p>
-            <a href="#collection" class="btn btn--ghost">Explore the collection</a>
-          </div>
-          <div class="split__visual">
-            <figure class="product-figure">
-              <img
-                src="images/maringa-mint-hero.jpeg"
-                width="800"
-                height="1000"
-                alt="Maringa Mint — no shortcuts, only real botanicals"
-                class="product-figure__img"
-                loading="lazy"
-                decoding="async"
-              />
-            </figure>
-            <figure class="product-figure product-figure--secondary">
-              <img
-                src="images/maringa-mint-bottles.jpeg"
-                width="800"
-                height="600"
-                alt="Maringa Mint bottles with front and back labels"
-                class="product-figure__img"
-                loading="lazy"
-                decoding="async"
-              />
-            </figure>
-          </div>
+      <section class="section section--maringa-mint reveal" id="maringa-mint">
+        <div class="container narrow center">
+          <h2 class="section__title section__title--maringa">
+            Moringa Mint
+            <span class="section__title--maringa-sub">Clean energy boost</span>
+          </h2>
+          <p class="eyebrow eyebrow--maringa">Where wellness meets intention</p>
+          <p class="section__lead section__lead--maringa">Fuel Your Body. Elevate Your Life.</p>
+          <p class="section__text section__text--maringa">
+            More than a drink, Prime Rise is a daily ritual designed to support energy, balance, and vitality. Crafted with
+            intention. Made for how you want to feel.
+          </p>
+          <p class="maringa-cta">
+            <a href="#collection" class="maringa-cta__link">Explore the collection</a>
+          </p>
         </div>
       </section>
 
@@ -487,17 +510,17 @@
         </div>
       </section>
 
-      <section class="section section--signup section--emphasis reveal" id="join">
+      <section class="section section--signup section--join-mkt reveal" id="join">
         <div class="container narrow">
-          <h2 class="section__title">Join the Prime Rise experience</h2>
-          <p class="section__text">
+          <h2 class="section__title section__title--join">Join the Prime Rise Experience</h2>
+          <p class="section__text section__text--join">
             Be among the first to experience Prime Rise—early access to new blends, exclusive releases, and wellness
             insights crafted to elevate your everyday energy. Availability is limited at launch.
           </p>
-          <form class="signup-form" id="formJoin">
+          <form class="signup-form signup-form--mkt signup-form--on-ingredients" id="formJoin">
             <label class="sr-only" for="emailJoin">Email</label>
             <input type="email" id="emailJoin" name="email" placeholder="Enter your email" required autocomplete="email" />
-            <button type="submit" class="btn btn--primary">Begin your ritual</button>
+            <button type="submit" class="btn btn--mkt">Begin your ritual</button>
           </form>
         </div>
       </section>
@@ -516,15 +539,12 @@
             />
           </div>
           <div class="teaser-block__copy center">
-            <h2 class="section__title teaser-block__headline">
-              <span class="teaser-block__headline-text">Something elevated is coming.</span>
-              <span class="soon-badge">Soon</span>
-            </h2>
-            <p class="section__text teaser-block__sub">Ginger Citrus—get notified when the bottle lands.</p>
-            <form class="signup-form signup-form--center" id="formTeaser">
+            <h2 class="section__title teaser-block__headline teaser-block__headline--live">Something elevated is coming.🔜</h2>
+            <p class="section__text teaser-block__sub">Something elevated is coming. 🔜</p>
+            <form class="signup-form signup-form--center signup-form--mkt" id="formTeaser">
               <label class="sr-only" for="emailTeaser">Email</label>
               <input type="email" id="emailTeaser" name="email" placeholder="Enter your email" required autocomplete="email" />
-              <button type="submit" class="btn btn--secondary">Get notified</button>
+              <button type="submit" class="btn btn--mkt">Early Access</button>
             </form>
           </div>
         </div>
@@ -604,7 +624,7 @@
           Email signups are for launch news from Prime Rise. See our
           <a href="privacy.html">Privacy Policy</a>.
         </p>
-        <p>© 2026 Prime Rise. All Rights Reserved.</p>
+        <p>© 2026 prime rise. All Rights Reserved.</p>
       </div>
     </footer>
 

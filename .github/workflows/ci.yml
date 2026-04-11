@@ -39,9 +39,26 @@ jobs:
             robots.txt \
             sitemap.xml \
             manifest.webmanifest \
-            _redirects
+            _redirects \
+            package.json \
+            package-lock.json \
+            api/subscribe.js \
+            supabase/migrations/001_waitlist.sql
           do
             test -f "$f" || { echo "Missing: $f"; exit 1; }
+          done
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Verify waitlist API module loads
+        run: node -e "require('./api/subscribe.js'); console.log('ok');"
+
+      - name: Verify main pages use /api/subscribe
+        run: |
+          set -euo pipefail
+          for f in index.html products.html faq.html privacy.html terms.html; do
+            grep -q 'data-form-endpoint="/api/subscribe"' "$f" || { echo "$f: expected data-form-endpoint=\"/api/subscribe\""; exit 1; }
           done
 
       - name: Validate vercel.json
@@ -67,9 +84,12 @@ jobs:
           for img in \
             images/hero-premium-identity.png \
             images/golden-restore-ingredients.jpeg \
+            images/golden-restore-bottle-hero.jpeg \
+            images/lifestyle-wellness-elevated.jpeg \
+            images/lifestyle-beach-evening.jpeg \
+            images/lifestyle-gym-ginger-citrus.jpeg \
+            images/lifestyle-outdoor-grid.jpeg \
             images/hero-three-bottles.jpeg \
-            images/maringa-mint-hero.jpeg \
-            images/maringa-mint-bottles.jpeg
           do
             test -f "$img" || { echo "Missing: $img"; exit 1; }
           done

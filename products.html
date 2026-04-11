@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" data-form-endpoint="" data-ga-id="">
+<html lang="en" data-form-endpoint="/api/subscribe" data-ga-id="">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="Prime Rise botanical beverages — Ginger Citrus, Golden Restore, Hibiscus Bloom, Maringa Mint, Carrot Vital." />
+    <meta
+      name="description"
+      content="Prime Rise botanical beverages — Hibiscus Bloom, Ginger Citrus, Carrot Vital, Golden Restore, Moringa Mint."
+    />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="canonical" href="https://primerisedrinks.com/products.html" />
-    <meta name="theme-color" content="#2d3322" />
+    <meta name="theme-color" content="#8c843b" />
     <meta name="application-name" content="Prime Rise" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -17,7 +20,7 @@
     <meta property="og:title" content="Products | Prime Rise" />
     <meta
       property="og:description"
-      content="Prime Rise botanical beverages — Ginger Citrus, Golden Restore, Hibiscus Bloom, Maringa Mint, Carrot Vital."
+      content="Prime Rise botanical beverages — Hibiscus Bloom, Ginger Citrus, Carrot Vital, Golden Restore, Moringa Mint."
     />
     <meta property="og:site_name" content="PRIME RISE" />
     <meta property="og:locale" content="en_US" />
@@ -32,7 +35,7 @@
     <meta name="twitter:title" content="Products | Prime Rise" />
     <meta
       name="twitter:description"
-      content="Prime Rise botanical beverages — Ginger Citrus, Golden Restore, Hibiscus Bloom, Maringa Mint, Carrot Vital."
+      content="Prime Rise botanical beverages — Hibiscus Bloom, Ginger Citrus, Carrot Vital, Golden Restore, Moringa Mint."
     />
     <meta
       name="twitter:image"
@@ -45,7 +48,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Droid+Sans:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
     <script type="application/ld+json">
@@ -57,8 +60,8 @@
           {
             "@type": "ListItem",
             "position": 1,
-            "name": "Golden Restore",
-            "url": "https://primerisedrinks.com/products.html#golden-restore"
+            "name": "Hibiscus Bloom",
+            "url": "https://primerisedrinks.com/products.html#hibiscus-bloom"
           },
           {
             "@type": "ListItem",
@@ -69,20 +72,20 @@
           {
             "@type": "ListItem",
             "position": 3,
-            "name": "Hibiscus Bloom",
-            "url": "https://primerisedrinks.com/products.html#hibiscus-bloom"
+            "name": "Carrot Vital",
+            "url": "https://primerisedrinks.com/products.html#carrot-vital"
           },
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Maringa Mint",
-            "url": "https://primerisedrinks.com/products.html#maringa-mint"
+            "name": "Golden Restore",
+            "url": "https://primerisedrinks.com/products.html#golden-restore"
           },
           {
             "@type": "ListItem",
             "position": 5,
-            "name": "Carrot Vital",
-            "url": "https://primerisedrinks.com/products.html#carrot-vital"
+            "name": "Moringa Mint",
+            "url": "https://primerisedrinks.com/products.html#moringa-mint"
           }
         ]
       }
@@ -185,8 +188,28 @@
     </div>
 
     <main id="main-content" class="page-main" tabindex="-1">
-      <header class="page-hero">
-        <h1 class="page-hero__title">Our Blends</h1>
+      <section class="products-line-intro" aria-labelledby="products-line-heading">
+        <div class="container">
+          <h1 id="products-line-heading" class="products-line-caption">
+            <span class="products-line-caption__line">Real ingredients</span>
+            <span class="products-line-caption__line">Real Purpose</span>
+          </h1>
+          <figure class="products-line-figure">
+            <img
+              src="images/products-line-hero.jpeg"
+              width="1024"
+              height="1024"
+              alt="Prime Rise — real ingredients, real purpose: Hibiscus Bloom bottle with botanical ingredients in kraft bags on stone"
+              class="products-line-figure__img"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </figure>
+        </div>
+      </section>
+
+      <header class="page-hero page-hero--products">
+        <h2 class="page-hero__title">Our Blends</h2>
         <p class="page-hero__lead">
           Premium botanical beverages—each crafted as a daily ritual. Nutrition facts and full ingredient statements are on
           every label.
@@ -194,83 +217,102 @@
       </header>
 
       <div class="product-grid">
-        <article class="product-card-mini" id="golden-restore">
+        <article class="product-card-mini product-card-mini--bottle" id="hibiscus-bloom">
           <img
-            src="images/golden-restore-ingredients.jpeg"
-            width="400"
-            height="300"
-            alt="Golden Restore — turmeric, ginger, and botanical ingredients"
+            src="images/hibiscus-bloom-bottles.png"
+            width="1024"
+            height="1024"
+            alt="Hibiscus Bloom — Prime Rise, front and back labels"
+            class="product-card-mini__img"
             loading="lazy"
             decoding="async"
           />
           <div>
-            <h2>Golden Restore</h2>
-            <p>Turmeric, pineapple, ginger, and lemon—a golden reset to support recovery and balance.</p>
-            <a href="index.html#golden-restore" class="btn btn--ghost">View on homepage</a>
-          </div>
-        </article>
-
-        <article class="product-card-mini" id="ginger-citrus">
-          <img
-            src="images/ginger-citrus-labels.jpeg"
-            width="400"
-            height="300"
-            alt="Ginger Citrus — front and back labels"
-            loading="lazy"
-            decoding="async"
-          />
-          <div>
-            <h2>Ginger Citrus</h2>
-            <p>Bright citrus and botanicals—crafted to help you feel revitalized from within.</p>
-            <a href="index.html#collection" class="btn btn--ghost">See collection</a>
-          </div>
-        </article>
-
-        <article class="product-card-mini" id="hibiscus-bloom">
-          <img
-            src="images/hibiscus-bloom-bottle.jpeg"
-            width="400"
-            height="300"
-            alt="Hibiscus Bloom bottle"
-            loading="lazy"
-            decoding="async"
-          />
-          <div>
-            <h2>Hibiscus Bloom</h2>
+            <p class="eyebrow eyebrow--dark">Pure botanical blends</p>
+            <h2>Hibiscus Bloom <span aria-hidden="true">🌺</span></h2>
+            <p class="product-card-mini__tagline">A timeless tradition for modern wellness.</p>
             <p>Deep ruby botanicals with floral tradition—modern wellness in every sip.</p>
             <a href="index.html#collection" class="btn btn--ghost">See collection</a>
           </div>
         </article>
 
-        <article class="product-card-mini" id="maringa-mint">
+        <article class="product-card-mini product-card-mini--bottle" id="ginger-citrus">
           <img
-            src="images/maringa-mint-hero.jpeg"
-            width="400"
-            height="300"
-            alt="Maringa Mint"
+            src="images/ginger-citrus-bottles.png"
+            width="1024"
+            height="1024"
+            alt="Ginger Citrus — Prime Rise, front and back labels"
+            class="product-card-mini__img"
             loading="lazy"
             decoding="async"
           />
           <div>
-            <h2>Maringa Mint</h2>
-            <p>Clean green energy—real botanicals, no shortcuts.</p>
+            <p class="eyebrow eyebrow--dark">Pure botanical blends for wellness</p>
+            <h2>Ginger Citrus <span aria-hidden="true">🫚</span></h2>
+            <p class="product-card-mini__tagline">Energize from within</p>
+            <p>Bright citrus and ginger—crafted to help you feel revitalized, balanced, and ready for your day.</p>
             <a href="index.html#collection" class="btn btn--ghost">See collection</a>
           </div>
         </article>
 
-        <article class="product-card-mini" id="carrot-vital">
+        <article class="product-card-mini product-card-mini--bottle" id="carrot-vital">
           <img
-            src="images/carrot-vital.jpeg"
-            width="400"
-            height="300"
-            alt="Carrot Vital botanical beverage"
+            src="images/carrot-vital-bottles.png"
+            width="1024"
+            height="1024"
+            alt="Carrot Vital — Prime Rise, front and back labels"
+            class="product-card-mini__img"
             loading="lazy"
             decoding="async"
           />
           <div>
+            <p class="eyebrow eyebrow--dark">Pure botanical blends</p>
             <h2>Carrot Vital</h2>
-            <p>Earth-sourced vitality—nourish from within.</p>
+            <p class="product-card-mini__tagline">Nourish &amp; strengthen</p>
+            <p>Earth-sourced vitality—carrot-forward nourishment in every chilled bottle.</p>
             <a href="index.html#collection" class="btn btn--ghost">See collection</a>
+          </div>
+        </article>
+
+        <article class="product-card-mini product-card-mini--bottle" id="golden-restore">
+          <img
+            src="images/golden-restore-bottles.png"
+            width="1024"
+            height="1024"
+            alt="Golden Restore — Prime Rise natural botanical drink, front and back labels"
+            class="product-card-mini__img"
+            loading="lazy"
+            decoding="async"
+          />
+          <div>
+            <p class="eyebrow eyebrow--dark">Natural botanical drink</p>
+            <h2>Golden Restore <span aria-hidden="true">✨</span></h2>
+            <p class="product-card-mini__tagline">Restore from within</p>
+            <p>
+              A vibrant blend crafted to support recovery, balance, and vitality—with turmeric, pineapple, and ginger.
+            </p>
+            <a href="index.html#discover-golden-restore" class="btn btn--ghost">Discover Golden Restore</a>
+          </div>
+        </article>
+
+        <article class="product-card-mini product-card-mini--bottle" id="maringa-mint">
+          <img
+            src="images/moringa-mint-bottles.png"
+            width="1024"
+            height="1024"
+            alt="Moringa Mint — Prime Rise, front and back labels"
+            class="product-card-mini__img"
+            loading="lazy"
+            decoding="async"
+          />
+          <div>
+            <p class="eyebrow eyebrow--dark">Clean energy boost</p>
+            <h2>Moringa Mint <span aria-hidden="true">🌿</span></h2>
+            <p class="product-card-mini__tagline">Revive from within</p>
+            <p>
+              Naturally energizing botanicals—crafted as a daily ritual for energy, balance, and vitality.
+            </p>
+            <a href="index.html#moringa-mint" class="btn btn--ghost">Explore Moringa Mint</a>
           </div>
         </article>
       </div>
