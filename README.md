@@ -36,6 +36,8 @@ After that, **any merge or push to `main`** triggers a new production deployment
 
 In your Vercel project: **Settings → Domains** → add `primerisedrinks.com` and `www.primerisedrinks.com`, then set DNS at your registrar to the records Vercel shows (usually **A** / **CNAME**). Keep **HTTPS** enabled. Align the **primary** domain with the canonical URLs already used in `index.html` (`https://primerisedrinks.com/`).
 
+`vercel.json` includes **301 redirects** so requests to `www.primerisedrinks.com` go to the apex host, and `/index.html` goes to `/` (matches canonical URLs and avoids duplicate URLs in search indexes).
+
 ### Manual deploy (CLI)
 
 If you use the [Vercel CLI](https://vercel.com/docs/cli):
