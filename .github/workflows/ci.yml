@@ -76,7 +76,12 @@ jobs:
           done
 
       - name: Validate manifest.webmanifest
-        run: python3 -c "import json; json.load(open('manifest.webmanifest'))"
+        run: |
+          python3 -c "import json; json.load(open('manifest.webmanifest'))"
+          grep -q '"id"' manifest.webmanifest || { echo "manifest: missing id"; exit 1; }
+
+      - name: Validate sitemap.xml
+        run: python3 -c "import xml.etree.ElementTree as E; E.parse('sitemap.xml')"
 
       - name: Verify cookie banner accessibility ids
         run: |
