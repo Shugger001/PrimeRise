@@ -751,6 +751,15 @@ body.nav-open .back-to-top {
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
 }
 
+@supports (text-wrap: balance) {
+  .hero__title,
+  .section__title,
+  .page-hero__title,
+  .teaser-block__headline-text {
+    text-wrap: balance;
+  }
+}
+
 .hero__tagline {
   font-family: var(--font-display);
   font-size: clamp(1.1rem, 2.2vw, 1.45rem);

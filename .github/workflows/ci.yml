@@ -54,6 +54,13 @@ jobs:
             grep -q 'viewport-fit=cover' "$f" || { echo "Missing viewport-fit=cover in $f"; exit 1; }
           done
 
+      - name: Verify iOS format-detection meta on HTML pages
+        run: |
+          set -euo pipefail
+          for f in index.html products.html faq.html privacy.html terms.html 404.html; do
+            grep -q 'format-detection' "$f" || { echo "Missing format-detection in $f"; exit 1; }
+          done
+
       - name: Verify referenced images exist
         run: |
           set -euo pipefail
