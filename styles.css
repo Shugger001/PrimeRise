@@ -1433,7 +1433,7 @@ body.nav-open .back-to-top {
 .legal-disclaimer {
   padding: var(--space-md);
   margin-bottom: var(--space-lg);
-  background: rgba(201, 162, 39, 0.12);
+  background: rgba(154, 134, 80, 0.12);
   border-radius: var(--radius);
   font-size: 0.9rem;
   color: var(--color-text);
@@ -1452,6 +1452,12 @@ body.nav-open .back-to-top {
   font-weight: 600;
   cursor: pointer;
   color: var(--color-bg-deep);
+}
+
+.faq-list summary:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 .faq-list details[open] summary {

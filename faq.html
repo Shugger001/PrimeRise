@@ -40,19 +40,84 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
+        "@graph": [
           {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://primerisedrinks.com/"
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://primerisedrinks.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "FAQ",
+                "item": "https://primerisedrinks.com/faq.html"
+              }
+            ]
           },
           {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "FAQ",
-            "item": "https://primerisedrinks.com/faq.html"
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is Prime Rise?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Prime Rise crafts premium botanical beverages from real ingredients—designed to support balance, recovery, and everyday energy. Each blend is a daily ritual, not just a drink."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Are your drinks natural?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Labels highlight natural botanicals and transparent crafting. Always read the ingredient list on each bottle for the most current formulation."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Where can I buy Prime Rise?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Retail and online availability are expanding. Join the email list on the homepage for launch updates, or use wholesale inquiries when you’re a business partner."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How should I store bottles?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Keep refrigerated after opening unless otherwise noted on the label. Shake if directed. Follow any instructions printed on your bottle."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Do these drinks contain caffeine?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Caffeine content varies by blend. Check the nutrition facts and ingredient statement on each bottle for the most accurate information."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How are Prime Rise beverages sweetened?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Formulations differ by product. The ingredient list and nutrition panel on each label describe sweeteners and sugars—always refer to the bottle you’re holding."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Who do I contact for partnerships?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Use the email signup and contact paths on the Prime Rise homepage for launch updates and partner inquiries."
+                }
+              }
+            ]
           }
         ]
       }
