@@ -565,6 +565,19 @@ body.nav-open .back-to-top {
   object-position: left center;
 }
 
+/* Wide viewports: nudge focal point so the label panel doesn’t feel cropped off-screen */
+@media (min-width: 1200px) {
+  .hero--premium-identity .hero__img {
+    object-position: 22% center;
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero--premium-identity .hero__img {
+    object-position: 26% center;
+  }
+}
+
 @media (max-width: 900px) {
   .hero--premium-identity .hero__img {
     object-position: 42% center;
@@ -988,6 +1001,21 @@ body.nav-open .back-to-top {
   }
 }
 
+.teaser-block__sub {
+  margin: 0 auto var(--space-md);
+  max-width: 38ch;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 800px) {
+  .teaser-block__sub {
+    margin-left: 0;
+    text-align: left;
+  }
+}
+
 .teaser-block__img {
   width: 100%;
   height: auto;
@@ -1030,6 +1058,12 @@ body.nav-open .back-to-top {
 .section__text {
   color: var(--color-text-muted);
   margin: 0 0 var(--space-md);
+}
+
+.section__text--tight {
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-sm);
+  max-width: 42ch;
 }
 
 .section__lead {
