@@ -235,6 +235,10 @@
   function handleFormSubmit(e) {
     e.preventDefault();
     var form = e.target;
+    var hp = form.querySelector("[data-prime-hp]");
+    if (hp && String(hp.value || "").trim() !== "") {
+      return;
+    }
     var email = form.querySelector('input[type="email"]');
     var submitBtn = form.querySelector('button[type="submit"]');
     if (!email || !email.value) return;
@@ -293,6 +297,20 @@
         }
       });
   }
+
+  document.querySelectorAll(".signup-form").forEach(function (form) {
+    if (!form.querySelector("[data-prime-hp]")) {
+      var trap = document.createElement("input");
+      trap.type = "text";
+      trap.name = "_prime_hp";
+      trap.setAttribute("data-prime-hp", "1");
+      trap.setAttribute("tabindex", "-1");
+      trap.setAttribute("autocomplete", "off");
+      trap.setAttribute("aria-hidden", "true");
+      trap.className = "signup-form__hp";
+      form.insertBefore(trap, form.firstChild);
+    }
+  });
 
   document.querySelectorAll(".signup-form").forEach(function (form) {
     form.addEventListener("submit", handleFormSubmit);
