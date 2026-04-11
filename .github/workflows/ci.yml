@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify core files exist
+        run: |
+          set -euo pipefail
+          for f in \
+            index.html \
+            products.html \
+            faq.html \
+            privacy.html \
+            terms.html \
+            404.html \
+            main.js \
+            styles.css \
+            netlify.toml \
+            vercel.json \
+            robots.txt \
+            sitemap.xml \
+            manifest.webmanifest
+          do
+            test -f "$f" || { echo "Missing: $f"; exit 1; }
+          done
+
+      - name: Verify referenced images exist
+        run: |
+          set -euo pipefail
+          for img in \
+            images/hero-premium-identity.png \
+            images/golden-restore-ingredients.jpeg \
+            images/hero-three-bottles.jpeg \
+            images/maringa-mint-hero.jpeg \
+            images/maringa-mint-bottles.jpeg
+          do
+            test -f "$img" || { echo "Missing: $img"; exit 1; }
+          done
+
+      - name: Verify shared UI in main pages
+        run: |
+          set -euo pipefail
+          for f in index.html products.html faq.html privacy.html terms.html; do
+            grep -q 'id="backToTop"' "$f" || { echo "Missing back-to-top control in $f"; exit 1; }
+            grep -q 'rel="manifest"' "$f" || { echo "Missing web manifest link in $f"; exit 1; }
+          done

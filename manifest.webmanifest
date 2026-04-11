@@ -1,0 +1,18 @@
+{
+  "name": "Prime Rise",
+  "short_name": "Prime Rise",
+  "description": "Premium botanical beverages crafted to restore balance, support recovery, and elevate your everyday energy;",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#f4f1ea",
+  "theme_color": "#2d3322",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
