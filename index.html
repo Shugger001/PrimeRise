@@ -274,40 +274,24 @@
       </section>
 
       <section class="section section--product section--golden-restore section--olive reveal" id="golden-restore">
-        <div class="container split split--golden-mkt golden-reveal" id="goldenRevealRoot" data-golden-reveal>
-          <div class="split__visual split__visual--card golden-reveal__visual">
-            <figure class="product-figure product-figure--mkt-card golden-reveal__figure">
-              <button
-                type="button"
-                class="golden-reveal__trigger"
-                id="goldenRestoreTrigger"
-                aria-expanded="false"
-                aria-controls="goldenRestorePanel"
-              >
-                <span class="sr-only">Show Golden Restore product details</span>
-                <img
-                  src="images/golden-restore-bottle-hero.jpeg"
-                  width="1024"
-                  height="1024"
-                  alt="Prime Rise Golden Restore — natural botanical drink, front and back labels on glass bottle"
-                  class="product-figure__img product-figure__img--bottle golden-reveal__img"
-                  draggable="false"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </button>
-            </figure>
-            <p
-              class="golden-reveal__hint"
-              id="goldenRevealHint"
-              role="button"
-              tabindex="0"
-              aria-expanded="false"
-            >
-              Click the product to explore details
-            </p>
-          </div>
-          <div class="split__copy split__copy--olive golden-reveal__panel" id="goldenRestorePanel" hidden>
+        <div class="container golden-reveal-outer">
+          <!-- Native disclosure: no JS required — click summary (image) toggles details in all browsers -->
+          <details class="golden-reveal-details" id="goldenRestoreDetails">
+            <summary class="golden-reveal__summary product-figure product-figure--mkt-card">
+              <span class="sr-only">Golden Restore product — tap to show or hide full details</span>
+              <img
+                src="images/golden-restore-bottle-hero.jpeg"
+                width="1024"
+                height="1024"
+                alt="Prime Rise Golden Restore — natural botanical drink, front and back labels on glass bottle"
+                class="product-figure__img product-figure__img--bottle golden-reveal__img"
+                draggable="false"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="golden-reveal__hint" aria-hidden="true">Click the product to explore details</span>
+            </summary>
+            <div class="split__copy split__copy--olive golden-reveal__panel" id="goldenRestorePanel">
             <h2 class="section__title section__title--balance">Restore your balance. Reclaim your energy.</h2>
             <p class="eyebrow eyebrow--olive">Natural botanical drink</p>
             <h3 class="section__subtitle section__subtitle--golden">Golden Restore</h3>
@@ -336,7 +320,8 @@
             <p class="pullquote">Drink with intention. Rise with purpose.</p>
             <p class="tagline-inline tagline-inline--olive">Crafted for your daily ritual.</p>
             <a href="#discover-golden-restore" class="btn btn--mkt btn--mkt--outline">Discover Golden Restore</a>
-          </div>
+            </div>
+          </details>
         </div>
       </section>
 

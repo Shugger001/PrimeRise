@@ -1305,70 +1305,68 @@ body.nav-open .back-to-top {
   z-index: 1;
 }
 
-.split--golden-mkt {
-  align-items: start;
-}
-
-/* Golden Restore — product image is the trigger; copy panel opens on click */
-.golden-reveal:not(.golden-reveal--open) {
-  grid-template-columns: 1fr;
-  justify-items: center;
-}
-
-.golden-reveal__figure {
-  margin: 0;
-}
-
-.golden-reveal__trigger {
-  display: block;
+/* Golden Restore — native <details>: click summary (product shot) to reveal copy; no JS */
+.golden-reveal-outer {
   width: 100%;
-  padding: 0;
-  margin: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  border-radius: 2px;
-  font: inherit;
-  color: inherit;
-  line-height: 0;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.08);
-  position: relative;
-  z-index: 2;
 }
 
-.golden-reveal__trigger:focus-visible {
+.golden-reveal-details {
+  width: 100%;
+}
+
+.golden-reveal-details:not([open]) {
+  max-width: min(440px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.golden-reveal-details[open] {
+  max-width: none;
+}
+
+.golden-reveal__summary {
+  list-style: none;
+  display: block;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.golden-reveal__summary::-webkit-details-marker {
+  display: none;
+}
+
+.golden-reveal__summary::marker {
+  content: "";
+}
+
+.golden-reveal__summary:focus-visible {
   outline: 2px solid #c9b896;
   outline-offset: 4px;
 }
 
-.golden-reveal__hint {
+.golden-reveal__summary .golden-reveal__hint {
+  display: block;
   margin: var(--space-sm) 0 0;
   font-size: 0.9rem;
   text-align: center;
+  line-height: 1.4;
   color: rgba(20, 18, 14, 0.72);
   font-family: var(--font-ui);
   max-width: 26ch;
-  cursor: pointer;
-  touch-action: manipulation;
-  user-select: none;
-  position: relative;
-  z-index: 2;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.golden-reveal--open .golden-reveal__hint {
+.golden-reveal-details[open] .golden-reveal__hint {
   display: none;
 }
 
-.golden-reveal:not(.golden-reveal--open) .golden-reveal__visual {
-  width: 100%;
-  max-width: min(440px, 100%);
-}
-
 @media (min-width: 880px) {
-  .golden-reveal.golden-reveal--open {
+  .golden-reveal-details[open] {
+    display: grid;
     grid-template-columns: 1fr 1fr;
-    justify-items: start;
+    gap: var(--space-xl);
+    align-items: start;
   }
 }
 
