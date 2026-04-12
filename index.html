@@ -274,21 +274,31 @@
       </section>
 
       <section class="section section--product section--golden-restore section--olive reveal" id="golden-restore">
-        <div class="container split split--golden-mkt">
-          <div class="split__visual split__visual--card">
-            <figure class="product-figure product-figure--mkt-card">
-              <img
-                src="images/golden-restore-bottle-hero.jpeg"
-                width="1024"
-                height="1024"
-                alt="Prime Rise Golden Restore — natural botanical drink, front and back labels on glass bottle"
-                class="product-figure__img product-figure__img--bottle"
-                loading="lazy"
-                decoding="async"
-              />
+        <div class="container split split--golden-mkt golden-reveal" id="goldenRevealRoot" data-golden-reveal>
+          <div class="split__visual split__visual--card golden-reveal__visual">
+            <figure class="product-figure product-figure--mkt-card golden-reveal__figure">
+              <button
+                type="button"
+                class="golden-reveal__trigger"
+                id="goldenRestoreTrigger"
+                aria-expanded="false"
+                aria-controls="goldenRestorePanel"
+              >
+                <span class="sr-only">Show Golden Restore product details</span>
+                <img
+                  src="images/golden-restore-bottle-hero.jpeg"
+                  width="1024"
+                  height="1024"
+                  alt="Prime Rise Golden Restore — natural botanical drink, front and back labels on glass bottle"
+                  class="product-figure__img product-figure__img--bottle golden-reveal__img"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
             </figure>
+            <p class="golden-reveal__hint" id="goldenRevealHint">Click the product to explore details</p>
           </div>
-          <div class="split__copy split__copy--olive">
+          <div class="split__copy split__copy--olive golden-reveal__panel" id="goldenRestorePanel" hidden>
             <h2 class="section__title section__title--balance">Restore your balance. Reclaim your energy.</h2>
             <p class="eyebrow eyebrow--olive">Natural botanical drink</p>
             <h3 class="section__subtitle section__subtitle--golden">Golden Restore</h3>

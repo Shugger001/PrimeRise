@@ -1308,6 +1308,60 @@ body.nav-open .back-to-top {
   align-items: start;
 }
 
+/* Golden Restore — product image is the trigger; copy panel opens on click */
+.golden-reveal:not(.golden-reveal--open) {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.golden-reveal__figure {
+  margin: 0;
+}
+
+.golden-reveal__trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 2px;
+  font: inherit;
+  color: inherit;
+  line-height: 0;
+}
+
+.golden-reveal__trigger:focus-visible {
+  outline: 2px solid #c9b896;
+  outline-offset: 4px;
+}
+
+.golden-reveal__hint {
+  margin: var(--space-sm) 0 0;
+  font-size: 0.9rem;
+  text-align: center;
+  color: rgba(20, 18, 14, 0.72);
+  font-family: var(--font-ui);
+  max-width: 26ch;
+}
+
+.golden-reveal--open .golden-reveal__hint {
+  display: none;
+}
+
+.golden-reveal:not(.golden-reveal--open) .golden-reveal__visual {
+  width: 100%;
+  max-width: min(440px, 100%);
+}
+
+@media (min-width: 880px) {
+  .golden-reveal.golden-reveal--open {
+    grid-template-columns: 1fr 1fr;
+    justify-items: start;
+  }
+}
+
 .split__visual--card {
   width: 100%;
 }

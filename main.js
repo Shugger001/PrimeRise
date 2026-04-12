@@ -376,4 +376,43 @@
       window.scrollTo({ top: 0, behavior: scrollReduced ? "auto" : "smooth" });
     });
   }
+
+  var goldenRoot = document.getElementById("goldenRevealRoot");
+  var goldenTrigger = document.getElementById("goldenRestoreTrigger");
+  var goldenPanel = document.getElementById("goldenRestorePanel");
+  var goldenHint = document.getElementById("goldenRevealHint");
+
+  function setGoldenRevealOpen(open) {
+    if (!goldenTrigger || !goldenPanel || !goldenRoot) return;
+    goldenTrigger.setAttribute("aria-expanded", open ? "true" : "false");
+    goldenRoot.classList.toggle("golden-reveal--open", open);
+    var sr = goldenTrigger.querySelector(".sr-only");
+    if (sr) {
+      sr.textContent = open ? "Hide Golden Restore product details" : "Show Golden Restore product details";
+    }
+    if (open) {
+      goldenPanel.removeAttribute("hidden");
+    } else {
+      goldenPanel.setAttribute("hidden", "");
+      try {
+        goldenTrigger.focus();
+      } catch (err) {}
+    }
+    if (goldenHint) {
+      goldenHint.setAttribute("aria-hidden", open ? "true" : "false");
+    }
+  }
+
+  if (goldenTrigger && goldenPanel && goldenRoot) {
+    goldenTrigger.addEventListener("click", function () {
+      var open = goldenTrigger.getAttribute("aria-expanded") === "true";
+      setGoldenRevealOpen(!open);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      if (goldenTrigger.getAttribute("aria-expanded") === "true") {
+        setGoldenRevealOpen(false);
+      }
+    });
+  }
 })();
