@@ -407,23 +407,32 @@
     }
     if (goldenHint) {
       goldenHint.setAttribute("aria-hidden", open ? "true" : "false");
+      goldenHint.setAttribute("aria-expanded", open ? "true" : "false");
     }
   }
 
-  function goldenRevealClickHandler(e) {
-    if (!goldenRoot || !goldenPanel || !goldenTrigger) return;
-    var link = e.target.closest && e.target.closest("a");
-    if (link && goldenPanel.contains(link)) return;
-    var onTrigger = e.target.closest && e.target.closest(".golden-reveal__trigger");
-    var onHint = e.target.closest && e.target.closest(".golden-reveal__hint");
-    if (!onTrigger && !onHint) return;
-    e.preventDefault();
+  function toggleGoldenReveal(e) {
+    if (!goldenTrigger || !goldenPanel || !goldenRoot) return;
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     var open = goldenTrigger.getAttribute("aria-expanded") === "true";
     setGoldenRevealOpen(!open);
   }
 
   if (goldenTrigger && goldenPanel && goldenRoot) {
-    goldenRoot.addEventListener("click", goldenRevealClickHandler);
+    /* Direct listeners: avoids delegation bugs when e.target is not an Element (Chrome-safe) */
+    goldenTrigger.addEventListener("click", toggleGoldenReveal);
+    if (goldenHint) {
+      goldenHint.addEventListener("click", toggleGoldenReveal);
+      goldenHint.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleGoldenReveal(e);
+        }
+      });
+    }
     document.addEventListener("keydown", function (e) {
       if (e.key !== "Escape") return;
       if (goldenTrigger.getAttribute("aria-expanded") === "true") {
