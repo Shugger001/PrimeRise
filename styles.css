@@ -1043,10 +1043,11 @@ body.nav-open .back-to-top {
   display: block;
 }
 
-/* Hibiscus “Crafted with intention” full-bleed page (before Golden Restore) */
+/* Hibiscus “Crafted with intention” — centered column on wide / fullscreen viewports */
 .crafted-intent-page {
-  margin: 0;
+  margin: 0 auto;
   width: 100%;
+  max-width: min(980px, 100%);
   line-height: 0;
 }
 
