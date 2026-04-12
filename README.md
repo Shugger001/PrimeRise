@@ -68,7 +68,7 @@ npx vercel --prod # production deploy
 
 1. **Analytics** — Set **`data-ga-id`** on every page’s `<html>` to your GA4 measurement ID (e.g. `G-XXXXXXXXXX`), or leave empty to skip loading gtag. Analytics runs after visitors accept cookies (or immediately if they already accepted).
 2. **Signups (waitlist)** — Main pages use **`data-form-endpoint="/api/subscribe"`**, which maps to the Vercel serverless handler in **`api/subscribe.js`** and stores emails in **Supabase** (`waitlist` table — run **`supabase/migrations/001_waitlist.sql`** in the Supabase SQL editor). In **Vercel → Settings → Environment Variables**, set **`SUPABASE_URL`** and **`SUPABASE_SERVICE_ROLE_KEY`** (server-only; never put the service role key in HTML or client JS). To use an external form provider instead, set **`data-form-endpoint`** to a full **https** URL (e.g. [Formspree](https://formspree.io/) `https://formspree.io/f/xxxx`). Empty **`data-form-endpoint`** = demo toasts only; opening **`index.html` via `file://`** also uses demo toasts so relative `/api` URLs are not called.
-3. **Contact email** — Replace the placeholder **`hello@primerisedrinks.com`** everywhere (footer **Contact** `mailto:` and any body copy). Search the repo for `hello@` after you have the final address.
+3. **Contact email** — Public contact is **`info@promerisedrinks.com`** (footer **Contact** `mailto:` and FAQ copy). Update if your live inbox differs.
 4. **Legal** — Have counsel review and adapt **`privacy.html`** and **`terms.html`** (visible disclaimers already note starter copy).
 5. **Spam** — Signup forms get a hidden honeypot (`name="_gotcha"`, `data-prime-hp` in `main.js`). Keep the **`signup-form`** class on those forms; do not remove the injected field.
 
