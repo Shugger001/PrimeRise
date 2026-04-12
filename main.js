@@ -392,6 +392,13 @@
     }
     if (open) {
       goldenPanel.removeAttribute("hidden");
+      if (typeof window.matchMedia === "function" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        if (window.innerWidth < 880 && typeof goldenPanel.scrollIntoView === "function") {
+          window.requestAnimationFrame(function () {
+            goldenPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          });
+        }
+      }
     } else {
       goldenPanel.setAttribute("hidden", "");
       try {
@@ -403,11 +410,20 @@
     }
   }
 
+  function goldenRevealClickHandler(e) {
+    if (!goldenRoot || !goldenPanel || !goldenTrigger) return;
+    var link = e.target.closest && e.target.closest("a");
+    if (link && goldenPanel.contains(link)) return;
+    var onTrigger = e.target.closest && e.target.closest(".golden-reveal__trigger");
+    var onHint = e.target.closest && e.target.closest(".golden-reveal__hint");
+    if (!onTrigger && !onHint) return;
+    e.preventDefault();
+    var open = goldenTrigger.getAttribute("aria-expanded") === "true";
+    setGoldenRevealOpen(!open);
+  }
+
   if (goldenTrigger && goldenPanel && goldenRoot) {
-    goldenTrigger.addEventListener("click", function () {
-      var open = goldenTrigger.getAttribute("aria-expanded") === "true";
-      setGoldenRevealOpen(!open);
-    });
+    goldenRoot.addEventListener("click", goldenRevealClickHandler);
     document.addEventListener("keydown", function (e) {
       if (e.key !== "Escape") return;
       if (goldenTrigger.getAttribute("aria-expanded") === "true") {

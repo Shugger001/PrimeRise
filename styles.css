@@ -1296,7 +1296,8 @@ body.nav-open .back-to-top {
 .section--product.section--golden-restore.section--olive {
   background: var(--color-olive);
   position: relative;
-  overflow: hidden;
+  /* allow expanded copy + grid to paint; hidden clipped the revealed panel in some layouts */
+  overflow: visible;
 }
 
 .section--product.section--golden-restore .container {
@@ -1330,6 +1331,10 @@ body.nav-open .back-to-top {
   font: inherit;
   color: inherit;
   line-height: 0;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 2;
 }
 
 .golden-reveal__trigger:focus-visible {
@@ -1344,6 +1349,11 @@ body.nav-open .back-to-top {
   color: rgba(20, 18, 14, 0.72);
   font-family: var(--font-ui);
   max-width: 26ch;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  position: relative;
+  z-index: 2;
 }
 
 .golden-reveal--open .golden-reveal__hint {
