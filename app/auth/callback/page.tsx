@@ -2,12 +2,21 @@
 
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, useSearchParams } from "next/navigation";
+import type { EmailOtpType } from "@supabase/supabase-js";
 import { Suspense, useEffect, useState } from "react";
 
+/** `token_hash` + `type` query params (PKCE email links) — must match `EmailOtpType`. */
+function parseEmailOtpType(raw: string | null): EmailOtpType | null {
+  if (!raw) return null;
+  const allowed: EmailOtpType[] = ["signup", "invite", "magiclink", "recovery", "email_change", "email"];
+  return allowed.includes(raw as EmailOtpType) ? (raw as EmailOtpType) : null;
+}
+
 /**
- * Supabase may return either:
- * - PKCE: `?code=...&next=...` (server-visible; we also handle here for one code path)
- * - Recovery / implicit: `#access_token=...&refresh_token=...&type=recovery` (hash is NOT sent to Route Handlers)
+ * Supabase may return:
+ * - PKCE email links: `?token_hash=...&type=recovery&next=...` (password reset / confirm — see Supabase password docs)
+ * - PKCE OAuth: `?code=...&next=...`
+ * - Implicit: `#access_token=...&refresh_token=...&type=recovery`
  */
 function AuthCallbackInner() {
   const router = useRouter();
@@ -23,13 +32,32 @@ function AuthCallbackInner() {
       const nextRaw = searchParams.get("next") ?? "/account";
       const next = nextRaw.startsWith("/") ? nextRaw : `/${nextRaw}`;
 
+      const token_hash = searchParams.get("token_hash");
+      const otpType = parseEmailOtpType(searchParams.get("type"));
+
+      if (token_hash && otpType) {
+        const { error } = await supabase.auth.verifyOtp({ token_hash, type: otpType });
+        if (error) {
+          if (!cancelled) {
+            setStatus("error");
+            router.replace("/login?error=auth");
+          }
+          return;
+        }
+        const dest = otpType === "recovery" ? "/reset-password" : next;
+        router.replace(dest);
+        router.refresh();
+        return;
+      }
+
       const code = searchParams.get("code");
       if (code) {
         const { error } = await supabase.auth.exchangeCodeForSession(code);
-        if (cancelled) return;
         if (error) {
-          setStatus("error");
-          router.replace("/login?error=auth");
+          if (!cancelled) {
+            setStatus("error");
+            router.replace("/login?error=auth");
+          }
           return;
         }
         router.replace(next);
@@ -55,10 +83,11 @@ function AuthCallbackInner() {
 
         if (access_token && refresh_token) {
           const { error } = await supabase.auth.setSession({ access_token, refresh_token });
-          if (cancelled) return;
           if (error) {
-            setStatus("error");
-            router.replace("/login?error=auth");
+            if (!cancelled) {
+              setStatus("error");
+              router.replace("/login?error=auth");
+            }
             return;
           }
 
