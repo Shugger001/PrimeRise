@@ -1,13 +1,17 @@
 ---
-description: Ship site changes to Vercel after HTML/CSS/JS/API edits
+description: Ship site changes to Vercel after HTML/CSS/JS/Next/API edits
 alwaysApply: true
 ---
 
 # Deploy to Vercel after site work
 
-When you change **HTML, CSS, JS, `api/`, `vercel.json`, or assets** in this repo, **finish by updating production on Vercel**—do not stop with only local edits if the user expects the live site to change.
+This repo is a **Next.js** app: marketing assets live in **`public/`**, routes in **`app/`**, API in **`app/api/**`**. Production builds are **`npm run build`**.
 
-1. **Preferred (Git → auto-deploy):** If this is a git repo with `origin` and you are on **`main`**, run **`git add`**, **`git commit`** with a short message, and **`git push origin main`**. Vercel deploys production from GitHub when `main` updates (project must stay linked in the Vercel dashboard).
+When you change **HTML/CSS/JS in `public/`, `app/`, `middleware.ts`, `vercel.json`, or dependencies**, finish by updating production on Vercel if the user expects the live site to change.
+
+1. **Preferred (Git → auto-deploy):** If the repo is linked to GitHub and **`main`** is the production branch, **`git push origin main`** triggers Vercel (project must stay linked).
 2. **CLI (immediate):** From the project root, run **`npm run deploy`** (or `npx vercel deploy --prod`). Requires local Vercel auth (`npx vercel login` once per machine).
 
-If push fails (auth, conflicts) or the user cannot use Git, use the CLI path and report the deployment URL or error. Skip deployment only when the user explicitly says not to deploy or when neither Git nor CLI is available.
+Ensure **Vercel → Environment Variables** include `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY` for waitlist + admin.
+
+If push fails or Git is unavailable, use the CLI path and report the deployment URL or error. Skip deployment only when the user explicitly says not to deploy or when neither Git nor CLI is available.

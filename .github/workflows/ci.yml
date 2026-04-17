@@ -14,36 +14,43 @@ jobs:
       - name: Verify 404.html matches global html config
         run: |
           set -euo pipefail
-          grep -q 'data-form-endpoint=""' 404.html || { echo "404.html: missing data-form-endpoint on html"; exit 1; }
-          grep -q 'data-ga-id=""' 404.html || { echo "404.html: missing data-ga-id on html"; exit 1; }
-          grep -q 'class="footer__note"' 404.html || { echo "404.html: missing footer email note"; exit 1; }
-          grep -q 'id="cookieBanner"' 404.html || { echo "404.html: missing cookie banner"; exit 1; }
-          grep -q 'main.js' 404.html || { echo "404.html: missing main.js"; exit 1; }
-          grep -q 'rel="manifest"' 404.html || { echo "404.html: missing web manifest link"; exit 1; }
-          grep -q 'name="application-name"' 404.html || { echo "404.html: missing application-name"; exit 1; }
+          grep -q 'data-form-endpoint=""' public/404.html || { echo "404.html: missing data-form-endpoint on html"; exit 1; }
+          grep -q 'data-ga-id=""' public/404.html || { echo "404.html: missing data-ga-id on html"; exit 1; }
+          grep -q 'class="footer__note"' public/404.html || { echo "404.html: missing footer email note"; exit 1; }
+          grep -q 'id="cookieBanner"' public/404.html || { echo "404.html: missing cookie banner"; exit 1; }
+          grep -q 'main.js' public/404.html || { echo "404.html: missing main.js"; exit 1; }
+          grep -q 'rel="manifest"' public/404.html || { echo "404.html: missing web manifest link"; exit 1; }
+          grep -q 'name="application-name"' public/404.html || { echo "404.html: missing application-name"; exit 1; }
 
       - name: Verify core files exist
         run: |
           set -euo pipefail
           for f in \
-            index.html \
-            products.html \
-            faq.html \
-            privacy.html \
-            terms.html \
-            404.html \
-            main.js \
-            styles.css \
+            public/index.html \
+            app/products/page.tsx \
+            public/faq.html \
+            public/privacy.html \
+            public/terms.html \
+            public/404.html \
+            public/main.js \
+            public/styles.css \
             netlify.toml \
             vercel.json \
-            robots.txt \
-            sitemap.xml \
-            manifest.webmanifest \
+            public/robots.txt \
+            public/sitemap.xml \
+            public/manifest.webmanifest \
             _redirects \
             package.json \
             package-lock.json \
-            api/subscribe.js \
-            supabase/migrations/001_waitlist.sql
+            app/api/subscribe/route.ts \
+            middleware.ts \
+            supabase/migrations/001_waitlist.sql \
+            supabase/migrations/002_admin_products_content.sql \
+            supabase/migrations/003_orders_checkout.sql \
+            supabase/migrations/004_user_accounts_orders.sql \
+            supabase/migrations/005_seed_prime_products.sql \
+            supabase/migrations/006_product_detail_fields.sql \
+            supabase/migrations/007_user_roles.sql
           do
             test -f "$f" || { echo "Missing: $f"; exit 1; }
           done
@@ -51,15 +58,16 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
-      - name: Verify waitlist API module loads
-        run: node -e "require('./api/subscribe.js'); console.log('ok');"
+      - name: Next.js build
+        run: npm run build
 
       - name: Verify main pages use /api/subscribe
         run: |
           set -euo pipefail
-          for f in index.html products.html faq.html privacy.html terms.html; do
+          for f in public/index.html public/faq.html public/privacy.html public/terms.html; do
             grep -q 'data-form-endpoint="/api/subscribe"' "$f" || { echo "$f: expected data-form-endpoint=\"/api/subscribe\""; exit 1; }
           done
+          grep -q 'data-form-endpoint="/api/subscribe"' app/layout.tsx || { echo "app/layout.tsx: expected data-form-endpoint on html"; exit 1; }
 
       - name: Validate vercel.json
         run: python3 -c "import json; json.load(open('vercel.json'))"
@@ -67,14 +75,14 @@ jobs:
       - name: Verify viewport uses safe-area (viewport-fit=cover)
         run: |
           set -euo pipefail
-          for f in index.html products.html faq.html privacy.html terms.html 404.html; do
+          for f in public/index.html public/faq.html public/privacy.html public/terms.html public/404.html; do
             grep -q 'viewport-fit=cover' "$f" || { echo "Missing viewport-fit=cover in $f"; exit 1; }
           done
 
       - name: Verify iOS format-detection meta on HTML pages
         run: |
           set -euo pipefail
-          for f in index.html products.html faq.html privacy.html terms.html 404.html; do
+          for f in public/index.html public/faq.html public/privacy.html public/terms.html public/404.html; do
             grep -q 'format-detection' "$f" || { echo "Missing format-detection in $f"; exit 1; }
           done
 
@@ -82,15 +90,14 @@ jobs:
         run: |
           set -euo pipefail
           for img in \
-            images/hero-premium-identity.png \
-            images/golden-restore-ingredients.jpeg \
-            images/golden-restore-bottle-hero.jpeg \
-            images/lifestyle-wellness-elevated.jpeg \
-            images/lifestyle-beach-evening.jpeg \
-            images/lifestyle-gym-ginger-citrus.jpeg \
-            images/crafted-intention-hibiscus.jpeg \
-            images/lifestyle-outdoor-grid.jpeg \
-            images/hero-three-bottles.jpeg \
+            public/images/lifestyle-wellness-elevated.png \
+            public/images/lifestyle-beach-evening.jpeg \
+            public/images/lifestyle-elevate-everyday.png \
+            public/images/lifestyle-gym-ginger-citrus.jpeg \
+            public/images/crafted-intention-hibiscus.jpeg \
+            public/images/lifestyle-outdoor-grid.jpeg \
+            public/images/prime-rise-lineup-five.jpeg \
+            public/images/lifestyle-couple-beach-sunset.jpeg
           do
             test -f "$img" || { echo "Missing: $img"; exit 1; }
           done
@@ -98,23 +105,24 @@ jobs:
       - name: Verify shared UI in main pages
         run: |
           set -euo pipefail
-          for f in index.html products.html faq.html privacy.html terms.html; do
+          for f in public/index.html public/faq.html public/privacy.html public/terms.html; do
             grep -q 'id="backToTop"' "$f" || { echo "Missing back-to-top control in $f"; exit 1; }
             grep -q 'rel="manifest"' "$f" || { echo "Missing web manifest link in $f"; exit 1; }
           done
 
       - name: Validate manifest.webmanifest
         run: |
-          python3 -c "import json; json.load(open('manifest.webmanifest'))"
-          grep -q '"id"' manifest.webmanifest || { echo "manifest: missing id"; exit 1; }
+          python3 -c "import json; json.load(open('public/manifest.webmanifest'))"
+          grep -q '"id"' public/manifest.webmanifest || { echo "manifest: missing id"; exit 1; }
 
       - name: Validate sitemap.xml
-        run: python3 -c "import xml.etree.ElementTree as E; E.parse('sitemap.xml')"
+        run: python3 -c "import xml.etree.ElementTree as E; E.parse('public/sitemap.xml')"
 
       - name: Verify cookie banner accessibility ids
         run: |
           set -euo pipefail
-          for f in index.html products.html faq.html privacy.html terms.html 404.html; do
+          for f in public/index.html public/faq.html public/privacy.html public/terms.html public/404.html; do
             grep -q 'id="cookieBannerTitle"' "$f" || { echo "Missing cookieBannerTitle in $f"; exit 1; }
             grep -q 'aria-describedby="cookieBannerDesc"' "$f" || { echo "Missing cookie aria-describedby in $f"; exit 1; }
           done
+          grep -q 'cookieBannerTitle' components/marketing/SiteChrome.tsx || { echo "SiteChrome: missing cookie banner ids"; exit 1; }

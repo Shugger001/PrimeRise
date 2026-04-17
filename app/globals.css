@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --admin-radius: 0.65rem;
+  /* Match public/styles.css — used by /cart, /account, /admin */
+  --color-bg: #f4f1ea;
+  --color-bg-deep: #2d3322;
+  --color-text: #1e1e1c;
+  /* Body font stack — Bitter from next/font on <html> (--font-bitter) */
+  --font-body: var(--font-bitter), Georgia, serif;
+  --font-display: var(--font-bitter), Georgia, serif;
+}
+
+body {
+  @apply antialiased;
+}

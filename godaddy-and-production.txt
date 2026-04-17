@@ -1,0 +1,42 @@
+GoDaddy DNS → Vercel (primerisedrinks.com)
+============================================
+Verified via: npx vercel domains inspect primerisedrinks.com
+
+Current issue: nameservers are still GoDaddy (ns05/ns06.domaincontrol.com).
+Vercel expects either DNS records below OR Vercel nameservers (ns1/ns2.vercel-dns.com).
+
+In GoDaddy: My Products → Domain → DNS / Manage DNS
+- Remove or replace old A/CNAME for @ and www that point to Website Builder / parking / old hosting.
+- Do NOT delete MX (or other mail) records if the client uses email on this domain.
+
+Recommended records (keep DNS at GoDaddy) — copy from Vercel → Project → Settings → Domains
+(DNS targets are project-specific; the example below matches a valid Vercel UI as of 2026-04.)
+
+  Type    Name    Value                              TTL
+  A       @       216.198.79.1                       600 (or default)
+  CNAME   www     45a258acc3b89014.vercel-dns-017.com  600 (or default)
+
+Older Vercel docs sometimes used 76.76.21.21 / cname.vercel-dns.com; use whatever Vercel shows for your domain.
+
+If apex is set to redirect to www in Vercel, still point @ to the A record Vercel lists for the apex domain.
+
+Alternative: change domain nameservers to ns1.vercel-dns.com and ns2.vercel-dns.com,
+then manage DNS in the Vercel dashboard for this domain.
+
+After propagation, Vercel will validate HTTPS. Check:
+  https://vercel.com/shugger001s-projects/prime-rise/settings/domains
+
+---
+Stripe (manual — Dashboard → Developers → Webhooks)
+  Endpoint URL: https://primerisedrinks.com/api/webhooks/stripe
+  Event: checkout.session.completed (or as your app expects)
+
+Supabase (manual — Authentication → URL configuration)
+  Redirect URLs must include:
+    https://primerisedrinks.com/auth/callback
+  (Keep http://localhost:3000/auth/callback for local dev.)
+
+---
+Retire old GoDaddy website
+  My Products → cancel Website Builder / web hosting tied to the old site only.
+  Keep domain registration; DNS above sends traffic to Vercel.

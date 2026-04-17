@@ -1,4 +1,8 @@
 # https://docs.netlify.com/configure-builds/file-based-configuration/
+#
+# NOTE: This file was written for the old static root. The site now uses Next.js
+# on Vercel. To deploy on Netlify, use @netlify/plugin-nextjs and a proper
+# Next build — do not rely on publish = "." alone.
 
 [build]
   publish = "."
