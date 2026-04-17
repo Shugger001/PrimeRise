@@ -86,5 +86,6 @@ export const config = {
     "/account",
     "/account/:path*",
     "/auth/callback",
+    "/auth/confirm",
   ],
 };

@@ -4,14 +4,14 @@ import { NextResponse } from "next/server";
 function redirectToForPasswordReset(request: Request): string {
   const envBase = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
   if (envBase) {
-    return `${envBase}/auth/callback?next=/reset-password`;
+    return `${envBase}/auth/confirm?next=/reset-password`;
   }
   const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
   const proto = request.headers.get("x-forwarded-proto") ?? "https";
   if (host) {
-    return `${proto}://${host}/auth/callback?next=/reset-password`;
+    return `${proto}://${host}/auth/confirm?next=/reset-password`;
   }
-  return new URL("/auth/callback?next=/reset-password", request.url).href;
+  return new URL("/auth/confirm?next=/reset-password", request.url).href;
 }
 
 export async function POST(request: Request) {

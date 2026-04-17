@@ -25,10 +25,10 @@ function getStrengthMeta(password: string) {
 
 function emailRedirectUrl() {
   if (typeof window !== "undefined") {
-    return `${window.location.origin}/auth/callback`;
+    return `${window.location.origin}/auth/confirm?next=/account`;
   }
   const base = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-  return base ? `${base}/auth/callback` : "";
+  return base ? `${base}/auth/confirm?next=/account` : "";
 }
 
 export function SignUpForm() {
