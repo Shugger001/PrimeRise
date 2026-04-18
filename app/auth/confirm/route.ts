@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createRouteHandlerSupabase } from "@/lib/supabase/route-handler";
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -9,9 +9,15 @@ function safePath(p: string | null, fallback: string) {
   return n.startsWith("/") ? n : `/${n}`;
 }
 
+function parseEmailOtpType(raw: string | null): EmailOtpType | null {
+  if (!raw) return null;
+  const t = raw.trim().toLowerCase();
+  return EMAIL_TYPES.includes(t as EmailOtpType) ? (t as EmailOtpType) : null;
+}
+
 /**
  * Server-side email link handler (PKCE `token_hash` + `type`, or `code`).
- * Avoids relying on client JS + App Router navigation in in-app browsers (often hangs on "Completing sign-in…").
+ * Cookies are applied to the redirect response so the session survives the round trip.
  */
 export async function GET(request: NextRequest) {
   const origin = request.nextUrl.origin;
@@ -24,34 +30,41 @@ export async function GET(request: NextRequest) {
   }
 
   const token_hash = searchParams.get("token_hash");
-  const typeRaw = searchParams.get("type");
+  const type = parseEmailOtpType(searchParams.get("type"));
   const code = searchParams.get("code");
   const next = searchParams.get("next");
 
-  const type =
-    typeRaw && EMAIL_TYPES.includes(typeRaw as EmailOtpType) ? (typeRaw as EmailOtpType) : null;
-
-  let supabase;
-  try {
-    supabase = await createClient();
-  } catch {
-    return NextResponse.redirect(new URL("/login?error=config", origin));
-  }
+  const fail = () => NextResponse.redirect(new URL("/login?error=auth", origin));
 
   if (token_hash && type) {
-    const { error } = await supabase.auth.verifyOtp({ token_hash, type });
-    if (!error) {
-      const dest = type === "recovery" ? "/reset-password" : safePath(next, "/account");
-      return NextResponse.redirect(new URL(dest, origin));
+    const destPath = type === "recovery" ? "/reset-password" : safePath(next, "/account");
+    let response = NextResponse.redirect(new URL(destPath, origin));
+    try {
+      const supabase = createRouteHandlerSupabase(request, response);
+      const { error } = await supabase.auth.verifyOtp({ token_hash, type });
+      if (!error) {
+        return response;
+      }
+    } catch {
+      return fail();
     }
+    return fail();
   }
 
   if (code) {
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) {
-      return NextResponse.redirect(new URL(safePath(next, "/account"), origin));
+    const destPath = safePath(next, "/account");
+    let response = NextResponse.redirect(new URL(destPath, origin));
+    try {
+      const supabase = createRouteHandlerSupabase(request, response);
+      const { error } = await supabase.auth.exchangeCodeForSession(code);
+      if (!error) {
+        return response;
+      }
+    } catch {
+      return fail();
     }
+    return fail();
   }
 
-  return NextResponse.redirect(new URL("/login?error=auth", origin));
+  return fail();
 }
