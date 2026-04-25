@@ -869,7 +869,7 @@ body:has(.cookie-banner.is-visible):has(.whatsapp-float) .back-to-top:not([hidde
 .hero__picture--slideshow {
   position: relative;
   overflow: hidden;
-  background: url("/images/lifestyle-wellness-elevated.png?v=4") center 33% / cover no-repeat;
+  background: url("/images/rise-in-your-prime-hero.png?v=1") center 33% / cover no-repeat;
 }
 
 .hero__picture--slideshow .hero__img--slide {
@@ -2366,7 +2366,7 @@ body:has(.cookie-banner.is-visible):has(.whatsapp-float) .back-to-top:not([hidde
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: url("images/lifestyle-gym-ginger-citrus.jpeg") center/cover no-repeat;
+  background: url("/images/discover-golden-restore-gym-ginger-citrus.png?v=1") center/cover no-repeat;
 }
 
 .section--immersive-cta__bg::after {

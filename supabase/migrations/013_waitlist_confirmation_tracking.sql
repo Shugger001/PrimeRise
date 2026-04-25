@@ -3,3 +3,4 @@ alter table public.waitlist
 
 create index if not exists waitlist_confirmation_sent_at_idx
   on public.waitlist (confirmation_sent_at, created_at desc);
+  

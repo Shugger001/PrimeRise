@@ -9,6 +9,7 @@
     "lint": "next lint",
     "qr:site": "node scripts/generate-site-qr.mjs",
     "waitlist:backfill-confirmations": "node scripts/backfill-waitlist-confirmations.mjs",
+    "test:auth-user": "node scripts/create-test-user.mjs",
     "deploy": "npx vercel deploy --prod",
     "deploy:preview": "npx vercel deploy"
   },
