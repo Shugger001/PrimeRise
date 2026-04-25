@@ -2366,7 +2366,8 @@ body:has(.cookie-banner.is-visible):has(.whatsapp-float) .back-to-top:not([hidde
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: url("/images/discover-golden-restore-gym-ginger-citrus.png?v=1") center/cover no-repeat;
+  /* Anchor toward top so more of the subject’s head stays visible under cover */
+  background: url("/images/discover-golden-restore-gym-ginger-citrus.png?v=2") center top / cover no-repeat;
 }
 
 .section--immersive-cta__bg::after {
