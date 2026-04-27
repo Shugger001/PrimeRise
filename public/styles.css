@@ -2425,6 +2425,49 @@ body:has(.cookie-banner.is-visible):has(.whatsapp-float) .back-to-top:not([hidde
   color: #fff;
 }
 
+.section--collection-poster {
+  background: #f5f2ea;
+  border: none;
+  padding-top: clamp(1rem, 2.2vw, 1.5rem);
+  padding-bottom: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+.collection-poster {
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 48px rgba(18, 22, 15, 0.12);
+  background: #f3efe5;
+}
+
+.collection-poster img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.collection-poster__caption,
+.collection-poster__intro {
+  text-align: center;
+  color: #1f2618;
+}
+
+.collection-poster__caption {
+  margin: 1rem auto 0;
+  max-width: 34ch;
+  font-family: var(--font-headline);
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  line-height: 1.55;
+}
+
+.collection-poster__intro {
+  margin: 0.65rem 0 0;
+  font-family: var(--font-hero);
+  font-size: clamp(1.3rem, 3.6vw, 1.9rem);
+  letter-spacing: 0.02em;
+}
+
 /* First signup band (matches live “Join the Prime Rise Experience”) */
 .section--join-banner {
   background: #f3f0e8;
