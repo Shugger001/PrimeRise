@@ -53,19 +53,19 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <AdminLogoutButton compact />
         </header>
         <nav className="border-b border-admin-border bg-admin-surface px-2 py-2 md:hidden" aria-label="Admin sections">
-          <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 pt-0.5">
+          <div className="grid grid-cols-2 gap-2 pb-1 pt-0.5">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="min-h-10 shrink-0 snap-start whitespace-nowrap rounded-xl border border-admin-border bg-white px-3 py-2 text-sm font-medium text-admin-ink"
+                className="min-h-10 rounded-xl border border-admin-border bg-white px-3 py-2 text-center text-sm font-medium text-admin-ink"
               >
                 {item.label}
               </Link>
             ))}
             <Link
               href="/"
-              className="min-h-10 shrink-0 snap-start whitespace-nowrap rounded-xl border border-admin-border bg-admin-surfaceMuted px-3 py-2 text-sm font-medium text-admin-muted"
+              className="col-span-2 min-h-10 rounded-xl border border-admin-border bg-admin-surfaceMuted px-3 py-2 text-center text-sm font-medium text-admin-muted"
             >
               View site
             </Link>
