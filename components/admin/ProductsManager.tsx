@@ -57,7 +57,45 @@ export function ProductsManager({ initialProducts }: Props) {
         </button>
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border border-admin-border bg-admin-surface shadow-card">
+      <div className="space-y-3 md:hidden">
+        {products.length === 0 ? (
+          <div className="rounded-2xl border border-admin-border bg-admin-surface px-4 py-6 text-center text-sm text-admin-muted shadow-card">
+            No products yet. Add one to get started.
+          </div>
+        ) : (
+          products.map((p) => (
+            <article key={p.id} className="rounded-2xl border border-admin-border bg-admin-surface p-4 shadow-card">
+              <p className="font-medium text-admin-ink">{p.name}</p>
+              <p className="mt-1 text-sm text-admin-muted">Category: {p.category ?? "—"}</p>
+              <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
+                <p className="rounded-lg bg-admin-head px-2 py-1.5 text-admin-muted">
+                  Price: {p.price != null ? `$${Number(p.price).toFixed(2)}` : "—"}
+                </p>
+                <p className="rounded-lg bg-admin-head px-2 py-1.5 text-admin-muted">Stock: {p.stock ?? 0}</p>
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => openEdit(p)}
+                  className="min-h-9 rounded-md border border-admin-border px-3 text-sm text-admin-accent hover:bg-[rgba(79,92,56,0.08)]"
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void handleDelete(p.id)}
+                  disabled={pending}
+                  className="min-h-9 rounded-md border border-red-200 px-3 text-sm text-red-700 hover:bg-red-50 disabled:opacity-50"
+                >
+                  Delete
+                </button>
+              </div>
+            </article>
+          ))
+        )}
+      </div>
+
+      <div className="hidden overflow-x-auto rounded-2xl border border-admin-border bg-admin-surface shadow-card md:block">
         <table className="w-full min-w-[680px] text-left text-[0.95rem] md:text-sm">
           <thead className="border-b border-admin-border bg-admin-head text-[0.72rem] uppercase tracking-wide text-admin-muted md:text-xs">
             <tr>

@@ -85,7 +85,42 @@ export function CategoriesManager({ initialCategories }: { initialCategories: Ca
         </button>
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border border-admin-border bg-admin-surface">
+      <div className="space-y-3 md:hidden">
+        {rows.length === 0 ? (
+          <div className="rounded-2xl border border-admin-border bg-admin-surface px-4 py-6 text-center text-sm text-admin-muted">
+            No categories yet.
+          </div>
+        ) : (
+          rows.map((c) => (
+            <article key={c.id} className="rounded-2xl border border-admin-border bg-admin-surface p-4">
+              <p className="text-admin-ink">{c.name}</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditing(c);
+                    setOpen(false);
+                    setError(null);
+                  }}
+                  className="min-h-9 rounded-md border border-admin-border px-3 text-sm text-admin-accent hover:bg-[rgba(79,92,56,0.08)]"
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => void handleDelete(c.id)}
+                  disabled={pending}
+                  className="min-h-9 rounded-md border border-red-200 px-3 text-sm text-red-700 hover:bg-red-50 disabled:opacity-50"
+                >
+                  Delete
+                </button>
+              </div>
+            </article>
+          ))
+        )}
+      </div>
+
+      <div className="hidden overflow-x-auto rounded-2xl border border-admin-border bg-admin-surface md:block">
         <table className="w-full min-w-[420px] text-left text-[0.95rem] md:text-sm">
           <thead className="border-b border-admin-border bg-admin-head text-[0.72rem] uppercase text-admin-muted md:text-xs">
             <tr>

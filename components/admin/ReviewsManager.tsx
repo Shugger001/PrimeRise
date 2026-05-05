@@ -72,7 +72,66 @@ export function ReviewsManager({ initialReviews }: Props) {
         <p className="text-sm text-admin-muted">{filtered.length} review(s)</p>
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border border-admin-border bg-admin-surface shadow-card">
+      <div className="space-y-3 md:hidden">
+        {filtered.length === 0 ? (
+          <div className="rounded-2xl border border-admin-border bg-admin-surface px-4 py-6 text-center text-sm text-admin-muted shadow-card">
+            No reviews in this filter.
+          </div>
+        ) : (
+          filtered.map((r) => (
+            <article key={r.id} className="rounded-2xl border border-admin-border bg-admin-surface p-4 shadow-card">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="font-medium text-admin-ink">{r.name}</p>
+                  <p className="mt-1 text-xs text-admin-muted">{r.email ?? "No email provided"}</p>
+                </div>
+                <span className={`inline-flex rounded-full border px-2 py-1 text-xs font-medium ${badgeClass(r.status)}`}>
+                  {r.status}
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-admin-ink">{"★".repeat(Math.max(1, r.rating))}</p>
+              <p className="mt-2 text-sm text-admin-muted">{r.review}</p>
+              <p className="mt-2 text-xs text-admin-muted">{new Date(r.created_at).toLocaleDateString()}</p>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  disabled={pending || r.status === "approved"}
+                  onClick={() => void setStatus(r.id, "approved")}
+                  className="min-h-9 rounded-md border border-emerald-200 bg-emerald-50 px-2 text-xs font-medium text-emerald-800 disabled:opacity-50"
+                >
+                  Approve
+                </button>
+                <button
+                  type="button"
+                  disabled={pending || r.status === "rejected"}
+                  onClick={() => void setStatus(r.id, "rejected")}
+                  className="min-h-9 rounded-md border border-rose-200 bg-rose-50 px-2 text-xs font-medium text-rose-800 disabled:opacity-50"
+                >
+                  Reject
+                </button>
+                <button
+                  type="button"
+                  disabled={pending || r.status === "pending"}
+                  onClick={() => void setStatus(r.id, "pending")}
+                  className="min-h-9 rounded-md border border-amber-200 bg-amber-50 px-2 text-xs font-medium text-amber-800 disabled:opacity-50"
+                >
+                  Pending
+                </button>
+                <button
+                  type="button"
+                  disabled={pending}
+                  onClick={() => void deleteReview(r.id)}
+                  className="min-h-9 rounded-md border border-admin-border bg-white px-2 text-xs font-medium text-admin-muted hover:bg-admin-head disabled:opacity-50"
+                >
+                  Delete
+                </button>
+              </div>
+            </article>
+          ))
+        )}
+      </div>
+
+      <div className="hidden overflow-x-auto rounded-2xl border border-admin-border bg-admin-surface shadow-card md:block">
         <table className="w-full min-w-[920px] text-left text-[0.95rem] md:text-sm">
           <thead className="border-b border-admin-border bg-admin-head text-[0.72rem] uppercase tracking-wide text-admin-muted md:text-xs">
             <tr>
