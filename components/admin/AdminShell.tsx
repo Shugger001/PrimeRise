@@ -46,26 +46,26 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-center justify-between border-b border-admin-border bg-admin-surface/95 px-4 py-3 backdrop-blur md:hidden">
+        <header className="flex items-center justify-between gap-3 border-b border-admin-border bg-admin-surface/95 px-4 py-3 backdrop-blur md:hidden">
           <span className="font-serif font-medium text-[var(--color-bg-deep)]">
             Admin
           </span>
-          <AdminLogoutButton />
+          <AdminLogoutButton compact />
         </header>
         <nav className="border-b border-admin-border bg-admin-surface px-2 py-2 md:hidden" aria-label="Admin sections">
-          <div className="flex gap-2 overflow-x-auto pb-1 pt-0.5">
+          <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 pt-0.5">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="min-h-10 whitespace-nowrap rounded-xl border border-admin-border bg-white px-3 py-2 text-sm font-medium text-admin-ink"
+                className="min-h-10 shrink-0 snap-start whitespace-nowrap rounded-xl border border-admin-border bg-white px-3 py-2 text-sm font-medium text-admin-ink"
               >
                 {item.label}
               </Link>
             ))}
             <Link
               href="/"
-              className="min-h-10 whitespace-nowrap rounded-xl border border-admin-border bg-admin-surfaceMuted px-3 py-2 text-sm font-medium text-admin-muted"
+              className="min-h-10 shrink-0 snap-start whitespace-nowrap rounded-xl border border-admin-border bg-admin-surfaceMuted px-3 py-2 text-sm font-medium text-admin-muted"
             >
               View site
             </Link>
