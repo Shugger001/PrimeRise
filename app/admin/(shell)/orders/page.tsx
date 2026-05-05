@@ -9,10 +9,10 @@ export default async function AdminOrdersPage() {
   const { data: orders, error } = await getOrdersForAdmin();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-[375px]:space-y-4">
       <div>
-        <h1 className="font-serif text-2xl font-semibold text-[var(--color-bg-deep)]">Orders</h1>
-        <p className="mt-1 text-sm text-admin-muted">Stripe Checkout orders (most recent first)</p>
+        <h1 className="font-serif text-2xl font-semibold text-[var(--color-bg-deep)] max-[375px]:text-xl">Orders</h1>
+        <p className="mt-1 text-sm text-admin-muted max-[375px]:text-xs">Stripe Checkout orders (most recent first)</p>
       </div>
 
       {error && (

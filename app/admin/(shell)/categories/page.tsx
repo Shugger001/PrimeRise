@@ -5,10 +5,10 @@ export default async function AdminCategoriesPage() {
   const { data: categories, error } = await getCategories();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-[375px]:space-y-4">
       <div>
-        <h1 className="font-serif text-2xl font-semibold text-[var(--color-bg-deep)]">Categories</h1>
-        <p className="mt-1 text-sm text-admin-muted">
+        <h1 className="font-serif text-2xl font-semibold text-[var(--color-bg-deep)] max-[375px]:text-xl">Categories</h1>
+        <p className="mt-1 text-sm text-admin-muted max-[375px]:text-xs">
           Used to organize products (shown as labels on the public products page when set on each product).
         </p>
       </div>
