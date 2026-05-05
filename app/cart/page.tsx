@@ -2,13 +2,21 @@
 
 import { useCart } from "@/components/cart/CartProvider";
 import type { CartLine } from "@/lib/types/cart";
+import { getStripePaymentLinksForClient } from "@/lib/stripe-payment-client";
 import { useEffect } from "react";
 import Link from "next/link";
 import { useState } from "react";
 
 export default function CartPage() {
   const { lines, itemCount, subtotal, setQuantity, removeItem, clear } = useCart();
-  const checkoutEnabled = process.env.NEXT_PUBLIC_STRIPE_ENABLED === "true";
+  /** Explicit opt-out: keep Payment Links even when `STRIPE_SECRET_KEY` is set (single-unit checkouts). */
+  const stripeLinksOnly = process.env.NEXT_PUBLIC_STRIPE_ENABLED === "false";
+  const stripePaymentLinks = getStripePaymentLinksForClient();
+  const useDynamicCheckout = !stripeLinksOnly;
+  const paymentLinkOmitsCartQty =
+    !useDynamicCheckout &&
+    lines.length > 0 &&
+    (itemCount > 1 || lines.length > 1);
   const contactEmail = "info@primerisedrinks.com";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -103,9 +111,21 @@ export default function CartPage() {
             <p className="mt-2 text-sm text-neutral-600">
               Add your blends to continue to secure checkout.
             </p>
-            <Link href="/products" className="btn btn--primary mt-5 inline-flex">
-              Shop products
-            </Link>
+            <div className="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <Link href="/products" className="btn btn--primary inline-flex">
+                Shop products
+              </Link>
+              {stripePaymentLinks.map((item, i) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={i === 0 ? "btn btn--primary inline-flex" : "btn btn--mkt inline-flex"}
+                  rel="noopener noreferrer"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
           </div>
         ) : (
           <ul className="mt-8 divide-y divide-neutral-200 rounded-xl border border-neutral-200 bg-white">
@@ -211,23 +231,48 @@ export default function CartPage() {
               </div>
             </div>
             <p className="text-sm text-neutral-600">
-              {checkoutEnabled
+              {useDynamicCheckout
                 ? "Taxes and shipping (if any) are shown before you place your order. Payments are encrypted and processed by Stripe."
                 : "Online checkout is coming soon. Contact us to place your order directly."}
             </p>
+            {paymentLinkOmitsCartQty && (
+              <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-950">
+                <span className="font-medium">Cart quantity is not sent to Stripe.</span> “Buy on Stripe” uses a
+                fixed one-bottle Payment Link. For the total shown here ({itemCount} items, ${subtotal.toFixed(2)}),
+                use <span className="font-medium">Contact to order</span> or ask your developer to add{" "}
+                <code className="rounded bg-amber-100/80 px-1">STRIPE_SECRET_KEY</code> on the server so checkout
+                can open a real cart session.
+              </p>
+            )}
             {error && <p className="text-sm text-red-700">{error}</p>}
             <div className="flex flex-wrap gap-3">
-              <button
-                type="button"
-                className="btn btn--primary"
-                disabled={loading || !checkoutEnabled}
-                onClick={() => void checkout()}
-                aria-busy={loading}
-                aria-disabled={loading || !checkoutEnabled}
-              >
-                {checkoutEnabled ? (loading ? "Redirecting…" : "Checkout") : "Checkout coming soon"}
-              </button>
-              {!checkoutEnabled && (
+              {useDynamicCheckout ? (
+                <button
+                  type="button"
+                  className="btn btn--primary"
+                  disabled={loading}
+                  onClick={() => void checkout()}
+                  aria-busy={loading}
+                >
+                  {loading ? "Redirecting…" : "Checkout"}
+                </button>
+              ) : stripePaymentLinks.length > 0 ? (
+                stripePaymentLinks.map((item, i) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className={i === 0 ? "btn btn--primary" : "btn btn--mkt"}
+                    rel="noopener noreferrer"
+                  >
+                    {item.label}
+                  </a>
+                ))
+              ) : (
+                <button type="button" className="btn btn--primary" disabled aria-disabled>
+                  Checkout coming soon
+                </button>
+              )}
+              {!useDynamicCheckout && (
                 <a
                   href={`mailto:${contactEmail}?subject=Prime%20Rise%20Order%20Request`}
                   className="btn btn--ghost border border-neutral-400"
@@ -244,11 +289,22 @@ export default function CartPage() {
               >
                 Clear cart
               </button>
+              {useDynamicCheckout &&
+                stripePaymentLinks.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="btn btn--ghost border border-neutral-400"
+                    rel="noopener noreferrer"
+                  >
+                    {item.label}
+                  </a>
+                ))}
             </div>
             <div className="rounded-xl border border-[var(--color-line)] bg-[var(--color-bg)] px-4 py-3 text-sm text-neutral-700">
               <p className="font-medium text-[var(--color-bg-deep)]">Checkout confidence</p>
               <p className="mt-1">
-                {checkoutEnabled
+                {useDynamicCheckout
                   ? "Every order shows a clear total before payment. No hidden fees, no surprise charges."
                   : `For now, place orders by email at ${contactEmail}.`}
               </p>
@@ -269,7 +325,7 @@ export default function CartPage() {
               <p className="text-xs uppercase tracking-wide text-neutral-600">Subtotal</p>
               <p className="text-base font-semibold text-[var(--color-bg-deep)]">${subtotal.toFixed(2)}</p>
             </div>
-            {checkoutEnabled ? (
+            {useDynamicCheckout ? (
               <button
                 type="button"
                 className="btn btn--primary"
@@ -279,6 +335,23 @@ export default function CartPage() {
               >
                 {loading ? "Redirecting…" : "Checkout"}
               </button>
+            ) : stripePaymentLinks.length > 0 ? (
+              <div className="flex max-w-[55%] flex-col items-stretch gap-2">
+                {stripePaymentLinks.map((item, i) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className={
+                      i === 0
+                        ? "btn btn--primary whitespace-normal px-3 py-2 text-center text-xs leading-snug"
+                        : "btn btn--mkt whitespace-normal px-3 py-2 text-center text-xs leading-snug"
+                    }
+                    rel="noopener noreferrer"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
             ) : (
               <a
                 href={`mailto:${contactEmail}?subject=Prime%20Rise%20Order%20Request`}
