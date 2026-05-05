@@ -212,8 +212,8 @@ function ProductModal({
   }
 
   return (
-      <div className="fixed inset-0 z-50 flex items-start justify-center bg-[#2d3322]/45 p-3 pt-6 backdrop-blur-sm sm:items-center sm:p-4">
-      <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-admin-border bg-admin-surface p-6 shadow-card">
+      <div className="fixed inset-0 z-50 flex items-start justify-center bg-[#2d3322]/45 p-3 pt-4 backdrop-blur-sm sm:items-center sm:p-4">
+      <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-admin-border bg-admin-surface p-6 shadow-card max-[375px]:p-4">
         <h2 className="font-serif text-lg font-semibold text-[var(--color-bg-deep)]">
           {initial ? "Edit product" : "New product"}
         </h2>
@@ -272,18 +272,18 @@ function ProductModal({
             />
             {uploading && <p className="text-xs text-admin-muted">Uploading…</p>}
           </div>
-          <div className="sticky bottom-0 -mx-6 mt-2 flex justify-end gap-2 border-t border-admin-border bg-admin-surface/95 px-6 py-3 backdrop-blur">
+          <div className="sticky bottom-0 -mx-6 mt-2 flex justify-end gap-2 border-t border-admin-border bg-admin-surface/95 px-6 py-3 backdrop-blur max-[375px]:-mx-4 max-[375px]:px-4">
             <button
               type="button"
               onClick={onClose}
-              className="min-h-10 rounded-lg border border-admin-border px-4 py-2 text-sm text-neutral-700 font-sans hover:bg-[rgba(79,92,56,0.06)]"
+              className="min-h-10 rounded-lg border border-admin-border px-4 py-2 text-sm text-neutral-700 font-sans hover:bg-[rgba(79,92,56,0.06)] max-[375px]:min-h-9 max-[375px]:px-3 max-[375px]:text-xs"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={pending}
-              className="min-h-10 rounded-lg bg-admin-accent px-4 py-2 text-sm font-semibold text-white hover:bg-admin-accentDeep disabled:opacity-50 font-sans"
+              className="min-h-10 rounded-lg bg-admin-accent px-4 py-2 text-sm font-semibold text-white hover:bg-admin-accentDeep disabled:opacity-50 font-sans max-[375px]:min-h-9 max-[375px]:px-3 max-[375px]:text-xs"
             >
               {pending ? "Saving…" : "Save"}
             </button>

@@ -169,8 +169,8 @@ export function CategoriesManager({ initialCategories }: { initialCategories: Ca
       {error && <p className="text-sm text-red-700">{error}</p>}
 
       {open && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-[#2d3322]/45 p-3 pt-6 backdrop-blur-sm sm:items-center sm:p-4">
-          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-admin-border bg-admin-surface p-6 shadow-card">
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-[#2d3322]/45 p-3 pt-4 backdrop-blur-sm sm:items-center sm:p-4">
+          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-admin-border bg-admin-surface p-6 shadow-card max-[375px]:p-4">
             <h2 className="font-serif text-lg font-semibold text-[var(--color-bg-deep)]">New category</h2>
             <form onSubmit={(e) => void submitCreate(e)} className="mt-4 space-y-4">
               <div>
@@ -185,18 +185,18 @@ export function CategoriesManager({ initialCategories }: { initialCategories: Ca
                   placeholder="e.g. Botanical blends"
                 />
               </div>
-              <div className="sticky bottom-0 -mx-6 mt-2 flex justify-end gap-2 border-t border-admin-border bg-admin-surface/95 px-6 py-3 backdrop-blur">
+              <div className="sticky bottom-0 -mx-6 mt-2 flex justify-end gap-2 border-t border-admin-border bg-admin-surface/95 px-6 py-3 backdrop-blur max-[375px]:-mx-4 max-[375px]:px-4">
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="min-h-10 rounded-lg border border-admin-border px-4 py-2 text-sm text-neutral-700 font-sans hover:bg-[rgba(79,92,56,0.06)]"
+                  className="min-h-10 rounded-lg border border-admin-border px-4 py-2 text-sm text-neutral-700 font-sans hover:bg-[rgba(79,92,56,0.06)] max-[375px]:min-h-9 max-[375px]:px-3 max-[375px]:text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={pending}
-                  className="min-h-10 rounded-lg bg-admin-accent px-4 py-2 text-sm font-semibold text-white hover:bg-admin-accentDeep font-sans"
+                  className="min-h-10 rounded-lg bg-admin-accent px-4 py-2 text-sm font-semibold text-white hover:bg-admin-accentDeep font-sans max-[375px]:min-h-9 max-[375px]:px-3 max-[375px]:text-xs"
                 >
                   Create
                 </button>
@@ -207,8 +207,8 @@ export function CategoriesManager({ initialCategories }: { initialCategories: Ca
       )}
 
       {editing && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-[#2d3322]/45 p-3 pt-6 backdrop-blur-sm sm:items-center sm:p-4">
-          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-admin-border bg-admin-surface p-6 shadow-card">
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-[#2d3322]/45 p-3 pt-4 backdrop-blur-sm sm:items-center sm:p-4">
+          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-admin-border bg-admin-surface p-6 shadow-card max-[375px]:p-4">
             <h2 className="font-serif text-lg font-semibold text-[var(--color-bg-deep)]">Edit category</h2>
             <form onSubmit={(e) => void submitEdit(e)} className="mt-4 space-y-4">
               <div>
@@ -223,18 +223,18 @@ export function CategoriesManager({ initialCategories }: { initialCategories: Ca
                   className="mt-1 w-full rounded-lg border border-admin-border bg-white px-3 py-3 text-base text-admin-ink md:py-2.5 md:text-sm"
                 />
               </div>
-              <div className="sticky bottom-0 -mx-6 mt-2 flex justify-end gap-2 border-t border-admin-border bg-admin-surface/95 px-6 py-3 backdrop-blur">
+              <div className="sticky bottom-0 -mx-6 mt-2 flex justify-end gap-2 border-t border-admin-border bg-admin-surface/95 px-6 py-3 backdrop-blur max-[375px]:-mx-4 max-[375px]:px-4">
                 <button
                   type="button"
                   onClick={() => setEditing(null)}
-                  className="min-h-10 rounded-lg border border-admin-border px-4 py-2 text-sm text-neutral-700 font-sans hover:bg-[rgba(79,92,56,0.06)]"
+                  className="min-h-10 rounded-lg border border-admin-border px-4 py-2 text-sm text-neutral-700 font-sans hover:bg-[rgba(79,92,56,0.06)] max-[375px]:min-h-9 max-[375px]:px-3 max-[375px]:text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={pending}
-                  className="min-h-10 rounded-lg bg-admin-accent px-4 py-2 text-sm font-semibold text-white hover:bg-admin-accentDeep font-sans"
+                  className="min-h-10 rounded-lg bg-admin-accent px-4 py-2 text-sm font-semibold text-white hover:bg-admin-accentDeep font-sans max-[375px]:min-h-9 max-[375px]:px-3 max-[375px]:text-xs"
                 >
                   Save
                 </button>

@@ -54,22 +54,24 @@ export function ReviewsManager({ initialReviews }: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="inline-flex rounded-xl border border-admin-border bg-white p-1 text-sm max-[375px]:text-xs">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="max-w-full overflow-x-auto">
+          <div className="inline-flex min-w-max rounded-xl border border-admin-border bg-white p-1 text-sm max-[375px]:text-xs">
           {(["all", "pending", "approved", "rejected"] as const).map((option) => (
             <button
               key={option}
               type="button"
               onClick={() => setFilter(option)}
-              className={`rounded-lg px-3 py-1.5 capitalize ${
+              className={`rounded-lg px-3 py-1.5 capitalize max-[375px]:px-2.5 ${
                 filter === option ? "bg-admin-accent text-white" : "text-admin-muted hover:bg-admin-head"
               }`}
             >
               {option}
             </button>
           ))}
+          </div>
         </div>
-        <p className="text-sm text-admin-muted">{filtered.length} review(s)</p>
+        <p className="text-sm text-admin-muted max-[375px]:text-xs">{filtered.length} review(s)</p>
       </div>
 
       <div className="space-y-3 md:hidden">
