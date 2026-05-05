@@ -71,7 +71,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             </Link>
           </div>
         </nav>
-        <main className="flex-1 p-4 md:p-8">{children}</main>
+        <main className="flex-1 p-3 max-[375px]:p-2.5 md:p-8">{children}</main>
       </div>
     </div>
   );

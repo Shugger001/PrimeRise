@@ -59,15 +59,15 @@ export function ProductsManager({ initialProducts }: Props) {
 
       <div className="space-y-3 md:hidden">
         {products.length === 0 ? (
-          <div className="rounded-2xl border border-admin-border bg-admin-surface px-4 py-6 text-center text-sm text-admin-muted shadow-card">
+          <div className="rounded-2xl border border-admin-border bg-admin-surface px-4 py-6 text-center text-sm text-admin-muted shadow-card max-[375px]:px-3 max-[375px]:py-5 max-[375px]:text-xs">
             No products yet. Add one to get started.
           </div>
         ) : (
           products.map((p) => (
-            <article key={p.id} className="rounded-2xl border border-admin-border bg-admin-surface p-4 shadow-card">
-              <p className="font-medium text-admin-ink">{p.name}</p>
-              <p className="mt-1 text-sm text-admin-muted">Category: {p.category ?? "—"}</p>
-              <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
+            <article key={p.id} className="rounded-2xl border border-admin-border bg-admin-surface p-4 shadow-card max-[375px]:p-3">
+              <p className="font-medium text-admin-ink max-[375px]:text-sm">{p.name}</p>
+              <p className="mt-1 text-sm text-admin-muted max-[375px]:text-xs">Category: {p.category ?? "—"}</p>
+              <div className="mt-3 grid grid-cols-2 gap-2 text-sm max-[375px]:text-xs">
                 <p className="rounded-lg bg-admin-head px-2 py-1.5 text-admin-muted">
                   Price: {p.price != null ? `$${Number(p.price).toFixed(2)}` : "—"}
                 </p>
@@ -77,7 +77,7 @@ export function ProductsManager({ initialProducts }: Props) {
                 <button
                   type="button"
                   onClick={() => openEdit(p)}
-                  className="min-h-9 rounded-md border border-admin-border px-3 text-sm text-admin-accent hover:bg-[rgba(79,92,56,0.08)]"
+                  className="min-h-9 rounded-md border border-admin-border px-3 text-sm text-admin-accent hover:bg-[rgba(79,92,56,0.08)] max-[375px]:min-h-8 max-[375px]:px-2.5 max-[375px]:text-xs"
                 >
                   Edit
                 </button>
@@ -85,7 +85,7 @@ export function ProductsManager({ initialProducts }: Props) {
                   type="button"
                   onClick={() => void handleDelete(p.id)}
                   disabled={pending}
-                  className="min-h-9 rounded-md border border-red-200 px-3 text-sm text-red-700 hover:bg-red-50 disabled:opacity-50"
+                  className="min-h-9 rounded-md border border-red-200 px-3 text-sm text-red-700 hover:bg-red-50 disabled:opacity-50 max-[375px]:min-h-8 max-[375px]:px-2.5 max-[375px]:text-xs"
                 >
                   Delete
                 </button>

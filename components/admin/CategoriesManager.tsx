@@ -87,13 +87,13 @@ export function CategoriesManager({ initialCategories }: { initialCategories: Ca
 
       <div className="space-y-3 md:hidden">
         {rows.length === 0 ? (
-          <div className="rounded-2xl border border-admin-border bg-admin-surface px-4 py-6 text-center text-sm text-admin-muted">
+          <div className="rounded-2xl border border-admin-border bg-admin-surface px-4 py-6 text-center text-sm text-admin-muted max-[375px]:px-3 max-[375px]:py-5 max-[375px]:text-xs">
             No categories yet.
           </div>
         ) : (
           rows.map((c) => (
-            <article key={c.id} className="rounded-2xl border border-admin-border bg-admin-surface p-4">
-              <p className="text-admin-ink">{c.name}</p>
+            <article key={c.id} className="rounded-2xl border border-admin-border bg-admin-surface p-4 max-[375px]:p-3">
+              <p className="text-admin-ink max-[375px]:text-sm">{c.name}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <button
                   type="button"
@@ -102,7 +102,7 @@ export function CategoriesManager({ initialCategories }: { initialCategories: Ca
                     setOpen(false);
                     setError(null);
                   }}
-                  className="min-h-9 rounded-md border border-admin-border px-3 text-sm text-admin-accent hover:bg-[rgba(79,92,56,0.08)]"
+                  className="min-h-9 rounded-md border border-admin-border px-3 text-sm text-admin-accent hover:bg-[rgba(79,92,56,0.08)] max-[375px]:min-h-8 max-[375px]:px-2.5 max-[375px]:text-xs"
                 >
                   Edit
                 </button>
@@ -110,7 +110,7 @@ export function CategoriesManager({ initialCategories }: { initialCategories: Ca
                   type="button"
                   onClick={() => void handleDelete(c.id)}
                   disabled={pending}
-                  className="min-h-9 rounded-md border border-red-200 px-3 text-sm text-red-700 hover:bg-red-50 disabled:opacity-50"
+                  className="min-h-9 rounded-md border border-red-200 px-3 text-sm text-red-700 hover:bg-red-50 disabled:opacity-50 max-[375px]:min-h-8 max-[375px]:px-2.5 max-[375px]:text-xs"
                 >
                   Delete
                 </button>
