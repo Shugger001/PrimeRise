@@ -289,17 +289,6 @@ export default function CartPage() {
               >
                 Clear cart
               </button>
-              {useDynamicCheckout &&
-                stripePaymentLinks.map((item) => (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className="btn btn--ghost border border-neutral-400"
-                    rel="noopener noreferrer"
-                  >
-                    {item.label}
-                  </a>
-                ))}
             </div>
             <div className="rounded-xl border border-[var(--color-line)] bg-[var(--color-bg)] px-4 py-3 text-sm text-neutral-700">
               <p className="font-medium text-[var(--color-bg-deep)]">Checkout confidence</p>
