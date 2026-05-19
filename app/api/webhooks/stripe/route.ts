@@ -20,6 +20,7 @@ function decodePrimeItems(raw: string): { productId: string; quantity: number }[
 
 async function fulfillOrder(session: Stripe.Checkout.Session) {
   const supabase = createServiceClient();
+  const stripe = getStripe();
   const sessionId = session.id;
 
   const { data: existing } = await supabase
@@ -32,57 +33,82 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
     return;
   }
 
-  const raw = session.metadata?.prime_items;
-  if (!raw || typeof raw !== "string") {
-    console.error("stripe webhook: missing prime_items metadata", sessionId);
-    return;
-  }
-
-  let pairs: { productId: string; quantity: number }[];
-  try {
-    pairs = decodePrimeItems(raw);
-  } catch {
-    console.error("stripe webhook: bad prime_items", raw);
-    return;
-  }
-
   type Row = {
-    product: { id: string; name: string; price: unknown; stock: number | null };
+    productId: string | null;
+    productName: string;
     quantity: number;
     unitCents: number;
+    stockAfterPurchase: { productId: string; nextStock: number } | null;
   };
 
   const rows: Row[] = [];
   let sumCents = 0;
-
-  for (const pair of pairs) {
-    const { data: product, error } = await supabase
-      .from("products")
-      .select("id, name, price, stock")
-      .eq("id", pair.productId)
-      .maybeSingle();
-
-    if (error || !product) {
-      console.error("stripe webhook: product not found", pair.productId);
+  const raw = session.metadata?.prime_items;
+  if (raw && typeof raw === "string") {
+    let pairs: { productId: string; quantity: number }[];
+    try {
+      pairs = decodePrimeItems(raw);
+    } catch {
+      console.error("stripe webhook: bad prime_items", raw);
       return;
     }
 
-    const priceNum = product.price != null ? Number(product.price) : NaN;
-    if (!Number.isFinite(priceNum)) {
-      console.error("stripe webhook: bad price", pair.productId);
-      return;
+    for (const pair of pairs) {
+      const { data: product, error } = await supabase
+        .from("products")
+        .select("id, name, price, stock")
+        .eq("id", pair.productId)
+        .maybeSingle();
+
+      if (error || !product) {
+        console.error("stripe webhook: product not found", pair.productId);
+        return;
+      }
+
+      const priceNum = product.price != null ? Number(product.price) : NaN;
+      if (!Number.isFinite(priceNum)) {
+        console.error("stripe webhook: bad price", pair.productId);
+        return;
+      }
+
+      const unitCents = Math.round(priceNum * 100);
+      sumCents += unitCents * pair.quantity;
+      const currentStock = product.stock ?? 0;
+      const nextStock = Math.max(0, currentStock - pair.quantity);
+      rows.push({
+        productId: product.id,
+        productName: product.name,
+        quantity: pair.quantity,
+        unitCents,
+        stockAfterPurchase: { productId: product.id, nextStock },
+      });
     }
 
-    const unitCents = Math.round(priceNum * 100);
-    sumCents += unitCents * pair.quantity;
-    rows.push({ product, quantity: pair.quantity, unitCents });
+    const total = session.amount_total;
+    if (total != null && sumCents !== total) {
+      console.error("stripe webhook: amount mismatch", { sumCents, total, sessionId });
+      return;
+    }
+  } else {
+    // Payment Links won't include our custom metadata. Use Stripe line items so admin orders still populate.
+    const { data: lineItems } = await stripe.checkout.sessions.listLineItems(sessionId, { limit: 100 });
+    for (const item of lineItems) {
+      const quantity = item.quantity ?? 0;
+      if (quantity <= 0) continue;
+      const lineAmount = item.amount_total ?? item.amount_subtotal ?? 0;
+      const unitCents = Math.round(lineAmount / quantity);
+      const productName = item.description?.trim() || "Stripe item";
+      sumCents += unitCents * quantity;
+      rows.push({
+        productId: null,
+        productName,
+        quantity,
+        unitCents,
+        stockAfterPurchase: null,
+      });
+    }
   }
-
   const total = session.amount_total;
-  if (total != null && sumCents !== total) {
-    console.error("stripe webhook: amount mismatch", { sumCents, total, sessionId });
-    return;
-  }
 
   const pi = session.payment_intent;
   const paymentIntentId = typeof pi === "string" ? pi : pi?.id ?? null;
@@ -118,8 +144,8 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
   for (const row of rows) {
     const { error: itemErr } = await supabase.from("order_items").insert({
       order_id: order.id,
-      product_id: row.product.id,
-      product_name: row.product.name,
+      product_id: row.productId,
+      product_name: row.productName,
       quantity: row.quantity,
       unit_price_cents: row.unitCents,
     });
@@ -129,13 +155,16 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
       throw itemErr;
     }
 
-    const currentStock = row.product.stock ?? 0;
-    const nextStock = Math.max(0, currentStock - row.quantity);
-    const { error: stockErr } = await supabase.from("products").update({ stock: nextStock }).eq("id", row.product.id);
+    if (row.stockAfterPurchase) {
+      const { error: stockErr } = await supabase
+        .from("products")
+        .update({ stock: row.stockAfterPurchase.nextStock })
+        .eq("id", row.stockAfterPurchase.productId);
 
-    if (stockErr) {
-      console.error("stripe webhook: stock update", stockErr);
-      throw stockErr;
+      if (stockErr) {
+        console.error("stripe webhook: stock update", stockErr);
+        throw stockErr;
+      }
     }
   }
 }

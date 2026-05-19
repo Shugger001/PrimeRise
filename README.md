@@ -61,7 +61,13 @@ In **Vercel**, set **Framework Preset** to **Next.js** (or rely on auto-detectio
 | `SMTP_PASS` | SMTP password/app password |
 | `STRIPE_SECRET_KEY` | Stripe secret key ([Dashboard → API keys](https://dashboard.stripe.com/apikeys)) |
 | `STRIPE_WEBHOOK_SECRET` | Signing secret from Stripe webhook endpoint |
+| `NEXT_PUBLIC_STRIPE_ENABLED` | Optional: set to `false` to keep **Payment Links** on **`/cart`** (single-unit); omit otherwise so the cart auto-uses **Checkout Sessions** when `STRIPE_SECRET_KEY` is set (correct multi-bottle totals) |
+| `NEXT_PUBLIC_STRIPE_PAYMENT_LINK` | Optional [Payment Link](https://docs.stripe.com/payment-links) for **every product except Pear Vital** (hero, **`/cart`**, non–Pear Vital cards, homepage collection tiles) |
+| `NEXT_PUBLIC_STRIPE_PAYMENT_LINK_PEAR_VITAL` | Optional Payment Link **only for Pear Vital** on **`/products`** and in the homepage **Collection** strip |
+| `NEXT_PUBLIC_STRIPE_PAYMENT_LINK_BUNDLE` | Optional Payment Link for the **full six-product bundle** — shown on **`/products`** hero and **`/cart`** |
 | `NEXT_PUBLIC_SITE_URL` | Canonical origin for Stripe redirects (e.g. `https://primerisedrinks.com`) |
+
+On **`/cart`**, Payment Link URLs are read via **`lib/stripe-payment-client.ts`** so the browser bundle always gets real `href`s (links navigate in the same tab to Stripe Checkout).
 
 `vercel.json` sets security headers and redirects (www → apex, `/index.html` → `/`).
 

@@ -707,13 +707,29 @@
     );
   }
 
+  function animateReviewCards(grid) {
+    if (!grid) return;
+    var cards = grid.querySelectorAll(".review-card");
+    var reduceMotion =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    cards.forEach(function (card, index) {
+      card.classList.remove("is-entered");
+      card.style.animationDelay = "";
+      if (reduceMotion) return;
+      card.style.animationDelay = index * 80 + "ms";
+      card.classList.add("is-entered");
+    });
+  }
+
   function initApprovedReviews() {
     var grid = document.querySelector(".reviews-grid");
     var overallScore = document.getElementById("reviewOverallScore");
     var overallStars = document.getElementById("reviewOverallStars");
     var overallCount = document.getElementById("reviewOverallCount");
     if (!grid) return;
-    fetch("/api/reviews?limit=6", {
+    animateReviewCards(grid);
+    fetch("/api/reviews?limit=12", {
       headers: { Accept: "application/json" },
     })
       .then(function (res) {
@@ -747,6 +763,7 @@
             return renderReviewCard(review, index === 0);
           })
           .join("");
+        animateReviewCards(grid);
       })
       .catch(function () {
         /* Keep static fallback cards if API fails. */
@@ -754,6 +771,235 @@
   }
 
   initApprovedReviews();
+
+  var COLLECTION_DISPLAY_ORDER = [
+    "Hibiscus Bloom",
+    "Ginger Citrus",
+    "Carrot Vital",
+    "Pear Vital",
+    "Golden Restore",
+    "Moringa Mint",
+  ];
+  var COLLECTION_IMAGE_BY_NAME = {
+    "Hibiscus Bloom": "/images/hibiscus-bloom-front-back.png?v=2",
+    "Ginger Citrus": "/images/ginger-citrus-front-back.png?v=2",
+    "Carrot Vital": "/images/carrot-vital-front-back.png?v=2",
+    "Golden Restore": "/images/golden-restore-bottles.png",
+    "Moringa Mint": "/images/moringa-mint-front-back.png?v=2",
+  };
+
+  function slugifyProductName(value) {
+    return String(value || "")
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function hydrateBundlePromoFromProductsPayload(data) {
+    var savings = data && data.bundleSavingsDisplay ? String(data.bundleSavingsDisplay).trim() : "";
+    if (savings) {
+      var saveEls = document.querySelectorAll(".bundle-landing__strip-save");
+      for (var bi = 0; bi < saveEls.length; bi++) {
+        saveEls[bi].textContent = savings;
+      }
+    }
+    var secondarySavings =
+      data && data.bundleSecondarySavingsDisplay ? String(data.bundleSecondarySavingsDisplay).trim() : "";
+    if (secondarySavings) {
+      var secEls = document.querySelectorAll(".bundle-landing__strip-save-secondary");
+      for (var si = 0; si < secEls.length; si++) {
+        secEls[si].textContent = secondarySavings;
+      }
+    }
+    var bundleStripe =
+      data && data.stripePaymentLinkBundle ? String(data.stripePaymentLinkBundle).trim() : "";
+    var bundle4Stripe =
+      data && data.stripePaymentLinkBundle4 ? String(data.stripePaymentLinkBundle4).trim() : "";
+    var bundle12Stripe =
+      data && data.stripePaymentLinkBundle12 ? String(data.stripePaymentLinkBundle12).trim() : "";
+    var sixBoxCta = document.getElementById("sixBoxBundleCta");
+    var sixBoxHeroCta = document.getElementById("sixBoxBundleHeroCta");
+    var sixBoxOfferCta = document.getElementById("sixBoxBundleOfferCta");
+    var fourBoxHeroCta = document.getElementById("fourBoxBundleHeroCta");
+    var fourBoxOfferCta = document.getElementById("fourBoxBundleOfferCta");
+    var twelveBoxHeroCta = document.getElementById("twelveBoxBundleHeroCta");
+    var twelveBoxOfferCta = document.getElementById("twelveBoxBundleOfferCta");
+    var fourBottleOfferCard = document.getElementById("fourBottleOfferCard");
+    var twelveBottleOfferCard = document.getElementById("twelveBottleOfferCard");
+    if (sixBoxCta) {
+      sixBoxCta.setAttribute("href", "/products#six-bottle-bundle");
+      sixBoxCta.removeAttribute("rel");
+    }
+    if (sixBoxHeroCta && bundleStripe) {
+      sixBoxHeroCta.setAttribute("href", bundleStripe);
+      sixBoxHeroCta.setAttribute("rel", "noopener noreferrer");
+    }
+    if (sixBoxOfferCta && bundleStripe) {
+      sixBoxOfferCta.setAttribute("href", bundleStripe);
+      sixBoxOfferCta.setAttribute("rel", "noopener noreferrer");
+    }
+    if (fourBoxHeroCta) {
+      if (bundle4Stripe) {
+        fourBoxHeroCta.setAttribute("href", bundle4Stripe);
+        fourBoxHeroCta.setAttribute("rel", "noopener noreferrer");
+        if (fourBoxOfferCta) {
+          fourBoxOfferCta.setAttribute("href", bundle4Stripe);
+          fourBoxOfferCta.setAttribute("rel", "noopener noreferrer");
+        }
+      } else {
+        fourBoxHeroCta.style.display = "none";
+        if (fourBottleOfferCard) fourBottleOfferCard.style.display = "none";
+      }
+    }
+    if (twelveBoxHeroCta) {
+      if (bundle12Stripe) {
+        twelveBoxHeroCta.setAttribute("href", bundle12Stripe);
+        twelveBoxHeroCta.setAttribute("rel", "noopener noreferrer");
+        if (twelveBoxOfferCta) {
+          twelveBoxOfferCta.setAttribute("href", bundle12Stripe);
+          twelveBoxOfferCta.setAttribute("rel", "noopener noreferrer");
+        }
+      } else {
+        twelveBoxHeroCta.style.display = "none";
+        if (twelveBottleOfferCard) twelveBottleOfferCard.style.display = "none";
+      }
+    }
+  }
+
+  /** Keep in sync with `BUNDLE_COUNTDOWN_DAYS` in lib/bundle-promo.ts */
+  var BUNDLE_COUNTDOWN_DAYS = 30;
+
+  function initBundleLandingHomeCountdown() {
+    var dd = document.getElementById("bundleHomeDd");
+    if (!dd || typeof window === "undefined" || window.location.protocol === "file:") return;
+    var hh = document.getElementById("bundleHomeHh");
+    var mm = document.getElementById("bundleHomeMm");
+    var ss = document.getElementById("bundleHomeSs");
+    if (!hh || !mm || !ss) return;
+    var strip = document.querySelector(".bundle-landing__strip");
+    var end = new Date();
+    end.setDate(end.getDate() + BUNDLE_COUNTDOWN_DAYS);
+    var stripTickTimer = null;
+
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function tick() {
+      var now = Date.now();
+      var ms = Math.max(0, end.getTime() - now);
+      var s = Math.floor(ms / 1000);
+      var days = Math.floor(s / 86400);
+      var hours = Math.floor((s % 86400) / 3600);
+      var minutes = Math.floor((s % 3600) / 60);
+      var secs = s % 60;
+      dd.textContent = pad(Math.min(days, 99));
+      hh.textContent = pad(hours);
+      mm.textContent = pad(minutes);
+      ss.textContent = pad(secs);
+      if (strip) {
+        strip.classList.add("bundle-landing__strip--tick");
+        clearTimeout(stripTickTimer);
+        stripTickTimer = setTimeout(function () {
+          strip.classList.remove("bundle-landing__strip--tick");
+        }, 380);
+      }
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  function initCollectionFromProducts() {
+    var showcase = document.querySelector(".collection-showcase");
+    var bundleCard = document.querySelector(".bundle-landing");
+    if ((!showcase && !bundleCard) || typeof window === "undefined" || window.location.protocol === "file:")
+      return;
+
+    fetch("/api/products?view=collection", {
+      headers: { Accept: "application/json" },
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("Could not load products");
+        return res.json();
+      })
+      .then(function (data) {
+        hydrateBundlePromoFromProductsPayload(data);
+
+        var products = data && Array.isArray(data.products) ? data.products : [];
+        var pearStripe =
+          data && data.stripePaymentLinkPearVital ? String(data.stripePaymentLinkPearVital).trim() : "";
+        var catalogStripe =
+          data && data.stripePaymentLinkCatalog ? String(data.stripePaymentLinkCatalog).trim() : "";
+        if (!showcase || !products.length) return;
+
+        var sorted = products.slice().sort(function (a, b) {
+          var aName = String((a && a.name) || "");
+          var bName = String((b && b.name) || "");
+          var aIndex = COLLECTION_DISPLAY_ORDER.indexOf(aName);
+          var bIndex = COLLECTION_DISPLAY_ORDER.indexOf(bName);
+          var aRank = aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex;
+          var bRank = bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex;
+          if (aRank !== bRank) return aRank - bRank;
+          return aName.localeCompare(bName);
+        });
+
+        showcase.innerHTML = sorted
+          .map(function (p) {
+            var name = String((p && p.name) || "").trim();
+            if (!name) return "";
+            var slug = slugifyProductName(name);
+            var href = "/products#" + slug;
+            var image = COLLECTION_IMAGE_BY_NAME[name] || (p && p.image_url ? String(p.image_url) : "");
+            var imageHtml = image
+              ? '<img src="' +
+                escapeHtml(image) +
+                '" width="1024" height="1024" alt="' +
+                escapeHtml(name) +
+                ' — front and back labels" loading="lazy" decoding="async" />'
+              : '<div class="collection-showcase__img-fallback">Image coming soon</div>';
+            var pearBuyHtml =
+              name === "Pear Vital" && pearStripe
+                ? '<a href="' +
+                  escapeHtml(pearStripe) +
+                  '" class="collection-showcase__stripe" rel="noopener noreferrer">Buy Pear Vital — Stripe</a>'
+                : "";
+            var catalogBuyHtml =
+              name !== "Pear Vital" && catalogStripe
+                ? '<a href="' +
+                  escapeHtml(catalogStripe) +
+                  '" class="collection-showcase__stripe" rel="noopener noreferrer">Buy on Stripe</a>'
+                : "";
+            return (
+              '<figure class="collection-showcase__item">' +
+              '<a href="' +
+              href +
+              '" class="collection-showcase__link">' +
+              imageHtml +
+              "</a>" +
+              "<figcaption>" +
+              '<a href="' +
+              href +
+              '">' +
+              escapeHtml(name) +
+              "</a>" +
+              '<span class="product-safety product-safety--collection">No preservatives • No artificial ingredients</span>' +
+              pearBuyHtml +
+              catalogBuyHtml +
+              "</figcaption>" +
+              "</figure>"
+            );
+          })
+          .join("");
+      })
+      .catch(function () {
+        /* Keep static fallback collection cards if API fails. */
+      });
+  }
+
+  initCollectionFromProducts();
+  initBundleLandingHomeCountdown();
 
   var backToTop = document.getElementById("backToTop");
   if (backToTop) {

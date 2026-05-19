@@ -20,6 +20,7 @@ const fontUi = DM_Sans({
 
 const fontPlayfair = Playfair_Display({
   subsets: ["latin"],
+  weight: ["400", "700"],
   variable: "--font-playfair",
   display: "swap",
 });

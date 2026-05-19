@@ -1,4 +1,5 @@
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { getCatalogStripePaymentLink, getPearVitalStripePaymentLink } from "@/lib/stripe-payment-links";
 import type { ProductRow } from "@/lib/types/database";
 import { slugify } from "@/lib/slugify";
 
@@ -6,6 +7,7 @@ const productSublineByName: Record<string, string> = {
   "Hibiscus Bloom": "A timeless tradition for modern wellness.",
   "Ginger Citrus": "Energize from within.",
   "Carrot Vital": "Nourish & strengthen.",
+  "Pear Vital": "Bright, crisp botanical refresh.",
   "Golden Restore": "Restore from within.",
   "Moringa Mint": "Revive from within.",
 };
@@ -64,6 +66,9 @@ function IngredientsBlock({ raw }: { raw: string }) {
 }
 
 export function ProductGridFromDb({ products }: { products: ProductRow[] }) {
+  const pearVitalStripeLink = getPearVitalStripePaymentLink();
+  const catalogStripeLink = getCatalogStripePaymentLink();
+
   if (products.length === 0) {
     return (
       <div className="container">
@@ -152,6 +157,20 @@ export function ProductGridFromDb({ products }: { products: ProductRow[] }) {
                 )}
                 <p className="product-inform__stock">In stock: {p.stock ?? 0}</p>
                 <AddToCartButton product={p} />
+                {p.name === "Pear Vital" && pearVitalStripeLink ? (
+                  <p className="mt-3">
+                    <a href={pearVitalStripeLink} className="btn btn--mkt" rel="noopener noreferrer">
+                      Buy Pear Vital — Stripe checkout
+                    </a>
+                  </p>
+                ) : null}
+                {p.name !== "Pear Vital" && catalogStripeLink ? (
+                  <p className="mt-3">
+                    <a href={catalogStripeLink} className="btn btn--mkt" rel="noopener noreferrer">
+                      Buy on Stripe
+                    </a>
+                  </p>
+                ) : null}
               </div>
             </details>
           </article>

@@ -100,11 +100,12 @@ function getSignupMeta(formId: string): SignupMeta {
       };
     case "formteaser":
       return {
-        interest: "Something elevated is coming",
-        details: "Early access for what’s next. We’ll reach out when it’s ready.",
-        imagePath: "/images/ginger-citrus-coming-soon.jpeg",
-        imageAlt: "Ginger Citrus — coming soon",
-        linkUrl: siteUrl,
+        interest: "Something Elevating Has Arrived!!!",
+        details: "Shop the collection and bundle offers at primerisedrinks.com.",
+        imagePath: "/images/something-elevated-coming.jpeg?v=1",
+        imageAlt:
+          "Prime Rise botanical beverages in a refrigerated display — Rooted in nature. Made to elevate.",
+        linkUrl: `${siteUrl}/products`,
       };
     default:
       return {

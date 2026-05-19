@@ -11,7 +11,7 @@ export default function CartPage() {
   const { lines, itemCount, subtotal, setQuantity, removeItem, clear } = useCart();
   /** Explicit opt-out: keep Payment Links even when `STRIPE_SECRET_KEY` is set (single-unit checkouts). */
   const stripeLinksOnly = process.env.NEXT_PUBLIC_STRIPE_ENABLED === "false";
-  const stripePaymentLinks = getStripePaymentLinksForClient();
+  const stripePaymentLinks = getStripePaymentLinksForClient().filter((item) => item.label !== "Buy on Stripe");
   const useDynamicCheckout = !stripeLinksOnly;
   const paymentLinkOmitsCartQty =
     !useDynamicCheckout &&
@@ -237,8 +237,8 @@ export default function CartPage() {
             </p>
             {paymentLinkOmitsCartQty && (
               <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-950">
-                <span className="font-medium">Cart quantity is not sent to Stripe.</span> “Buy on Stripe” uses a
-                fixed one-bottle Payment Link. For the total shown here ({itemCount} items, ${subtotal.toFixed(2)}),
+                <span className="font-medium">Cart quantity is not sent to Stripe.</span> Payment Links use fixed
+                bundle checkout. For the total shown here ({itemCount} items, ${subtotal.toFixed(2)}),
                 use <span className="font-medium">Contact to order</span> or ask your developer to add{" "}
                 <code className="rounded bg-amber-100/80 px-1">STRIPE_SECRET_KEY</code> on the server so checkout
                 can open a real cart session.

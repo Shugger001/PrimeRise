@@ -1,6 +1,13 @@
+import { BundlePromoLanding } from "@/components/marketing/BundlePromoLanding";
 import { ProductGridFromDb } from "@/components/marketing/ProductGridFromDb";
 import { SiteChrome } from "@/components/marketing/SiteChrome";
 import { createClient, isSupabaseServerEnvConfigured } from "@/lib/supabase/server";
+import {
+  getBundleStripePaymentLinkItem,
+  getFourBottleBundleStripePaymentLinkItem,
+  getStripePaymentLinks,
+  getTwelveBottleBundleStripePaymentLinkItem,
+} from "@/lib/stripe-payment-links";
 import { slugify } from "@/lib/slugify";
 import type { ProductRow } from "@/lib/types/database";
 import type { Metadata } from "next";
@@ -19,9 +26,13 @@ export const metadata: Metadata = {
   },
 };
 
-const PRODUCT_DISPLAY_ORDER = ["Hibiscus Bloom", "Ginger Citrus", "Carrot Vital", "Golden Restore", "Moringa Mint"];
+const PRODUCT_DISPLAY_ORDER = ["Hibiscus Bloom", "Ginger Citrus", "Carrot Vital", "Pear Vital", "Golden Restore", "Moringa Mint"];
 
 export default async function ProductsPage() {
+  const stripePaymentLinks = getStripePaymentLinks();
+  const bundleLinkItem = getBundleStripePaymentLinkItem();
+  const fourBottleBundleLinkItem = getFourBottleBundleStripePaymentLinkItem();
+  const twelveBottleBundleLinkItem = getTwelveBottleBundleStripePaymentLinkItem();
   const catalogConfigured = isSupabaseServerEnvConfigured();
   let products: ProductRow[] = [];
   if (catalogConfigured) {
@@ -86,7 +97,22 @@ export default async function ProductsPage() {
             Premium botanical beverages—each crafted as a daily ritual. Nutrition facts and full ingredient statements are on
             every label.
           </p>
-          <p className="page-hero__lead font-semibold">Receive One Complimentary Bottle with Every 5 Selected.</p>
+          <p className="page-hero__lead font-semibold">Shop the complete six-bottle bundle.</p>
+          {stripePaymentLinks.length > 0 ? (
+            <p className="page-hero__lead mt-4 max-w-xl mx-auto text-center text-sm text-neutral-600">
+              Pear Vital has its own checkout on its card. Other blends: single-bottle Stripe below, or use the{" "}
+              <strong>six-bottle bundle</strong> promotion for the full line in one checkout.
+            </p>
+          ) : null}
+          {stripePaymentLinks.length > 0 ? (
+            <p className="page-hero__lead mt-4 flex flex-wrap justify-center gap-3">
+              {stripePaymentLinks.map((item) => (
+                <a key={item.href} href={item.href} className="btn btn--mkt" rel="noopener noreferrer">
+                  {item.label}
+                </a>
+              ))}
+            </p>
+          ) : null}
         </header>
 
         {!catalogConfigured && (
@@ -101,6 +127,13 @@ export default async function ProductsPage() {
         )}
 
         {catalogConfigured && <ProductGridFromDb products={products} />}
+
+        <BundlePromoLanding
+          bundle={bundleLinkItem}
+          fourBottleBundle={fourBottleBundleLinkItem}
+          twelveBottleBundle={twelveBottleBundleLinkItem}
+          showProductGrid={catalogConfigured && products.length > 0}
+        />
       </main>
     </SiteChrome>
   );
