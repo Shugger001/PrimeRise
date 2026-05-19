@@ -1,4 +1,5 @@
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { ProductCardCartActions } from "@/components/marketing/ProductCardCartActions";
 import { getCatalogStripePaymentLink, getPearVitalStripePaymentLink } from "@/lib/stripe-payment-links";
 import type { ProductRow } from "@/lib/types/database";
 import { slugify } from "@/lib/slugify";
@@ -119,13 +120,7 @@ export function ProductGridFromDb({ products }: { products: ProductRow[] }) {
                     {productSublineByName[p.name]}
                   </p>
                 )}
-                <div
-                  className="product-card-mini__actions"
-                  onClick={(e) => e.stopPropagation()}
-                  onPointerDown={(e) => e.stopPropagation()}
-                >
-                  <AddToCartButton product={p} layout="compact" />
-                </div>
+                <ProductCardCartActions product={p} />
                 <span className="product-reveal__hint">Click for full product details</span>
               </summary>
               <div className="product-inform">
