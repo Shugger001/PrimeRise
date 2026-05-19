@@ -119,6 +119,13 @@ export function ProductGridFromDb({ products }: { products: ProductRow[] }) {
                     {productSublineByName[p.name]}
                   </p>
                 )}
+                <div
+                  className="product-card-mini__actions"
+                  onClick={(e) => e.stopPropagation()}
+                  onPointerDown={(e) => e.stopPropagation()}
+                >
+                  <AddToCartButton product={p} layout="compact" />
+                </div>
                 <span className="product-reveal__hint">Click for full product details</span>
               </summary>
               <div className="product-inform">

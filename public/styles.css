@@ -4244,6 +4244,21 @@ body:has(.cookie-banner.is-visible):has(.whatsapp-float) .back-to-top:not([hidde
   max-width: 36ch;
 }
 
+.product-card-mini__actions {
+  width: 100%;
+  max-width: min(280px, 100%);
+  margin: 0.35rem 0 0.5rem;
+  cursor: default;
+}
+
+.product-card-mini__actions .product-card-mini__cart {
+  width: 100%;
+}
+
+.product-card-mini__actions .btn {
+  margin-top: 0;
+}
+
 .product-reveal__hint {
   display: block;
   font-size: 0.82rem;
