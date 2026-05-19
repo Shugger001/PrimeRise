@@ -1,4 +1,5 @@
 import { CartProvider } from "@/components/cart/CartProvider";
+import { GoogleAnalytics } from "@/components/marketing/GoogleAnalytics";
 import { WhatsAppBubbleGate } from "@/components/marketing/WhatsAppBubbleGate";
 import type { Metadata, Viewport } from "next";
 import { Bitter, DM_Sans, Playfair_Display } from "next/font/google";
@@ -37,12 +38,21 @@ export const metadata: Metadata = {
   description: "Prime Rise botanical beverages",
 };
 
+function getGaId() {
+  return (
+    process.env.NEXT_PUBLIC_PRIME_RISE_GA_ID?.trim() ||
+    process.env.PRIME_RISE_GA_ID?.trim() ||
+    ""
+  );
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const gaId = getGaId();
   return (
     <html
       lang="en"
       data-form-endpoint="/api/subscribe"
-      data-ga-id=""
+      data-ga-id={gaId}
       className={`${fontBitter.variable} ${fontUi.variable} ${fontPlayfair.variable}`}
     >
       <body className="min-h-screen bg-white font-body text-neutral-900">
@@ -50,6 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <WhatsAppBubbleGate />
         </CartProvider>
+        {gaId ? <GoogleAnalytics measurementId={gaId} /> : null}
       </body>
     </html>
   );

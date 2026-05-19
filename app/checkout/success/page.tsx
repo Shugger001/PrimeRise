@@ -1,4 +1,5 @@
 import { ClearCartOnSuccess } from "@/components/cart/ClearCartOnSuccess";
+import { ShippingInfo } from "@/components/marketing/ShippingInfo";
 import { getCheckoutSuccessSummary } from "@/lib/checkout/success-summary";
 import Link from "next/link";
 
@@ -69,14 +70,7 @@ export default async function CheckoutSuccessPage({
         </p>
       )}
 
-      <div className="mx-auto mt-6 max-w-md rounded-xl border border-[var(--color-line)] bg-[var(--color-bg-card)] px-4 py-3 text-left text-sm text-neutral-700">
-        <p className="font-medium text-[var(--color-bg-deep)]">What happens next</p>
-        <ul className="mt-2 list-disc space-y-1 pl-5">
-          <li>Order confirmation is delivered to your email.</li>
-          <li>You receive an update once the order is packed.</li>
-          <li>Delivery timing appears in your shipment update.</li>
-        </ul>
-      </div>
+      <ShippingInfo className="mx-auto mt-6 max-w-md" />
 
       <p className="mt-6">
         <Link href="/products" className="btn btn--primary inline-flex">

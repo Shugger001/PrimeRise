@@ -1472,6 +1472,29 @@ body:has(.cookie-banner.is-visible):has(.whatsapp-float) .back-to-top:not([hidde
   }
 }
 
+.collection-shop-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+  margin: 1.25rem auto 1rem;
+  max-width: 36rem;
+}
+
+.collection-shop-cta .btn {
+  min-width: min(100%, 11rem);
+}
+
+#join-prime-experience .collection-shop-cta {
+  margin-top: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.product-reviews-strip {
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
 .section--photo-banner {
   padding: 0;
   background: #ebe6db;

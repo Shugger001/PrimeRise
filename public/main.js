@@ -36,8 +36,7 @@
     }
   }
 
-  function initGA() {
-    var id = document.documentElement.getAttribute("data-ga-id");
+  function loadGA(id) {
     if (!id || !String(id).trim() || String(id).indexOf("XXXX") !== -1) return;
     if (window.__primeriseGaLoaded) return;
     window.__primeriseGaLoaded = true;
@@ -52,6 +51,22 @@
     s.async = true;
     s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
     document.head.appendChild(s);
+  }
+
+  function initGA() {
+    var id = document.documentElement.getAttribute("data-ga-id");
+    if (id && String(id).trim() && String(id).indexOf("XXXX") === -1) {
+      loadGA(id);
+      return;
+    }
+    fetch("/api/site-config", { headers: { Accept: "application/json" } })
+      .then(function (res) {
+        return res.ok ? res.json() : null;
+      })
+      .then(function (data) {
+        if (data && data.gaId) loadGA(data.gaId);
+      })
+      .catch(function () {});
   }
 
   if (ageGate) {

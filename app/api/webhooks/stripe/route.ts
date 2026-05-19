@@ -1,3 +1,4 @@
+import { sendOrderConfirmationEmail } from "@/lib/order-confirmation-email";
 import { createServiceClient } from "@/lib/supabase/service";
 import { getStripe } from "@/lib/stripe";
 import type { Stripe } from "stripe";
@@ -165,6 +166,24 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
         console.error("stripe webhook: stock update", stockErr);
         throw stockErr;
       }
+    }
+  }
+
+  const customerEmail = session.customer_details?.email ?? session.customer_email;
+  if (typeof customerEmail === "string" && customerEmail.trim()) {
+    try {
+      await sendOrderConfirmationEmail({
+        email: customerEmail,
+        lines: rows.map((row) => ({
+          productName: row.productName,
+          quantity: row.quantity,
+          unitCents: row.unitCents,
+        })),
+        totalCents: total ?? sumCents,
+        currency: session.currency ?? "usd",
+      });
+    } catch (emailErr) {
+      console.error("stripe webhook: order confirmation email failed", emailErr);
     }
   }
 }

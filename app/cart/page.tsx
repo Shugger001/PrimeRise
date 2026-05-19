@@ -4,6 +4,7 @@ import { useCart } from "@/components/cart/CartProvider";
 import type { CartLine } from "@/lib/types/cart";
 import { getStripePaymentLinksForClient } from "@/lib/stripe-payment-client";
 import { useEffect } from "react";
+import { ShippingInfo } from "@/components/marketing/ShippingInfo";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -111,6 +112,7 @@ export default function CartPage() {
             <p className="mt-2 text-sm text-neutral-600">
               Add your blends to continue to secure checkout.
             </p>
+            <ShippingInfo className="mt-6 text-left" compact />
             <div className="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link href="/products" className="btn btn--primary inline-flex">
                 Shop products
@@ -290,6 +292,7 @@ export default function CartPage() {
                 Clear cart
               </button>
             </div>
+            <ShippingInfo className="mt-2" />
             <div className="rounded-xl border border-[var(--color-line)] bg-[var(--color-bg)] px-4 py-3 text-sm text-neutral-700">
               <p className="font-medium text-[var(--color-bg-deep)]">Checkout confidence</p>
               <p className="mt-1">

@@ -1,4 +1,5 @@
 import { BundlePromoLanding } from "@/components/marketing/BundlePromoLanding";
+import { ProductReviewsStrip } from "@/components/marketing/ProductReviewsStrip";
 import { ProductGridFromDb } from "@/components/marketing/ProductGridFromDb";
 import { SiteChrome } from "@/components/marketing/SiteChrome";
 import { createClient, isSupabaseServerEnvConfigured } from "@/lib/supabase/server";
@@ -127,6 +128,8 @@ export default async function ProductsPage() {
         )}
 
         {catalogConfigured && <ProductGridFromDb products={products} />}
+
+        <ProductReviewsStrip />
 
         <BundlePromoLanding
           bundle={bundleLinkItem}
