@@ -3178,6 +3178,94 @@ body:has(.cookie-banner.is-visible):has(.whatsapp-float) .back-to-top:not([hidde
   line-height: 0;
 }
 
+/* Homepage collection — click product image to expand details (native <details>) */
+.collection-reveal-details {
+  width: 100%;
+}
+
+.collection-reveal__summary {
+  list-style: none;
+  cursor: pointer;
+  display: block;
+}
+
+.collection-reveal__summary::-webkit-details-marker {
+  display: none;
+}
+
+.collection-reveal__summary::marker {
+  content: "";
+}
+
+.collection-reveal__summary:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.collection-reveal__hint {
+  display: block;
+  margin: 0.5rem auto 0;
+  font-size: 0.78rem;
+  font-family: var(--font-ui);
+  text-align: center;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 22ch;
+}
+
+.collection-reveal-details[open] .collection-reveal__hint {
+  display: none;
+}
+
+.collection-reveal__panel {
+  margin-top: 0.75rem;
+  padding: 0.85rem 1rem 1rem;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 8px;
+  color: var(--color-bg-deep);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.collection-reveal__subline {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--color-forest);
+}
+
+.collection-reveal__desc {
+  margin: 0 0 0.65rem;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.collection-reveal__highlights {
+  margin: 0 0 0.65rem;
+  padding-left: 1.1rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--color-bg-deep);
+}
+
+.collection-reveal__price {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.collection-reveal__actions {
+  margin: 0.35rem 0 0;
+}
+
+.collection-reveal__actions .btn {
+  width: 100%;
+  justify-content: center;
+}
+
 .collection-showcase__item--golden img {
   object-fit: contain;
   background: linear-gradient(160deg, #f5edd8 0%, #ebe2cc 100%);

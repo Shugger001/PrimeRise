@@ -1,4 +1,5 @@
 import { BundlePromoLanding } from "@/components/marketing/BundlePromoLanding";
+import { OpenProductFromHash } from "@/components/marketing/OpenProductFromHash";
 import { ProductReviewsStrip } from "@/components/marketing/ProductReviewsStrip";
 import { ProductGridFromDb } from "@/components/marketing/ProductGridFromDb";
 import { SiteChrome } from "@/components/marketing/SiteChrome";
@@ -76,6 +77,7 @@ export default async function ProductsPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <main id="main-content" className="page-main" tabIndex={-1}>
+        <OpenProductFromHash />
         <section className="products-line-intro" aria-label="Prime Rise products intro">
           <div className="container">
             <figure className="products-line-figure">

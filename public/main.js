@@ -803,6 +803,73 @@
     "Moringa Mint": "/images/moringa-mint-front-back.png?v=2",
   };
 
+  var COLLECTION_SUBLINE_BY_NAME = {
+    "Hibiscus Bloom": "A timeless tradition for modern wellness.",
+    "Ginger Citrus": "Energize from within.",
+    "Carrot Vital": "Nourish & strengthen.",
+    "Pear Vital": "Bright, crisp botanical refresh.",
+    "Golden Restore": "Restore from within.",
+    "Moringa Mint": "Revive from within.",
+  };
+
+  function collectionProductHref(name, slug) {
+    if (name === "Golden Restore") return "#golden-restore";
+    return "/products#" + slug;
+  }
+
+  function collectionDescriptionExcerpt(raw) {
+    var text = String(raw || "").trim();
+    if (!text) return "";
+    var first = text.split(/\n\s*\n/)[0].trim();
+    if (first.length <= 300) return first;
+    return first.slice(0, 297) + "…";
+  }
+
+  function collectionHighlightsHtml(raw) {
+    var lines = String(raw || "")
+      .split(/\n/)
+      .map(function (l) {
+        return l.trim();
+      })
+      .filter(Boolean)
+      .slice(0, 4);
+    if (!lines.length) return "";
+    return (
+      '<ul class="collection-reveal__highlights">' +
+      lines
+        .map(function (line) {
+          return "<li>" + escapeHtml(line) + "</li>";
+        })
+        .join("") +
+      "</ul>"
+    );
+  }
+
+  function renderCollectionRevealPanel(p, name, slug, productsHref) {
+    var subline = COLLECTION_SUBLINE_BY_NAME[name] || "";
+    var desc = collectionDescriptionExcerpt(p && p.description);
+    var highlights = collectionHighlightsHtml(p && p.highlights);
+    var price =
+      p && p.price != null && !isNaN(Number(p.price)) && Number(p.price) > 0
+        ? '<p class="collection-reveal__price">$' + Number(p.price).toFixed(2) + "</p>"
+        : "";
+    var html = '<div class="collection-reveal__panel">';
+    if (subline) {
+      html += '<p class="collection-reveal__subline">' + escapeHtml(subline) + "</p>";
+    }
+    if (desc) {
+      html += '<p class="collection-reveal__desc">' + escapeHtml(desc) + "</p>";
+    }
+    html += highlights;
+    html += price;
+    html +=
+      '<p class="collection-reveal__actions"><a href="' +
+      escapeHtml(productsHref) +
+      '" class="btn btn--mkt btn--mkt--outline">View full product details</a></p>';
+    html += "</div>";
+    return html;
+  }
+
   function slugifyProductName(value) {
     return String(value || "")
       .toLowerCase()
@@ -926,11 +993,43 @@
     setInterval(tick, 1000);
   }
 
+  function upgradeStaticCollectionCards(showcase) {
+    if (!showcase) return;
+    showcase.querySelectorAll(".collection-showcase__item").forEach(function (item) {
+      if (item.querySelector(".collection-reveal-details")) return;
+      var link = item.querySelector(".collection-showcase__link");
+      var nameEl = item.querySelector("figcaption a");
+      if (!link || !nameEl) return;
+      var name = String(nameEl.textContent || "").trim();
+      if (!name) return;
+      var slug = slugifyProductName(name);
+      var productsHref = collectionProductHref(name, slug);
+      var imageHtml = link.innerHTML;
+      var detailsHtml =
+        '<details class="collection-reveal-details">' +
+        '<summary class="collection-reveal__summary">' +
+        '<span class="collection-showcase__link">' +
+        imageHtml +
+        "</span>" +
+        '<span class="collection-reveal__hint">Click for details</span>' +
+        "</summary>" +
+        renderCollectionRevealPanel(null, name, slug, productsHref) +
+        "</details>";
+      var wrap = document.createElement("div");
+      wrap.innerHTML = detailsHtml;
+      var details = wrap.firstElementChild;
+      if (!details) return;
+      link.replaceWith(details);
+    });
+  }
+
   function initCollectionFromProducts() {
     var showcase = document.querySelector(".collection-showcase");
     var bundleCard = document.querySelector(".bundle-landing");
     if ((!showcase && !bundleCard) || typeof window === "undefined" || window.location.protocol === "file:")
       return;
+
+    upgradeStaticCollectionCards(showcase);
 
     fetch("/api/products?view=collection", {
       headers: { Accept: "application/json" },
@@ -965,7 +1064,7 @@
             var name = String((p && p.name) || "").trim();
             if (!name) return "";
             var slug = slugifyProductName(name);
-            var href = "/products#" + slug;
+            var productsHref = collectionProductHref(name, slug);
             var image = COLLECTION_IMAGE_BY_NAME[name] || (p && p.image_url ? String(p.image_url) : "");
             var imageHtml = image
               ? '<img src="' +
@@ -988,14 +1087,18 @@
                 : "";
             return (
               '<figure class="collection-showcase__item">' +
-              '<a href="' +
-              href +
-              '" class="collection-showcase__link">' +
+              '<details class="collection-reveal-details">' +
+              '<summary class="collection-reveal__summary">' +
+              '<span class="collection-showcase__link">' +
               imageHtml +
-              "</a>" +
+              "</span>" +
+              '<span class="collection-reveal__hint">Click for details</span>' +
+              "</summary>" +
+              renderCollectionRevealPanel(p, name, slug, productsHref) +
+              "</details>" +
               "<figcaption>" +
               '<a href="' +
-              href +
+              escapeHtml(productsHref) +
               '">' +
               escapeHtml(name) +
               "</a>" +
@@ -1009,7 +1112,7 @@
           .join("");
       })
       .catch(function () {
-        /* Keep static fallback collection cards if API fails. */
+        upgradeStaticCollectionCards(showcase);
       });
   }
 
