@@ -1023,13 +1023,22 @@
     });
   }
 
+  function stripCollectionStripeLinks(showcase) {
+    if (!showcase) return;
+    showcase.querySelectorAll(".collection-showcase__stripe").forEach(function (el) {
+      el.remove();
+    });
+  }
+
   function initCollectionFromProducts() {
     var showcase = document.querySelector(".collection-showcase");
     var bundleCard = document.querySelector(".bundle-landing");
     if ((!showcase && !bundleCard) || typeof window === "undefined" || window.location.protocol === "file:")
       return;
 
+    stripCollectionStripeLinks(showcase);
     upgradeStaticCollectionCards(showcase);
+    stripCollectionStripeLinks(showcase);
 
     fetch("/api/products?view=collection", {
       headers: { Accept: "application/json" },
@@ -1092,9 +1101,11 @@
             );
           })
           .join("");
+        stripCollectionStripeLinks(showcase);
       })
       .catch(function () {
         upgradeStaticCollectionCards(showcase);
+        stripCollectionStripeLinks(showcase);
       });
   }
 

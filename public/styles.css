@@ -2775,7 +2775,7 @@ body:has(.cookie-banner.is-visible):has(.whatsapp-float) .back-to-top:not([hidde
   color: var(--color-bg-deep);
   font-weight: 600;
   letter-spacing: 0.22em;
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-sm);`
 }
 
 .section__lead--maringa {
@@ -3131,6 +3131,11 @@ body:has(.cookie-banner.is-visible):has(.whatsapp-float) .back-to-top:not([hidde
   margin-top: 0.35rem;
   line-height: 1.35;
   color: rgba(20, 18, 14, 0.72);
+}
+
+/* Legacy Stripe CTAs under collection cards — never show (checkout is on /products + cart). */
+#collection .collection-showcase__stripe {
+  display: none !important;
 }
 
 .collection-showcase__stripe {
