@@ -41,9 +41,20 @@ export default async function CheckoutSuccessPage({
           <p className="mt-3 text-lg font-semibold text-[var(--color-bg-deep)]">
             Total paid: {summary.formattedTotal}
           </p>
-          {summary.email && (
+          {(summary.customerName || summary.email) && (
             <p className="mt-2 text-sm text-neutral-600">
-              Confirmation details are sent to <span className="font-medium">{summary.email}</span>.
+              {summary.customerName && (
+                <>
+                  Order for <span className="font-medium">{summary.customerName}</span>
+                  {summary.email ? " · " : ""}
+                </>
+              )}
+              {summary.email && (
+                <>
+                  confirmation sent to <span className="font-medium">{summary.email}</span>
+                </>
+              )}
+              .
             </p>
           )}
           {summary.lines.length > 0 && (

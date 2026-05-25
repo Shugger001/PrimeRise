@@ -1,3 +1,4 @@
+import { parseCheckoutCustomer } from "@/lib/checkout/customer-details";
 import { sendOrderConfirmationEmail } from "@/lib/order-confirmation-email";
 import { createServiceClient } from "@/lib/supabase/service";
 import { getStripe } from "@/lib/stripe";
@@ -123,12 +124,17 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
     }
   }
 
+  const customer = parseCheckoutCustomer(session);
+
   const { data: order, error: orderErr } = await supabase
     .from("orders")
     .insert({
       stripe_checkout_session_id: sessionId,
       stripe_payment_intent_id: paymentIntentId,
-      customer_email: session.customer_details?.email ?? session.customer_email ?? null,
+      customer_email: customer.email,
+      customer_name: customer.name,
+      customer_phone: customer.phone,
+      shipping_address: customer.shippingAddress,
       user_id: linkedUserId,
       status: "paid",
       amount_total_cents: total ?? sumCents,
@@ -169,11 +175,10 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
     }
   }
 
-  const customerEmail = session.customer_details?.email ?? session.customer_email;
-  if (typeof customerEmail === "string" && customerEmail.trim()) {
+  if (customer.email) {
     try {
       await sendOrderConfirmationEmail({
-        email: customerEmail,
+        email: customer.email,
         lines: rows.map((row) => ({
           productName: row.productName,
           quantity: row.quantity,

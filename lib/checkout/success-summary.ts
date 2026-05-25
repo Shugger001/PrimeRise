@@ -1,3 +1,4 @@
+import { parseCheckoutCustomer } from "@/lib/checkout/customer-details";
 import { getStripe } from "@/lib/stripe";
 
 export type CheckoutSuccessLine = {
@@ -9,6 +10,7 @@ export type CheckoutSuccessLine = {
 export type CheckoutSuccessSummary = {
   formattedTotal: string;
   email: string | null;
+  customerName: string | null;
   paymentStatus: string;
   lines: CheckoutSuccessLine[];
 };
@@ -33,8 +35,7 @@ export async function getCheckoutSuccessSummary(
     const totalCents = session.amount_total ?? 0;
     const formattedTotal = formatMoney(totalCents, currency);
 
-    const email =
-      session.customer_details?.email ?? session.customer_email ?? null;
+    const { email, name: customerName } = parseCheckoutCustomer(session);
 
     const lines: CheckoutSuccessLine[] = [];
     const li = session.line_items?.data;
@@ -54,6 +55,7 @@ export async function getCheckoutSuccessSummary(
     return {
       formattedTotal,
       email,
+      customerName,
       paymentStatus: session.payment_status ?? "unknown",
       lines,
     };

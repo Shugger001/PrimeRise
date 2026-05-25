@@ -1,3 +1,4 @@
+import { shippingCountriesFromEnv } from "@/lib/checkout/customer-details";
 import { createClient } from "@/lib/supabase/server";
 import { getStripe } from "@/lib/stripe";
 import type { Stripe } from "stripe";
@@ -113,20 +114,32 @@ export async function POST(request: Request) {
 
   try {
     const stripe = getStripe();
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
+    const sessionParams = {
+      mode: "payment" as const,
       line_items: lineItems,
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout/cancel`,
+      customer_creation: "always" as const,
       metadata: {
         prime_items: encodeItems(
           validated.map((v) => ({ productId: v.productId, quantity: v.quantity }))
         ),
         ...(checkoutUser?.id ? { supabase_user_id: checkoutUser.id } : {}),
       },
-      phone_number_collection: { enabled: false },
-      billing_address_collection: "required",
-    });
+      ...(checkoutUser?.email ? { customer_email: checkoutUser.email } : {}),
+      name_collection: {
+        individual: { enabled: true },
+      },
+      shipping_address_collection: {
+        allowed_countries: shippingCountriesFromEnv(),
+      },
+      billing_address_collection: "required" as const,
+      phone_number_collection: { enabled: true },
+    };
+
+    const session = await stripe.checkout.sessions.create(
+      sessionParams as Stripe.Checkout.SessionCreateParams
+    );
 
     if (!session.url) {
       return NextResponse.json({ error: "Checkout URL was not generated. Please try again." }, { status: 503 });

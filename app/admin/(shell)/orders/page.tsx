@@ -30,7 +30,13 @@ export default async function AdminOrdersPage() {
           orders.map((o) => (
             <article key={o.id} className="rounded-2xl border border-admin-border bg-admin-surface p-4 max-[375px]:p-3">
               <p className="text-xs text-admin-muted">{new Date(o.created_at).toLocaleString()}</p>
-              <p className="mt-1 font-medium text-admin-ink max-[375px]:text-sm">{o.customer_email ?? "—"}</p>
+              <p className="mt-1 font-medium text-admin-ink max-[375px]:text-sm">
+                {o.customer_name ? `${o.customer_name} · ` : ""}
+                {o.customer_email ?? "—"}
+              </p>
+              {o.customer_phone && (
+                <p className="mt-1 text-xs text-admin-muted">{o.customer_phone}</p>
+              )}
               <div className="mt-2 flex flex-wrap items-center gap-2 text-sm max-[375px]:text-xs">
                 <span className="rounded-lg bg-admin-head px-2 py-1 text-admin-ink">{centsToUsd(o.amount_total_cents)}</span>
                 <span className="rounded-lg border border-admin-border px-2 py-1 text-admin-accentDeep">{o.status}</span>
@@ -71,8 +77,10 @@ export default async function AdminOrdersPage() {
                 <td className="whitespace-nowrap px-4 py-4 text-neutral-700">
                   {new Date(o.created_at).toLocaleString()}
                 </td>
-                <td className="max-w-[200px] truncate px-4 py-4 text-neutral-700">
-                  {o.customer_email ?? "—"}
+                <td className="max-w-[240px] px-4 py-4 text-neutral-700">
+                  <p className="truncate font-medium">{o.customer_name ?? "—"}</p>
+                  <p className="truncate text-xs text-admin-muted">{o.customer_email ?? "—"}</p>
+                  {o.customer_phone && <p className="truncate text-xs text-admin-muted">{o.customer_phone}</p>}
                 </td>
                 <td className="px-4 py-4 tabular-nums text-admin-ink">{centsToUsd(o.amount_total_cents)}</td>
                 <td className="px-4 py-4 font-medium text-admin-accentDeep">{o.status}</td>

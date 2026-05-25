@@ -8,7 +8,9 @@ export function getStripe(): Stripe {
     throw new Error("Missing STRIPE_SECRET_KEY");
   }
   if (!stripeSingleton) {
-    stripeSingleton = new Stripe(key);
+    stripeSingleton = new Stripe(key, {
+      apiVersion: "2025-02-24.acacia",
+    });
   }
   return stripeSingleton;
 }
