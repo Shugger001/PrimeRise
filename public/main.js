@@ -1042,10 +1042,6 @@
         hydrateBundlePromoFromProductsPayload(data);
 
         var products = data && Array.isArray(data.products) ? data.products : [];
-        var pearStripe =
-          data && data.stripePaymentLinkPearVital ? String(data.stripePaymentLinkPearVital).trim() : "";
-        var catalogStripe =
-          data && data.stripePaymentLinkCatalog ? String(data.stripePaymentLinkCatalog).trim() : "";
         if (!showcase || !products.length) return;
 
         var sorted = products.slice().sort(function (a, b) {
@@ -1073,18 +1069,6 @@
                 escapeHtml(name) +
                 ' — front and back labels" loading="lazy" decoding="async" />'
               : '<div class="collection-showcase__img-fallback">Image coming soon</div>';
-            var pearBuyHtml =
-              name === "Pear Vital" && pearStripe
-                ? '<a href="' +
-                  escapeHtml(pearStripe) +
-                  '" class="collection-showcase__stripe" rel="noopener noreferrer">Buy Pear Vital — Stripe</a>'
-                : "";
-            var catalogBuyHtml =
-              name !== "Pear Vital" && catalogStripe
-                ? '<a href="' +
-                  escapeHtml(catalogStripe) +
-                  '" class="collection-showcase__stripe" rel="noopener noreferrer">Buy on Stripe</a>'
-                : "";
             return (
               '<figure class="collection-showcase__item">' +
               '<details class="collection-reveal-details">' +
@@ -1103,8 +1087,6 @@
               escapeHtml(name) +
               "</a>" +
               '<span class="product-safety product-safety--collection">No preservatives • No artificial ingredients</span>' +
-              pearBuyHtml +
-              catalogBuyHtml +
               "</figcaption>" +
               "</figure>"
             );
